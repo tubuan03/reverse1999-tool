@@ -535,6 +535,8 @@ document.getElementById("generateLink").addEventListener("click", async () => {
     console.warn("コピー失敗:", e);
   }
 });
+loadState();
+renderAll();
 if (location.search.startsWith("?data=")) decodeState(location.search.substring(6));
 </script>
 </body>
