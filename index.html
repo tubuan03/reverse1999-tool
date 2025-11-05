@@ -509,8 +509,6 @@ function encodeData(data) {
   return encodeURIComponent(btoa(JSON.stringify(data)));
 }
 
-loadState();
-renderAll();
 // URLからデータを復元する関数
 function decodeData(str) {
   try {
@@ -526,7 +524,10 @@ function decodeData(str) {
 if (location.search.startsWith("?data=")) {
   decodeData(location.search.substring(6));
 }
-
+  
+loadState();
+renderAll();
+  
 // 共有URL発行ボタンのイベントリスナー修正
 document.getElementById("generateLink").addEventListener("click", async () => {
   const selectedData = getSelectedData();
