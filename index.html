@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>リバース1999 所持管理ツール（試作）</title>
+<style>
+body{font-family:system-ui, -apple-system; margin:20px; background:#f5f5f5;}
+h1{margin-bottom:10px;}
+section{background:#fff; padding:12px; border-radius:8px; margin-bottom:20px;}
+.grid{display:flex; flex-wrap:wrap; gap:10px;}
+.card{border:1px solid #ccc; border-radius:8px; padding:10px; width:180px; background:#fafafa;}
+.card img{width:100%; border-radius:6px;}
+.row{margin:4px 0;}
+button{padding:2px 6px; margin:0 2px;}
+.dark{opacity:0.4;}
+</style>
+</head>
+<body>
+<h1>リバース1999 所持管理ツール（試作）</h1>
+<div>
+  <button id="copyBtn">共有URLをコピー</button>
+  <label><input type="checkbox" id="hideUnowned"> 未所持を暗く表示</label>
+</div>
+
+<section>
+  <h2>🧍 キャラ一覧</h2>
+  <div id="charGrid" class="grid"></div>
+</section>
+
+<section>
+  <h2>💎 心相一覧</h2>
+  <div id="mindGrid" class="grid"></div>
+</section>
+
+<script>
+const data = {
+  characters: [
+    {id:"annie", name:"アニー", level:70, insight:3, sozo:5, kyomei:12, img:"https://via.placeholder.com/180x180?text=Annie"},
+    {id:"regulus", name:"レグルス", level:60, insight:2, sozo:3, kyomei:8, img:"https://via.placeholder.com/180x180?text=Regulus"},
+  ],
+  minds: [
+    {id:"starry-mind", name:"星空の心", owned:true, level:40, img:"https://via.placeholder.com/180x180?text=Starry"},
+    {id:"sunset-memory", name:"夕映えの記憶", owned:false, level:0, img:"https://via.placeholder.com/180x180?text=Sunset"},
+  ]
+};
+
+function encodeData(){ return btoa(JSON.stringify(data)); }
+function decodeData(str){ try{return JSON.parse(atob(str));}catch(e){return null;} }
+
+function updateURL(){
+  const url = new URL(location.href);
+  url.searchParams.set('data', encodeData());
+  history.replaceState({}, '', url);
+}
+
+function loadFromURL(){
+  const url = new URL(location.href);
+  const p = url.searchParams.get('data');
+  if(!p) return;
+  const d = decodeData(p);
+  if(!d) return;
+  if(Array.isArray(d.characters)) data.characters = d.characters;
+  if(Array.isArray(d.minds)) data.minds = d.minds;
+}
+
+// 共有コピー
+document.getElementById('copyBtn').addEventListener('click', async ()=>{
+  updateURL();
+  try{
+    await navigator.clipboard.writeText(location.href);
+    alert("共有URLをコピーしました！");
+  }catch(e){
+    prompt("このURLをコピーしてください：", location.href);
+  }
+});
+
+document.getElementById('hideUnowned').addEventListener('change', ()=>{
+  renderMinds();
+});
+
+// 描画
+function renderCharacters(){
+  const grid = document.getElementById('charGrid');
+  grid.innerHTML = "";
+  data.characters.forEach(ch=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    const img = document.createElement('img');
+    img.src = ch.img;
+    const name = document.createElement('div');
+    name.textContent = ch.name;
+    const lv = document.createElement('div');
+    lv.className = 'row';
+    lv.innerHTML = `Lv: <button>-</button>${ch.level}<button>+</button>`;
+    const insight = document.createElement('div');
+    insight.className = 'row';
+    insight.innerHTML = `洞察: ${"★".repeat(ch.insight)}${"☆".repeat(3-ch.insight)}`;
+    insight.addEventListener('click', ()=>{
+      ch.insight = (ch.insight + 1) % 4;
+      updateURL(); renderCharacters();
+    });
+    const sozo = document.createElement('div');
+    sozo.className = 'row';
+    sozo.innerHTML = `塑像: ${"★".repeat(ch.sozo)}${"☆".repeat(5-ch.sozo)}`;
+    sozo.addEventListener('click', ()=>{
+      ch.sozo = (ch.sozo + 1) % 6;
+      updateURL(); renderCharacters();
+    });
+    const kyomei = document.createElement('div');
+    kyomei.className = 'row';
+    kyomei.innerHTML = `共鳴: <button>-</button>${ch.kyomei}<button>+</button>`;
+    const [lvMinus, lvPlus] = lv.querySelectorAll('button');
+    lvMinus.addEventListener('click', ()=>{
+      if(ch.level>1) ch.level--; updateURL(); renderCharacters();
+    });
+    lvPlus.addEventListener('click', ()=>{
+      if(ch.level<70) ch.level++; updateURL(); renderCharacters();
+    });
+    const [kmMinus, kmPlus] = kyomei.querySelectorAll('button');
+    kmMinus.addEventListener('click', ()=>{
+      if(ch.kyomei>0) ch.kyomei--; updateURL(); renderCharacters();
+    });
+    kmPlus.addEventListener('click', ()=>{
+      if(ch.kyomei<15) ch.kyomei++; updateURL(); renderCharacters();
+    });
+    card.append(img,name,lv,insight,sozo,kyomei);
+    grid.appendChild(card);
+  });
+}
+
+function renderMinds(){
+  const grid = document.getElementById('mindGrid');
+  grid.innerHTML = "";
+  const hide = document.getElementById('hideUnowned').checked;
+  data.minds.forEach(m=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    const img = document.createElement('img');
+    img.src = m.img;
+    if(!m.owned && hide) img.classList.add('dark');
+    const name = document.createElement('div');
+    name.textContent = m.name;
+    const own = document.createElement('div');
+    own.className = 'row';
+    own.innerHTML = `所持: <input type="checkbox" ${m.owned?"checked":""}>`;
+    const lv = document.createElement('div');
+    lv.className = 'row';
+    lv.innerHTML = `Lv: <button>-</button>${m.level}<button>+</button>`;
+    const [lvMinus, lvPlus] = lv.querySelectorAll('button');
+    lvMinus.addEventListener('click', ()=>{
+      if(m.level>0) m.level--; updateURL(); renderMinds();
+    });
+    lvPlus.addEventListener('click', ()=>{
+      if(m.level<60) m.level++; updateURL(); renderMinds();
+    });
+    own.querySelector('input').addEventListener('change', (e)=>{
+      m.owned = e.target.checked; updateURL(); renderMinds();
+    });
+    card.append(img,name,own,lv);
+    grid.appendChild(card);
+  });
+}
+
+// 初期化
+loadFromURL();
+renderCharacters();
+renderMinds();
+</script>
+</body>
+</html>
