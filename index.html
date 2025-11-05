@@ -6,154 +6,120 @@
 <title>リバース1999 所持キャラ＆心相一覧</title>
 <style>
 body {
-  font-family: "Noto Sans JP", "Hiragino Sans", sans-serif;
-  background: linear-gradient(180deg, #202637 0%, #0f121a 100%);
-  color: #ddd;
+  font-family: "Segoe UI", "Hiragino Sans", sans-serif;
+  background: #f5f6fa;
   margin: 0;
-  padding: 40px 20px;
+  padding: 20px;
+  color: #333;
 }
 h1 {
   text-align: center;
-  margin-bottom: 50px;
-  color: #f1f3f8;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-  text-shadow: 0 0 10px rgba(255,255,255,0.1);
+  margin-bottom: 30px;
 }
 .section {
-  margin: 0 auto 60px;
-  max-width: 1000px;
-}
-.section h2 {
-  border-left: 5px solid #59bfff;
-  padding-left: 10px;
-  color: #bcdcff;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 }
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
 }
 .card {
   position: relative;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 12px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
   text-align: center;
-  padding: 12px;
-  transition: all 0.3s ease;
+  padding: 10px;
+  transition: all 0.25s ease;
   cursor: pointer;
-  backdrop-filter: blur(5px);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-}
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.6);
 }
 .card img {
   width: 100%;
-  border-radius: 10px;
-  margin-bottom: 8px;
-  transition: opacity 0.3s ease;
+  border-radius: 8px;
 }
 .card h3 {
-  margin: 6px 0 4px;
+  margin: 8px 0 4px;
   font-size: 16px;
-  color: #fff;
-  font-weight: 600;
 }
 .card p {
-  font-size: 13px;
-  color: #a8b3c1;
+  font-size: 14px;
+  color: #666;
   margin: 0;
 }
 .card.owned {
-  border: 2px solid #ffde6b;
-  box-shadow: 0 0 12px rgba(255, 222, 107, 0.7);
-  background: linear-gradient(160deg, rgba(255,222,107,0.15), rgba(255,222,107,0.05));
+  border: 2px solid #fbc531;
+  box-shadow: 0 0 12px rgba(251,197,49,0.7);
+  background: #fff8e1;
 }
-.card.owned h3 { color: #ffde6b; }
-.card.owned img { opacity: 0.95; }
-
-.edit-btn {
+.edit-button {
   position: absolute;
   top: 6px;
-  right: 8px;
-  background: rgba(89,191,255,0.8);
-  color: white;
+  right: 6px;
+  background: #dcdde1;
   border: none;
-  border-radius: 50%;
-  width: 26px;
-  height: 26px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-.edit-btn:hover { background: rgba(89,191,255,1); }
-
-.stars {
-  color: #ffde6b;
-  font-size: 13px;
-  letter-spacing: 1px;
-  margin-top: 4px;
-}
-
-/* モーダル */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  justify-content: center;
-  align-items: center;
-}
-.modal-content {
-  background: #2b3248;
-  padding: 20px;
-  border-radius: 10px;
-  width: 300px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.6);
-  color: #eee;
-  text-align: left;
-  animation: popin 0.25s ease;
-}
-@keyframes popin {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-.modal-content h3 {
-  margin-top: 0;
-  text-align: center;
-  color: #ffde6b;
-}
-.modal-content label {
-  display: block;
-  margin: 10px 0 4px;
-}
-.modal-content input {
-  width: 100%;
-  padding: 6px;
   border-radius: 5px;
-  border: none;
-  background: #404864;
-  color: #fff;
+  font-size: 12px;
+  padding: 3px 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.edit-button:hover {
+  background: #718093;
+  color: white;
+}
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  padding: 20px;
+  z-index: 1000;
+  display: none;
+  width: 280px;
+}
+.modal.active {
+  display: block;
+}
+.modal h2 {
+  margin-top: 0;
+}
+.modal label {
+  display: block;
+  margin: 8px 0 4px;
+}
+.modal input {
+  width: 100%;
+  padding: 4px;
+}
+.star {
+  color: #aaa;
+  font-size: 16px;
+}
+.star.filled {
+  color: #fbc531;
 }
 .modal-buttons {
-  text-align: center;
-  margin-top: 15px;
+  text-align: right;
+  margin-top: 12px;
 }
 .modal-buttons button {
-  margin: 0 10px;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  margin-left: 8px;
+  padding: 5px 10px;
 }
-.btn-save { background: #59bfff; color: white; }
-.btn-cancel { background: #555; color: #ddd; }
+.overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  display: none;
+}
+.overlay.active {
+  display: block;
+}
 </style>
 </head>
 <body>
@@ -169,37 +135,38 @@ h1 {
   <div class="grid" id="mindsetGrid"></div>
 </div>
 
+<div class="overlay" id="overlay"></div>
+
 <div class="modal" id="editModal">
-  <div class="modal-content">
-    <h3 id="editName"></h3>
-    <div id="editFields"></div>
-    <div class="modal-buttons">
-      <button class="btn-save" id="saveBtn">保存</button>
-      <button class="btn-cancel" id="cancelBtn">キャンセル</button>
-    </div>
+  <h2 id="editTitle"></h2>
+  <div id="editFields"></div>
+  <div class="modal-buttons">
+    <button id="cancelEdit">キャンセル</button>
+    <button id="saveEdit">保存</button>
   </div>
 </div>
 
 <script>
-const characters = [
-  {name: "ノーティカ", level: 60, insight: 3, resonance: 10, statue: 1, img: "images/nautika.png"},
-  {name: "リーリャ", level: 40, insight: 2, resonance: 7, statue: 0, img: "images/lilya.png"},
-  {name: "レグルス", level: 55, insight: 3, resonance: 12, statue: 2, img: "images/regulus.png"}
+const characters = [ 
+  {name: "センティネル", level: 60, insight: 3, resonance: 10, statue: 1, owned: false, img: "images/sentinel.png"},
+  {name: "ノーティカ", level: 60, insight: 3, resonance: 10, statue: 1, owned: false, img: "images/nautika.png"},
+  {name: "リーリャ", level: 40, insight: 2, resonance: 7, statue: 0, owned: false, img: "images/lilya.png"},
+  {name: "レグルス", level: 55, insight: 3, resonance: 12, statue: 2, owned: false, img: "images/regulus.png"}
 ];
 
 const mindsets = [
-  {name: "美しい新世界", level: 40, amp: 2, img: "images/mind1.png"},
-  {name: "春の足取り", level: 15, amp: 0, img: "images/mind2.png"},
-  {name: "帰郷の追悼", level: 10, amp: 3, img: "images/mind3.png"}
+  {name: "美しい新世界", level: 40, amplify: 3, owned: false, img: "images/mind1.png"},
+  {name: "ノンリズムジャンプ", level: 40, amplify: 3, owned: false, img: "images/mind4.png"},
+  {name: "春の足取り", level: 15, amplify: 1, owned: false, img: "images/mind2.png"},
+  {name: "帰郷の追悼", level: 10, amplify: 0, owned: false, img: "images/mind3.png"}
 ];
 
-let currentEditIndex = null;
-let currentType = "character";
-
 function renderStars(count) {
-  let stars = "";
-  for (let i = 0; i < 5; i++) stars += i < count ? "★" : "☆";
-  return `<div class="stars">${stars}</div>`;
+  let html = '';
+  for (let i = 0; i < 5; i++) {
+    html += `<span class="star ${i < count ? 'filled' : ''}">★</span>`;
+  }
+  return html;
 }
 
 function renderCards(data, containerId, isCharacter = true) {
@@ -209,75 +176,80 @@ function renderCards(data, containerId, isCharacter = true) {
     const card = document.createElement("div");
     card.className = "card";
     if (item.owned) card.classList.add("owned");
+
     card.innerHTML = `
-      <button class="edit-btn" title="編集">⚙</button>
+      <button class="edit-button">✎</button>
       <img src="${item.img}" alt="${item.name}">
       <h3>${item.name}</h3>
-      <p>${isCharacter ? 
-          `Lv.${item.level} 洞察${item.insight} 共鳴${item.resonance}` : 
-          `Lv.${item.level}`}</p>
-      ${isCharacter ? renderStars(item.statue) : renderStars(item.amp)}
+      <p>
+        Lv.${item.level} ${isCharacter ? `洞察${item.insight} 共鳴${item.resonance}<br>塑像：${renderStars(item.statue)}` : `増幅：${renderStars(item.amplify)}`}
+      </p>
     `;
-    card.addEventListener("contextmenu", (e) => {
-      e.preventDefault();
-      card.classList.toggle("owned");
+
+    // カードクリック → 所持切替
+    card.addEventListener("click", (e) => {
+      if (e.target.classList.contains("edit-button")) return;
       item.owned = !item.owned;
+      card.classList.toggle("owned");
       saveState();
     });
-    const editBtn = card.querySelector(".edit-btn");
-    editBtn.addEventListener("click", (e) => {
+
+    // 編集ボタン
+    card.querySelector(".edit-button").addEventListener("click", (e) => {
       e.stopPropagation();
-      openEditModal(isCharacter ? "character" : "mindset", index);
+      openEditModal(item, isCharacter);
     });
+
     container.appendChild(card);
   });
 }
 
-function openEditModal(type, index) {
-  currentEditIndex = index;
-  currentType = type;
-  const data = type === "character" ? characters[index] : mindsets[index];
-  document.getElementById("editName").textContent = data.name;
-  const editFields = document.getElementById("editFields");
-  editFields.innerHTML = "";
+function openEditModal(item, isCharacter) {
+  const modal = document.getElementById("editModal");
+  const overlay = document.getElementById("overlay");
+  const fields = document.getElementById("editFields");
+  document.getElementById("editTitle").textContent = `${item.name} の編集`;
 
-  const makeInput = (label, id, val, min, max) => `
-    <label>${label}</label>
-    <input type="number" id="${id}" value="${val}" min="${min}" max="${max}">
+  fields.innerHTML = `
+    <label>レベル</label>
+    <input type="number" id="editLevel" value="${item.level}" min="1" max="90">
+    ${isCharacter ? `
+      <label>洞察</label>
+      <input type="number" id="editInsight" value="${item.insight}" min="0" max="3">
+      <label>共鳴</label>
+      <input type="number" id="editResonance" value="${item.resonance}" min="0" max="15">
+      <label>塑像</label>
+      <input type="number" id="editStatue" value="${item.statue}" min="0" max="5">
+    ` : `
+      <label>増幅</label>
+      <input type="number" id="editAmplify" value="${item.amplify}" min="0" max="5">
+    `}
   `;
 
-  if (type === "character") {
-    editFields.innerHTML += makeInput("レベル", "editLevel", data.level, 1, 90);
-    editFields.innerHTML += makeInput("洞察", "editInsight", data.insight, 0, 3);
-    editFields.innerHTML += makeInput("共鳴", "editResonance", data.resonance, 0, 15);
-    editFields.innerHTML += makeInput("塑像", "editStatue", data.statue, 0, 5);
-  } else {
-    editFields.innerHTML += makeInput("レベル", "editLevel", data.level, 1, 90);
-    editFields.innerHTML += makeInput("増幅", "editAmp", data.amp, 0, 5);
-  }
-  document.getElementById("editModal").style.display = "flex";
-}
+  modal.classList.add("active");
+  overlay.classList.add("active");
 
-document.getElementById("cancelBtn").onclick = () => {
-  document.getElementById("editModal").style.display = "none";
-};
-
-document.getElementById("saveBtn").onclick = () => {
-  if (currentEditIndex !== null) {
-    const data = currentType === "character" ? characters[currentEditIndex] : mindsets[currentEditIndex];
-    data.level = parseInt(document.getElementById("editLevel").value);
-    if (currentType === "character") {
-      data.insight = parseInt(document.getElementById("editInsight").value);
-      data.resonance = parseInt(document.getElementById("editResonance").value);
-      data.statue = parseInt(document.getElementById("editStatue").value);
+  document.getElementById("cancelEdit").onclick = () => closeModal();
+  document.getElementById("saveEdit").onclick = () => {
+    item.level = Number(document.getElementById("editLevel").value);
+    if (isCharacter) {
+      item.insight = Number(document.getElementById("editInsight").value);
+      item.resonance = Number(document.getElementById("editResonance").value);
+      item.statue = Number(document.getElementById("editStatue").value);
     } else {
-      data.amp = parseInt(document.getElementById("editAmp").value);
+      item.amplify = Number(document.getElementById("editAmplify").value);
     }
     saveState();
-    renderAll();
-    document.getElementById("editModal").style.display = "none";
-  }
-};
+    renderCards(characters, "characterGrid", true);
+    renderCards(mindsets, "mindsetGrid", false);
+    closeModal();
+  };
+}
+
+function closeModal() {
+  document.getElementById("editModal").classList.remove("active");
+  document.getElementById("overlay").classList.remove("active");
+}
 
 function saveState() {
   localStorage.setItem("ownedData", JSON.stringify({characters, mindsets}));
@@ -291,13 +263,9 @@ function loadState() {
   }
 }
 
-function renderAll() {
-  renderCards(characters, "characterGrid", true);
-  renderCards(mindsets, "mindsetGrid", false);
-}
-
 loadState();
-renderAll();
+renderCards(characters, "characterGrid", true);
+renderCards(mindsets, "mindsetGrid", false);
 </script>
 </body>
 </html>
