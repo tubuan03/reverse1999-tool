@@ -316,28 +316,35 @@ function decodeData(str) {
   }
 }
 
-// 既存のURLパラメータ処理部分も修正
-if (location.search.startsWith("?data=")) {
-  decodeData(location.search.substring(6));
-}
-
-// 共有URL発行ボタンのイベントリスナー修正
-document.getElementById("generateLink").addEventListener("click", async () => {
-  const selectedData = getSelectedData();
-  const url = `${location.origin}${location.pathname}?data=${encodeData(selectedData)}`;
-  const link = document.getElementById("shareLink");
-  link.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
-  try {
-    await navigator.clipboard.writeText(url);
-    const notice = document.getElementById("copyNotice");
-    notice.classList.add("visible");
-    setTimeout(() => notice.classList.remove("visible"), 2500);
-  } catch (e) {
-    console.warn("コピー失敗:", e);
+document.addEventListener("DOMContentLoaded", () => {
+  // URLパラメータの処理（先に復元）
+  if (location.search.startsWith("?data=")) {
+    decodeData(location.search.substring(6));
   }
+
+  // ローカル保存データの読み込み
+  loadState();
+
+  // 初期描画
+  renderAll();
+  }
+
+  // 共有ボタンのイベント登録
+  document.getElementById("generateLink").addEventListener("click", async () => {
+    const selectedData = getSelectedData();
+    const url = `${location.origin}${location.pathname}?data=${encodeData(selectedData)}`;
+    const link = document.getElementById("shareLink");
+    link.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+    try {
+      await navigator.clipboard.writeText(url);
+      const notice = document.getElementById("copyNotice");
+      notice.classList.add("visible");
+      setTimeout(() => notice.classList.remove("visible"), 2500);
+    } catch (e) {
+      console.warn("コピー失敗:", e);
+    }
+  });
 });
-loadState();
-renderAll();
 </script>
 </body>
 </html>
