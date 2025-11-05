@@ -520,14 +520,6 @@ function decodeData(str) {
   }
 }
 
-// 既存のURLパラメータ処理部分も修正
-if (location.search.startsWith("?data=")) {
-  decodeData(location.search.substring(6));
-}
-  
-loadState();
-renderAll();
-  
 // 共有URL発行ボタンのイベントリスナー修正
 document.getElementById("generateLink").addEventListener("click", async () => {
   const selectedData = getSelectedData();
@@ -543,6 +535,9 @@ document.getElementById("generateLink").addEventListener("click", async () => {
     console.warn("コピー失敗:", e);
   }
 });
+if (location.search.startsWith("?data=")) decodeState(location.search.substring(6));
+loadState();
+renderAll();
 </script>
 </body>
 </html>
