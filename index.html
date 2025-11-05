@@ -1,187 +1,128 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>リバース1999 所持管理ツール（試作・装飾版）</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>リバース1999 所持キャラ＆心相一覧</title>
 <style>
-body{
-  font-family: "Noto Sans JP", system-ui, -apple-system;
-  margin:0; padding:20px;
-  background: radial-gradient(circle at center,#1e1e1e 40%, #111 100%);
-  color:#f5f5f5;
+body {
+  font-family: "Segoe UI", "Hiragino Sans", sans-serif;
+  background: #f5f6fa;
+  margin: 0;
+  padding: 20px;
+  color: #333;
 }
-h1{font-size:1.6em; margin-bottom:10px; text-shadow:0 0 5px #a0a0a0;}
-section{
-  background:rgba(255,255,255,0.06);
-  padding:16px;
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:12px;
-  margin-bottom:24px;
-  backdrop-filter: blur(6px);
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
 }
-.grid{
-  display:flex; flex-wrap:wrap; gap:12px;
+.section {
+  margin-bottom: 50px;
 }
-.card{
-  width:180px;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.15);
-  border-radius:10px;
-  padding:10px;
-  text-align:center;
-  transition:0.2s;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
 }
-.card:hover{transform:translateY(-3px); box-shadow:0 0 8px rgba(255,255,255,0.15);}
-.card img{
-  width:100%; border-radius:8px; margin-bottom:6px;
+.card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  text-align: center;
+  padding: 10px;
+  transition: all 0.25s ease;
+  cursor: pointer;
 }
-.row{margin:4px 0;}
-button{
-  background:rgba(255,255,255,0.1);
-  color:#fff; border:none;
-  border-radius:4px;
-  padding:2px 6px;
-  cursor:pointer;
-  transition:0.2s;
+.card img {
+  width: 100%;
+  border-radius: 8px;
 }
-button:hover{background:rgba(255,255,255,0.25);}
-.dark{opacity:0.3;}
-h2{
-  margin:0 0 10px 0;
-  font-size:1.2em;
-  color:#ffeb99;
-  border-left:4px solid #cfae4e;
-  padding-left:8px;
+.card h3 {
+  margin: 8px 0 4px;
+  font-size: 16px;
 }
-#copyBtn{
-  background:#cfae4e;
-  color:#222;
-  border-radius:6px;
-  padding:4px 10px;
-  font-weight:bold;
+.card p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
 }
-label{margin-left:10px; font-size:0.9em;}
+.card.owned {
+  border: 2px solid #fbc531;
+  box-shadow: 0 0 10px rgba(251,197,49,0.6);
+  background: #fff8e1;
+}
 </style>
 </head>
 <body>
-<h1>リバース1999 所持管理ツール（試作・装飾版）</h1>
-<div>
-  <button id="copyBtn">共有URLをコピー</button>
-  <label><input type="checkbox" id="hideUnowned"> 未所持を暗く表示</label>
+<h1>リバース1999 所持キャラ・心相管理</h1>
+
+<div class="section">
+  <h2>キャラ一覧</h2>
+  <div class="grid" id="characterGrid"></div>
 </div>
 
-<section>
-  <h2>🧍 キャラ一覧</h2>
-  <div id="charGrid" class="grid"></div>
-</section>
-
-<section>
-  <h2>💎 心相一覧</h2>
-  <div id="mindGrid" class="grid"></div>
-</section>
+<div class="section">
+  <h2>心相一覧</h2>
+  <div class="grid" id="mindsetGrid"></div>
+</div>
 
 <script>
-const data = {
-  characters: [
-    {id:"annie", name:"アニー", level:10, insight:0, sozo:5, kyomei:5, img:"https://via.placeholder.com/180x180/222/eee?text=Annie"},
-    {id:"regulus", name:"レグルス", level:60, insight:3, sozo:3, kyomei:15, img:"https://reverse1999.wikiru.jp/?plugin=attach&pcmd=open&file=Regulus_icon.png&refer=img"},
-  ],
-  minds: [
-    {id:"starry-mind", name:"星空の心", owned:true, level:40, img:"https://via.placeholder.com/180x180/113355/fff?text=Starry"},
-    {id:"sunset-memory", name:"夕映えの記憶", owned:false, level:0, img:"https://via.placeholder.com/180x180/552211/fff?text=Sunset"},
-  ]
-};
+const characters = [
+  {name: "ノーティカ", level: 50, insight: 3, resonance: 15, statue: 1, img: "image/nautika.png"},
+  {name: "パタパタペーパー", level: 40, insight: 2, resonance: 7, statue: 0, img: "images/flutterpage.png"},
+  {name: "レグルス", level: 55, insight: 0, resonance: 10, statue: 2, img: "images/regrus.png"}
+];
 
-function encodeData(){ return btoa(JSON.stringify(data)); }
-function decodeData(str){ try{return JSON.parse(atob(str));}catch(e){return null;} }
+const mindsets = [
+  {name: "星々の夢", level: 20, img: "images/mind1.png"},
+  {name: "楽園の残響", level: 15, img: "images/mind2.png"},
+  {name: "孤独の果て", level: 10, img: "images/mind3.png"}
+];
 
-function updateURL(){
-  const url = new URL(location.href);
-  url.searchParams.set('data', encodeData());
-  history.replaceState({}, '', url);
+function renderCards(data, containerId, isCharacter = true) {
+  const container = document.getElementById(containerId);
+  data.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <img src="${item.img}" alt="${item.name}">
+      <h3>${item.name}</h3>
+      <p>${isCharacter ? `Lv.${item.level} 洞察${item.insight} 共鳴${item.resonance} 塑像${item.statue}` : `Lv.${item.level}`}</p>
+    `;
+    card.addEventListener("click", () => {
+      card.classList.toggle("owned");
+      item.owned = !item.owned;
+      saveState();
+    });
+    container.appendChild(card);
+  });
 }
 
-function loadFromURL(){
-  const url = new URL(location.href);
-  const p = url.searchParams.get('data');
-  if(!p) return;
-  const d = decodeData(p);
-  if(!d) return;
-  if(Array.isArray(d.characters)) data.characters = d.characters;
-  if(Array.isArray(d.minds)) data.minds = d.minds;
+function saveState() {
+  localStorage.setItem("ownedData", JSON.stringify({characters, mindsets}));
 }
 
-document.getElementById('copyBtn').addEventListener('click', async ()=>{
-  updateURL();
-  try{
-    await navigator.clipboard.writeText(location.href);
-    alert("共有URLをコピーしました！");
-  }catch(e){
-    prompt("このURLをコピーしてください：", location.href);
+function loadState() {
+  const saved = JSON.parse(localStorage.getItem("ownedData") || "{}");
+  if (saved.characters) {
+    saved.characters.forEach((s, i) => characters[i].owned = s.owned);
+    saved.mindsets.forEach((s, i) => mindsets[i].owned = s.owned);
   }
-});
+}
 
-document.getElementById('hideUnowned').addEventListener('change', ()=>{renderMinds();});
-
-function renderCharacters(){
-  const grid = document.getElementById('charGrid');
-  grid.innerHTML = "";
-  data.characters.forEach(ch=>{
-    const card = document.createElement('div');
-    card.className = 'card';
-    const img = document.createElement('img'); img.src = ch.img;
-    const name = document.createElement('div'); name.textContent = ch.name;
-    const lv = document.createElement('div');
-    lv.className = 'row';
-    lv.innerHTML = `Lv: <button class="lvminus">-</button><span class="lv">${ch.level}</span><button class="lvplus">+</button>`;
-    const insight = document.createElement('div');
-    insight.className = 'row';
-    insight.innerHTML = `洞察: ${"★".repeat(ch.insight)}${"☆".repeat(3-ch.insight)}`;
-    insight.addEventListener('click', ()=>{ch.insight=(ch.insight+1)%4;updateURL();renderCharacters();});
-    const sozo = document.createElement('div');
-    sozo.className = 'row';
-    sozo.innerHTML = `塑像: ${"★".repeat(ch.sozo)}${"☆".repeat(5-ch.sozo)}`;
-    sozo.addEventListener('click', ()=>{ch.sozo=(ch.sozo+1)%6;updateURL();renderCharacters();});
-    const kyomei = document.createElement('div');
-    kyomei.className = 'row';
-    kyomei.innerHTML = `共鳴: <button class="kmminus">-</button><span class="km">${ch.kyomei}</span><button class="kmplus">+</button>`;
-    card.append(img,name,lv,insight,sozo,kyomei);
-    grid.appendChild(card);
-
-    card.querySelector(".lvminus").addEventListener('click', ()=>{if(ch.level>1)ch.level--;updateURL();renderCharacters();});
-    card.querySelector(".lvplus").addEventListener('click', ()=>{if(ch.level<70)ch.level++;updateURL();renderCharacters();});
-    card.querySelector(".kmminus").addEventListener('click', ()=>{if(ch.kyomei>0)ch.kyomei--;updateURL();renderCharacters();});
-    card.querySelector(".kmplus").addEventListener('click', ()=>{if(ch.kyomei<15)ch.kyomei++;updateURL();renderCharacters();});
+function applyOwnedState() {
+  document.querySelectorAll("#characterGrid .card").forEach((card, i) => {
+    if (characters[i].owned) card.classList.add("owned");
+  });
+  document.querySelectorAll("#mindsetGrid .card").forEach((card, i) => {
+    if (mindsets[i].owned) card.classList.add("owned");
   });
 }
 
-function renderMinds(){
-  const grid = document.getElementById('mindGrid');
-  grid.innerHTML = "";
-  const hide = document.getElementById('hideUnowned').checked;
-  data.minds.forEach(m=>{
-    const card = document.createElement('div');
-    card.className = 'card';
-    if(!m.owned && hide) card.classList.add('dark');
-    const img = document.createElement('img'); img.src = m.img;
-    const name = document.createElement('div'); name.textContent = m.name;
-    const own = document.createElement('div');
-    own.className = 'row';
-    own.innerHTML = `所持: <input type="checkbox" ${m.owned?"checked":""}>`;
-    const lv = document.createElement('div');
-    lv.className = 'row';
-    lv.innerHTML = `Lv: <button class="mlvminus">-</button><span class="mlv">${m.level}</span><button class="mlvplus">+</button>`;
-    card.append(img,name,own,lv);
-    grid.appendChild(card);
-
-    own.querySelector('input').addEventListener('change',(e)=>{m.owned=e.target.checked;updateURL();renderMinds();});
-    card.querySelector(".mlvminus").addEventListener('click', ()=>{if(m.level>0)m.level--;updateURL();renderMinds();});
-    card.querySelector(".mlvplus").addEventListener('click', ()=>{if(m.level<60)m.level++;updateURL();renderMinds();});
-  });
-}
-
-loadFromURL(); renderCharacters(); renderMinds();
+loadState();
+renderCards(characters, "characterGrid", true);
+renderCards(mindsets, "mindsetGrid", false);
+applyOwnedState();
 </script>
 </body>
 </html>
