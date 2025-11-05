@@ -25,7 +25,6 @@ h1 {
   gap: 16px;
 }
 .card {
-  position: relative;
   background: white;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.15);
@@ -33,6 +32,7 @@ h1 {
   padding: 10px;
   transition: all 0.25s ease;
   cursor: pointer;
+  position: relative;
 }
 .card img {
   width: 100%;
@@ -49,81 +49,75 @@ h1 {
 }
 .card.owned {
   border: 2px solid #fbc531;
-  box-shadow: 0 0 12px rgba(251,197,49,0.7);
+  box-shadow: 0 0 10px rgba(251,197,49,0.6);
   background: #fff8e1;
 }
-.edit-button {
+.edit-btn {
   position: absolute;
   top: 6px;
   right: 6px;
-  background: #dcdde1;
+  background: #eee;
   border: none;
-  border-radius: 5px;
-  font-size: 12px;
-  padding: 3px 6px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background 0.2s;
+  font-size: 12px;
+  padding: 3px 5px;
 }
-.edit-button:hover {
-  background: #718093;
-  color: white;
-}
-.modal {
+.edit-window {
+  display: none;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
   padding: 20px;
-  z-index: 1000;
-  display: none;
-  width: 280px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 100;
 }
-.modal.active {
-  display: block;
-}
-.modal h2 {
-  margin-top: 0;
-}
-.modal label {
-  display: block;
-  margin: 8px 0 4px;
-}
-.modal input {
-  width: 100%;
-  padding: 4px;
+.edit-window input {
+  width: 60px;
+  margin-left: 8px;
 }
 .star {
-  color: #aaa;
+  color: #ccc;
   font-size: 16px;
 }
 .star.filled {
-  color: #fbc531;
-}
-.modal-buttons {
-  text-align: right;
-  margin-top: 12px;
-}
-.modal-buttons button {
-  margin-left: 8px;
-  padding: 5px 10px;
+  color: gold;
 }
 .overlay {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
-  z-index: 999;
   display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 90;
 }
-.overlay.active {
+.share-btn {
   display: block;
+  margin: 0 auto 40px;
+  padding: 10px 20px;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+}
+#shareLink {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #007aff;
+  word-break: break-all;
 }
 </style>
 </head>
 <body>
 <h1>リバース1999 所持キャラ・心相管理</h1>
+<button class="share-btn" id="shareBtn">共有URLを作成</button>
+<a id="shareLink"></a>
 
 <div class="section">
   <h2>キャラ一覧</h2>
@@ -136,15 +130,7 @@ h1 {
 </div>
 
 <div class="overlay" id="overlay"></div>
-
-<div class="modal" id="editModal">
-  <h2 id="editTitle"></h2>
-  <div id="editFields"></div>
-  <div class="modal-buttons">
-    <button id="cancelEdit">キャンセル</button>
-    <button id="saveEdit">保存</button>
-  </div>
-</div>
+<div class="edit-window" id="editWindow"></div>
 
 <script>
 const characters = [ 
@@ -161,111 +147,147 @@ const mindsets = [
   {name: "帰郷の追悼", level: 10, amplify: 0, owned: false, img: "images/mind3.png"}
 ];
 
-function renderStars(count) {
-  let html = '';
-  for (let i = 0; i < 5; i++) {
-    html += `<span class="star ${i < count ? 'filled' : ''}">★</span>`;
-  }
-  return html;
+// 星のHTMLを作る
+function renderStars(count, max=5) {
+  return Array.from({length:max}).map((_,i)=>`<span class="star ${i<count?'filled':''}">★</span>`).join('');
 }
 
+// カード描画
 function renderCards(data, containerId, isCharacter = true) {
   const container = document.getElementById(containerId);
-  container.innerHTML = "";
+  container.innerHTML = '';
   data.forEach((item, index) => {
     const card = document.createElement("div");
-    card.className = "card";
-    if (item.owned) card.classList.add("owned");
-
+    card.className = "card" + (item.owned ? " owned" : "");
     card.innerHTML = `
-      <button class="edit-button">✎</button>
+      <button class="edit-btn">✎</button>
       <img src="${item.img}" alt="${item.name}">
       <h3>${item.name}</h3>
-      <p>
-        Lv.${item.level} ${isCharacter ? `洞察${item.insight} 共鳴${item.resonance}<br>塑像：${renderStars(item.statue)}` : `増幅：${renderStars(item.amplify)}`}
-      </p>
+      <p>${isCharacter ? `Lv.${item.level} 洞察${item.insight} 共鳴${item.resonance}<br>塑像 ${renderStars(item.statue)}` : `Lv.${item.level}<br>増幅 ${renderStars(item.amplify)}`}</p>
     `;
-
-    // カードクリック → 所持切替
     card.addEventListener("click", (e) => {
-      if (e.target.classList.contains("edit-button")) return;
-      item.owned = !item.owned;
+      if (e.target.classList.contains("edit-btn")) return;
       card.classList.toggle("owned");
+      item.owned = !item.owned;
       saveState();
     });
-
-    // 編集ボタン
-    card.querySelector(".edit-button").addEventListener("click", (e) => {
+    card.querySelector(".edit-btn").addEventListener("click", (e) => {
       e.stopPropagation();
-      openEditModal(item, isCharacter);
+      openEditWindow(item, isCharacter);
     });
-
     container.appendChild(card);
   });
 }
 
-function openEditModal(item, isCharacter) {
-  const modal = document.getElementById("editModal");
+// 編集ウィンドウ
+function openEditWindow(item, isCharacter) {
   const overlay = document.getElementById("overlay");
-  const fields = document.getElementById("editFields");
-  document.getElementById("editTitle").textContent = `${item.name} の編集`;
+  const editWin = document.getElementById("editWindow");
+  overlay.style.display = "block";
+  editWin.style.display = "block";
 
-  fields.innerHTML = `
-    <label>レベル</label>
-    <input type="number" id="editLevel" value="${item.level}" min="1" max="90">
+  editWin.innerHTML = `
+    <h3>${item.name} の編集</h3>
+    <label>Lv: <input type="number" value="${item.level}" id="editLevel"></label><br><br>
     ${isCharacter ? `
-      <label>洞察</label>
-      <input type="number" id="editInsight" value="${item.insight}" min="0" max="3">
-      <label>共鳴</label>
-      <input type="number" id="editResonance" value="${item.resonance}" min="0" max="15">
-      <label>塑像</label>
-      <input type="number" id="editStatue" value="${item.statue}" min="0" max="5">
+      <label>洞察: <input type="number" value="${item.insight}" id="editInsight"></label><br><br>
+      <label>共鳴: <input type="number" value="${item.resonance}" id="editResonance"></label><br><br>
+      <label>塑像: <input type="number" min="0" max="5" value="${item.statue}" id="editStatue"></label>
     ` : `
-      <label>増幅</label>
-      <input type="number" id="editAmplify" value="${item.amplify}" min="0" max="5">
+      <label>増幅: <input type="number" min="0" max="5" value="${item.amplify}" id="editAmplify"></label>
     `}
+    <br><br>
+    <button id="saveEdit">保存</button>
+    <button id="cancelEdit">キャンセル</button>
   `;
 
-  modal.classList.add("active");
-  overlay.classList.add("active");
-
-  document.getElementById("cancelEdit").onclick = () => closeModal();
   document.getElementById("saveEdit").onclick = () => {
-    item.level = Number(document.getElementById("editLevel").value);
+    item.level = parseInt(document.getElementById("editLevel").value);
     if (isCharacter) {
-      item.insight = Number(document.getElementById("editInsight").value);
-      item.resonance = Number(document.getElementById("editResonance").value);
-      item.statue = Number(document.getElementById("editStatue").value);
+      item.insight = parseInt(document.getElementById("editInsight").value);
+      item.resonance = parseInt(document.getElementById("editResonance").value);
+      item.statue = parseInt(document.getElementById("editStatue").value);
     } else {
-      item.amplify = Number(document.getElementById("editAmplify").value);
+      item.amplify = parseInt(document.getElementById("editAmplify").value);
     }
+    closeEditWindow();
+    renderAll();
     saveState();
-    renderCards(characters, "characterGrid", true);
-    renderCards(mindsets, "mindsetGrid", false);
-    closeModal();
   };
+  document.getElementById("cancelEdit").onclick = closeEditWindow;
+  overlay.onclick = closeEditWindow;
+}
+function closeEditWindow() {
+  document.getElementById("overlay").style.display = "none";
+  document.getElementById("editWindow").style.display = "none";
 }
 
-function closeModal() {
-  document.getElementById("editModal").classList.remove("active");
-  document.getElementById("overlay").classList.remove("active");
-}
-
+// 状態保存
 function saveState() {
   localStorage.setItem("ownedData", JSON.stringify({characters, mindsets}));
 }
 
+// マージ型読み込み
 function loadState() {
   const saved = JSON.parse(localStorage.getItem("ownedData") || "{}");
   if (saved.characters) {
-    saved.characters.forEach((s, i) => Object.assign(characters[i], s));
-    saved.mindsets.forEach((s, i) => Object.assign(mindsets[i], s));
+    for (const savedChar of saved.characters) {
+      const match = characters.find(c => c.name === savedChar.name);
+      if (match) Object.assign(match, savedChar);
+    }
+  }
+  if (saved.mindsets) {
+    for (const savedMind of saved.mindsets) {
+      const match = mindsets.find(m => m.name === savedMind.name);
+      if (match) Object.assign(match, savedMind);
+    }
   }
 }
 
+// 共有URLエンコード
+function encodeStateToURL() {
+  const state = {characters, mindsets};
+  const encoded = btoa(encodeURIComponent(JSON.stringify(state)));
+  return `${location.origin}${location.pathname}?data=${encoded}`;
+}
+
+// URLからデコード
+function decodeStateFromURL() {
+  const params = new URLSearchParams(location.search);
+  const data = params.get("data");
+  if (!data) return;
+  try {
+    const decoded = JSON.parse(decodeURIComponent(atob(data)));
+    if (decoded.characters) {
+      for (const savedChar of decoded.characters) {
+        const match = characters.find(c => c.name === savedChar.name);
+        if (match) Object.assign(match, savedChar);
+      }
+    }
+    if (decoded.mindsets) {
+      for (const savedMind of decoded.mindsets) {
+        const match = mindsets.find(m => m.name === savedMind.name);
+        if (match) Object.assign(match, savedMind);
+      }
+    }
+  } catch (e) { console.error("URL decode failed", e); }
+}
+
+function renderAll() {
+  renderCards(characters, "characterGrid", true);
+  renderCards(mindsets, "mindsetGrid", false);
+}
+
+document.getElementById("shareBtn").addEventListener("click", () => {
+  const url = encodeStateToURL();
+  const link = document.getElementById("shareLink");
+  link.textContent = url;
+  link.href = url;
+});
+
+decodeStateFromURL();
 loadState();
-renderCards(characters, "characterGrid", true);
-renderCards(mindsets, "mindsetGrid", false);
+renderAll();
 </script>
 </body>
 </html>
