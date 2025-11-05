@@ -501,18 +501,36 @@ function renderAll() {
   renderCards(characters, "characterGrid", true);
   renderCards(mindsets, "mindsetGrid", false);
 }
-document.getElementById("generateLink").addEventListener("click", async () => {
-const url = `${location.origin}${location.pathname}?data=${encodeState()}`;
-const link = document.getElementById("shareLink");
-link.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
-try {
-await navigator.clipboard.writeText(url);
-const notice = document.getElementById("copyNotice");
-notice.classList.add("visible");
-setTimeout(() => notice.classList.remove("visible"), 2500);
-} catch (e) {
-console.warn("コピー失敗:", e);
+function fallbackCopyTextToClipboard(text) {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    document.execCommand('copy');
+    return true;
+  } catch (err) {
+    console.error('コピー失敗', err);
+    return false;
+  } finally {
+    document.body.removeChild(textArea);
+  }
 }
+document.getElementById("generateLink").addEventListener("click", () => {
+  const url = `${location.origin}${location.pathname}?data=${encodeState()}`;
+  const link = document.getElementById("shareLink");
+  link.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+
+  const success = navigator.clipboard?.writeText
+    ? navigator.clipboard.writeText(url).then(() => true).catch(() => fallbackCopyTextToClipboard(url))
+    : fallbackCopyTextToClipboard(url);
+
+  success.then(() => {
+    const notice = document.getElementById("copyNotice");
+    notice.classList.add("visible");
+    setTimeout(() => notice.classList.remove("visible"), 2500);
+  });
 });
 if (location.search.startsWith("?data=")) decodeState(location.search.substring(6));
 loadState();
