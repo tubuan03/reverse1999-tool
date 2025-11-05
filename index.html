@@ -509,6 +509,8 @@ function encodeData(data) {
   return encodeURIComponent(btoa(JSON.stringify(data)));
 }
 
+loadState();
+renderAll();
 // URLからデータを復元する関数
 function decodeData(str) {
   try {
@@ -540,8 +542,6 @@ document.getElementById("generateLink").addEventListener("click", async () => {
     console.warn("コピー失敗:", e);
   }
 });
-loadState();
-renderAll();
 </script>
 </body>
 </html>
