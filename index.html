@@ -501,40 +501,45 @@ function renderAll() {
   renderCards(characters, "characterGrid", true);
   renderCards(mindsets, "mindsetGrid", false);
 }
-function fallbackCopyTextToClipboard(text) {
-  const textArea = document.createElement("textarea");
-  textArea.value = text;
-  document.body.appendChild(textArea);
-  textArea.focus();
-  textArea.select();
+// 追加・修正部分：選択状態のデータを取得する関数
+function getSelectedData() {
+  const ownedCharacters = characters.filter(c => c.owned);
+  const ownedMindsets = mindsets.filter(m => m.owned);
+  return { characters: ownedCharacters, mindsets: ownedMindsets };
+}
+
+// 既存のencodeState()を改良して、引数を受け取る関数に変更
+// URLからデータを復元する関数
+function decodeData(str) {
   try {
-    document.execCommand('copy');
-    return true;
-  } catch (err) {
-    console.error('コピー失敗', err);
-    return false;
-  } finally {
-    document.body.removeChild(textArea);
+    const data = JSON.parse(atob(decodeURIComponent(str)));
+    if (data.characters) mergeState(data.characters, characters);
+    if (data.mindsets) mergeState(data.mindsets, mindsets);
+  } catch (e) {
+    console.warn("デコードエラー:", e);
   }
 }
-document.getElementById("generateLink").addEventListener("click", () => {
-  const url = `${location.origin}${location.pathname}?data=${encodeState()}`;
+
+// 既存のURLパラメータ処理部分も修正
+if (location.search.startsWith("?data=")) {
+  decodeData(location.search.substring(6));
+}
+
+// 共有URL発行ボタンのイベントリスナー修正
+document.getElementById("generateLink").addEventListener("click", async () => {
+  const selectedData = getSelectedData();
+  const url = `${location.origin}${location.pathname}?data=${encodeData(selectedData)}`;
   const link = document.getElementById("shareLink");
   link.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
-
-  const success = navigator.clipboard?.writeText
-    ? navigator.clipboard.writeText(url).then(() => true).catch(() => fallbackCopyTextToClipboard(url))
-    : fallbackCopyTextToClipboard(url);
-
-  success.then(() => {
+  try {
+    await navigator.clipboard.writeText(url);
     const notice = document.getElementById("copyNotice");
     notice.classList.add("visible");
     setTimeout(() => notice.classList.remove("visible"), 2500);
-  });
+  } catch (e) {
+    console.warn("コピー失敗:", e);
+  }
 });
-if (location.search.startsWith("?data=")) decodeState(location.search.substring(6));
-loadState();
-renderAll();
 </script>
 </body>
 </html>
