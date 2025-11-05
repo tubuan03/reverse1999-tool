@@ -538,8 +538,6 @@ document.getElementById("generateLink").addEventListener("click", async () => {
   } catch (e) {
     console.warn("コピー失敗:", e);
   }
-loadState();
-renderAll();
 if (location.search.startsWith("?data=")) {
   decodeData(location.search.substring(6));
 }
