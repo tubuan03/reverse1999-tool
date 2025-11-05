@@ -541,6 +541,7 @@ if (location.search.startsWith("?data=")) {
 decodeData(location.search.substring(6));
 }
 });
+if (location.search.startsWith("?data=")) decodeState(location.search.substring(6));
 loadState();
 renderAll();
 </script>
