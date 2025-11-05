@@ -134,7 +134,7 @@ function renderCharacters(){
     const name = document.createElement('div'); name.textContent = ch.name;
     const lv = document.createElement('div');
     lv.className = 'row';
-    lv.innerHTML = `Lv: <button>-</button>${ch.level}<button>+</button>`;
+    lv.innerHTML = `Lv: <button class="lvminus">-</button><span class="lv">${ch.level}</span><button class="lvplus">+</button>`;
     const insight = document.createElement('div');
     insight.className = 'row';
     insight.innerHTML = `洞察: ${"★".repeat(ch.insight)}${"☆".repeat(3-ch.insight)}`;
@@ -145,15 +145,14 @@ function renderCharacters(){
     sozo.addEventListener('click', ()=>{ch.sozo=(ch.sozo+1)%6;updateURL();renderCharacters();});
     const kyomei = document.createElement('div');
     kyomei.className = 'row';
-    kyomei.innerHTML = `共鳴: <button>-</button>${ch.kyomei}<button>+</button>`;
-    const [lvMinus, lvPlus] = lv.querySelectorAll('button');
-    lvMinus.addEventListener('click', ()=>{if(ch.level>1)ch.level--;updateURL();renderCharacters();});
-    lvPlus.addEventListener('click', ()=>{if(ch.level<70)ch.level++;updateURL();renderCharacters();});
-    const [kmMinus, kmPlus] = kyomei.querySelectorAll('button');
-    kmMinus.addEventListener('click', ()=>{if(ch.kyomei>0)ch.kyomei--;updateURL();renderCharacters();});
-    kmPlus.addEventListener('click', ()=>{if(ch.kyomei<15)ch.kyomei++;updateURL();renderCharacters();});
+    kyomei.innerHTML = `共鳴: <button class="kmminus">-</button><span class="km">${ch.kyomei}</span><button class="kmplus">+</button>`;
     card.append(img,name,lv,insight,sozo,kyomei);
     grid.appendChild(card);
+
+    card.querySelector(".lvminus").addEventListener('click', ()=>{if(ch.level>1)ch.level--;updateURL();renderCharacters();});
+    card.querySelector(".lvplus").addEventListener('click', ()=>{if(ch.level<70)ch.level++;updateURL();renderCharacters();});
+    card.querySelector(".kmminus").addEventListener('click', ()=>{if(ch.kyomei>0)ch.kyomei--;updateURL();renderCharacters();});
+    card.querySelector(".kmplus").addEventListener('click', ()=>{if(ch.kyomei<15)ch.kyomei++;updateURL();renderCharacters();});
   });
 }
 
@@ -164,21 +163,21 @@ function renderMinds(){
   data.minds.forEach(m=>{
     const card = document.createElement('div');
     card.className = 'card';
+    if(!m.owned && hide) card.classList.add('dark');
     const img = document.createElement('img'); img.src = m.img;
-    if(!m.owned && hide) img.classList.add('dark');
     const name = document.createElement('div'); name.textContent = m.name;
     const own = document.createElement('div');
     own.className = 'row';
     own.innerHTML = `所持: <input type="checkbox" ${m.owned?"checked":""}>`;
     const lv = document.createElement('div');
     lv.className = 'row';
-    lv.innerHTML = `Lv: <button>-</button>${m.level}<button>+</button>`;
-    const [lvMinus, lvPlus] = lv.querySelectorAll('button');
-    lvMinus.addEventListener('click', ()=>{if(m.level>0)m.level--;updateURL();renderMinds();});
-    lvPlus.addEventListener('click', ()=>{if(m.level<60)m.level++;updateURL();renderMinds();});
-    own.querySelector('input').addEventListener('change',(e)=>{m.owned=e.target.checked;updateURL();renderMinds();});
+    lv.innerHTML = `Lv: <button class="mlvminus">-</button><span class="mlv">${m.level}</span><button class="mlvplus">+</button>`;
     card.append(img,name,own,lv);
     grid.appendChild(card);
+
+    own.querySelector('input').addEventListener('change',(e)=>{m.owned=e.target.checked;updateURL();renderMinds();});
+    card.querySelector(".mlvminus").addEventListener('click', ()=>{if(m.level>0)m.level--;updateURL();renderMinds();});
+    card.querySelector(".mlvplus").addEventListener('click', ()=>{if(m.level<60)m.level++;updateURL();renderMinds();});
   });
 }
 
