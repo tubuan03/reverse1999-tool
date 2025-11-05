@@ -299,22 +299,26 @@ function renderAll() {
   renderCards(characters, "characterGrid", true);
   renderCards(mindsets, "mindsetGrid", false);
 }
-// 追加・修正部分：選択状態のデータを取得する関数
-function getSelectedData() {
-  const ownedCharacters = characters.filter(c => c.owned);
-  const ownedMindsets = mindsets.filter(m => m.owned);
-  return { characters: ownedCharacters, mindsets: ownedMindsets };
-}
-
-// 既存のencodeState()を改良して、引数を受け取る関数に変更
 function encodeData(data) {
-  return encodeURIComponent(btoa(JSON.stringify(data)));
+  const json = JSON.stringify(data);
+  const uint8Array = new TextEncoder().encode(json);
+  const base64 = btoa(String.fromCharCode(...uint8Array));
+  return encodeURIComponent(base64);
 }
 
-// URLからデータを復元する関数
+async function generateShortUrl(data) {
+  const longUrl = `${location.origin}${location.pathname}?data=${encodeData(data)}`;
+  const tinyApi = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`;
+  const shortUrl = await fetch(tinyApi).then(res => res.text());
+  return shortUrl;
+}
+
 function decodeData(str) {
   try {
-    const data = JSON.parse(atob(decodeURIComponent(str)));
+    const binary = atob(decodeURIComponent(str));
+    const bytes = new Uint8Array([...binary].map(c => c.charCodeAt(0)));
+    const json = new TextDecoder().decode(bytes);
+    const data = JSON.parse(json);
     if (data.characters) mergeState(data.characters, characters);
     if (data.mindsets) mergeState(data.mindsets, mindsets);
   } catch (e) {
@@ -335,20 +339,22 @@ document.addEventListener("DOMContentLoaded", () => {
   renderAll();
 
   // 共有ボタンのイベント登録
-  document.getElementById("generateLink").addEventListener("click", async () => {
-    const selectedData = getSelectedData();
-    const url = `${location.origin}${location.pathname}?data=${encodeData(selectedData)}`;
-    const link = document.getElementById("shareLink");
-    link.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
-    try {
-      await navigator.clipboard.writeText(url);
-      const notice = document.getElementById("copyNotice");
-      notice.classList.add("visible");
-      setTimeout(() => notice.classList.remove("visible"), 2500);
-    } catch (e) {
-      console.warn("コピー失敗:", e);
-    }
-  });
+document.getElementById("generateLink").addEventListener("click", async () => {
+  const selectedData = getSelectedData();
+  const shortUrl = await generateShortUrl(selectedData); // ← 短縮URLを取得
+
+  const link = document.getElementById("shareLink");
+  link.innerHTML = `<a href="${shortUrl}" target="_blank">${shortUrl}</a>`;
+
+  try {
+    await navigator.clipboard.writeText(shortUrl);
+    const notice = document.getElementById("copyNotice");
+    notice.classList.add("visible");
+    setTimeout(() => notice.classList.remove("visible"), 2500);
+  } catch (e) {
+    console.warn("コピー失敗:", e);
+  }
+});
 
   // フィルターボタンのイベント登録
   document.getElementById("toggleFilter").addEventListener("click", () => {
