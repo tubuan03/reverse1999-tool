@@ -36,6 +36,7 @@ h1 {
   gap: 20px;
 }
 .card {
+  position: relative;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 12px;
@@ -75,7 +76,30 @@ h1 {
 .card.owned h3 { color: #ffde6b; }
 .card.owned img { opacity: 0.95; }
 
-/* ポップアップ背景 */
+.edit-btn {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: rgba(89,191,255,0.8);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.edit-btn:hover { background: rgba(89,191,255,1); }
+
+.stars {
+  color: #ffde6b;
+  font-size: 13px;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+/* モーダル */
 .modal {
   display: none;
   position: fixed;
@@ -86,8 +110,6 @@ h1 {
   justify-content: center;
   align-items: center;
 }
-
-/* ポップアップ本体 */
 .modal-content {
   background: #2b3248;
   padding: 20px;
@@ -147,18 +169,10 @@ h1 {
   <div class="grid" id="mindsetGrid"></div>
 </div>
 
-<!-- 編集モーダル -->
 <div class="modal" id="editModal">
   <div class="modal-content">
     <h3 id="editName"></h3>
-    <label>レベル</label>
-    <input type="number" id="editLevel" min="1" max="90">
-    <label>洞察</label>
-    <input type="number" id="editInsight" min="0" max="3">
-    <label>共鳴</label>
-    <input type="number" id="editResonance" min="0" max="15">
-    <label>塑像</label>
-    <input type="number" id="editStatue" min="0" max="5">
+    <div id="editFields"></div>
     <div class="modal-buttons">
       <button class="btn-save" id="saveBtn">保存</button>
       <button class="btn-cancel" id="cancelBtn">キャンセル</button>
@@ -174,12 +188,19 @@ const characters = [
 ];
 
 const mindsets = [
-  {name: "美しい新世界", level: 40, img: "images/mind1.png"},
-  {name: "春の足取り", level: 15, img: "images/mind2.png"},
-  {name: "帰郷の追悼", level: 10, img: "images/mind3.png"}
+  {name: "美しい新世界", level: 40, amp: 2, img: "images/mind1.png"},
+  {name: "春の足取り", level: 15, amp: 0, img: "images/mind2.png"},
+  {name: "帰郷の追悼", level: 10, amp: 3, img: "images/mind3.png"}
 ];
 
 let currentEditIndex = null;
+let currentType = "character";
+
+function renderStars(count) {
+  let stars = "";
+  for (let i = 0; i < 5; i++) stars += i < count ? "★" : "☆";
+  return `<div class="stars">${stars}</div>`;
+}
 
 function renderCards(data, containerId, isCharacter = true) {
   const container = document.getElementById(containerId);
@@ -189,46 +210,71 @@ function renderCards(data, containerId, isCharacter = true) {
     card.className = "card";
     if (item.owned) card.classList.add("owned");
     card.innerHTML = `
+      <button class="edit-btn" title="編集">⚙</button>
       <img src="${item.img}" alt="${item.name}">
       <h3>${item.name}</h3>
-      <p>${isCharacter ? `Lv.${item.level} 洞察${item.insight} 共鳴${item.resonance} 塑像${item.statue}` : `Lv.${item.level}`}</p>
+      <p>${isCharacter ? 
+          `Lv.${item.level} 洞察${item.insight} 共鳴${item.resonance}` : 
+          `Lv.${item.level}`}</p>
+      ${isCharacter ? renderStars(item.statue) : renderStars(item.amp)}
     `;
-    card.addEventListener("click", (e) => {
-      if (isCharacter) openEditModal(index);
-    });
     card.addEventListener("contextmenu", (e) => {
       e.preventDefault();
       card.classList.toggle("owned");
       item.owned = !item.owned;
       saveState();
     });
+    const editBtn = card.querySelector(".edit-btn");
+    editBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openEditModal(isCharacter ? "character" : "mindset", index);
+    });
     container.appendChild(card);
   });
 }
 
-function openEditModal(index) {
+function openEditModal(type, index) {
   currentEditIndex = index;
-  const c = characters[index];
-  document.getElementById("editName").textContent = c.name;
-  document.getElementById("editLevel").value = c.level;
-  document.getElementById("editInsight").value = c.insight;
-  document.getElementById("editResonance").value = c.resonance;
-  document.getElementById("editStatue").value = c.statue;
+  currentType = type;
+  const data = type === "character" ? characters[index] : mindsets[index];
+  document.getElementById("editName").textContent = data.name;
+  const editFields = document.getElementById("editFields");
+  editFields.innerHTML = "";
+
+  const makeInput = (label, id, val, min, max) => `
+    <label>${label}</label>
+    <input type="number" id="${id}" value="${val}" min="${min}" max="${max}">
+  `;
+
+  if (type === "character") {
+    editFields.innerHTML += makeInput("レベル", "editLevel", data.level, 1, 90);
+    editFields.innerHTML += makeInput("洞察", "editInsight", data.insight, 0, 3);
+    editFields.innerHTML += makeInput("共鳴", "editResonance", data.resonance, 0, 15);
+    editFields.innerHTML += makeInput("塑像", "editStatue", data.statue, 0, 5);
+  } else {
+    editFields.innerHTML += makeInput("レベル", "editLevel", data.level, 1, 90);
+    editFields.innerHTML += makeInput("増幅", "editAmp", data.amp, 0, 5);
+  }
   document.getElementById("editModal").style.display = "flex";
 }
 
 document.getElementById("cancelBtn").onclick = () => {
   document.getElementById("editModal").style.display = "none";
 };
+
 document.getElementById("saveBtn").onclick = () => {
   if (currentEditIndex !== null) {
-    const c = characters[currentEditIndex];
-    c.level = parseInt(document.getElementById("editLevel").value);
-    c.insight = parseInt(document.getElementById("editInsight").value);
-    c.resonance = parseInt(document.getElementById("editResonance").value);
-    c.statue = parseInt(document.getElementById("editStatue").value);
+    const data = currentType === "character" ? characters[currentEditIndex] : mindsets[currentEditIndex];
+    data.level = parseInt(document.getElementById("editLevel").value);
+    if (currentType === "character") {
+      data.insight = parseInt(document.getElementById("editInsight").value);
+      data.resonance = parseInt(document.getElementById("editResonance").value);
+      data.statue = parseInt(document.getElementById("editStatue").value);
+    } else {
+      data.amp = parseInt(document.getElementById("editAmp").value);
+    }
     saveState();
-    renderCards(characters, "characterGrid", true);
+    renderAll();
     document.getElementById("editModal").style.display = "none";
   }
 };
@@ -236,6 +282,7 @@ document.getElementById("saveBtn").onclick = () => {
 function saveState() {
   localStorage.setItem("ownedData", JSON.stringify({characters, mindsets}));
 }
+
 function loadState() {
   const saved = JSON.parse(localStorage.getItem("ownedData") || "{}");
   if (saved.characters) {
@@ -244,9 +291,13 @@ function loadState() {
   }
 }
 
+function renderAll() {
+  renderCards(characters, "characterGrid", true);
+  renderCards(mindsets, "mindsetGrid", false);
+}
+
 loadState();
-renderCards(characters, "characterGrid", true);
-renderCards(mindsets, "mindsetGrid", false);
+renderAll();
 </script>
 </body>
 </html>
