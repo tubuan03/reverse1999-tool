@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
@@ -7,10 +7,10 @@
 <style>
 body {
   font-family: "Segoe UI", "Hiragino Sans", sans-serif;
-  background: #1a1a1a; /* 黒寄りの背景 */
+  background: #1a1a1a;
   margin: 0;
   padding: 20px;
-  color: #eee; /* 明るめ文字 */
+  color: #eee;
 }
 h1 {
   text-align: center;
@@ -131,7 +131,7 @@ h2 {
 .overlay.active { display: block; }
 .share-btn {
   display: block;
-  margin: 0 auto 40px;
+  margin: 0 auto 20px;
   background: #fbc531;
   color: #111;
   font-weight: bold;
@@ -150,6 +150,15 @@ h2 {
   margin-top: 10px;
   word-break: break-all;
 }
+#copyNotice {
+  text-align: center;
+  color: #7bed9f;
+  font-weight: bold;
+  margin-top: 8px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+#copyNotice.visible { opacity: 1; }
 </style>
 </head>
 <body>
@@ -157,6 +166,7 @@ h2 {
 
 <button class="share-btn" id="generateLink">🔗 状態を共有URLとして発行</button>
 <div class="share-link" id="shareLink"></div>
+<div id="copyNotice">✅ 共有URLをコピーしました！</div>
 
 <div class="section">
   <h2>キャラ一覧</h2>
@@ -185,7 +195,6 @@ const characters = [
   {name: "リーリャ", level: 40, insight: 2, resonance: 7, statue: 0, owned: false, img: "images/lilya.png"},
   {name: "レグルス", level: 55, insight: 3, resonance: 12, statue: 2, owned: false, img: "images/regulus.png"}
 ];
-
 const mindsets = [
   {name: "美しい新世界", level: 40, amplify: 3, owned: false, img: "images/mind1.png"},
   {name: "ノンリズムジャンプ", level: 40, amplify: 3, owned: false, img: "images/mind4.png"},
@@ -198,7 +207,6 @@ function renderStars(count) {
   for (let i = 0; i < 5; i++) html += `<span class="star ${i < count ? 'filled' : ''}">★</span>`;
   return html;
 }
-
 function renderCards(data, containerId, isCharacter = true) {
   const container = document.getElementById(containerId);
   container.innerHTML = "";
@@ -206,7 +214,6 @@ function renderCards(data, containerId, isCharacter = true) {
     const card = document.createElement("div");
     card.className = "card";
     if (item.owned) card.classList.add("owned");
-
     card.innerHTML = `
       <button class="edit-button">✎</button>
       <img src="${item.img}" alt="${item.name}">
@@ -228,13 +235,11 @@ function renderCards(data, containerId, isCharacter = true) {
     container.appendChild(card);
   });
 }
-
 function openEditModal(item, isCharacter) {
   const modal = document.getElementById("editModal");
   const overlay = document.getElementById("overlay");
   const fields = document.getElementById("editFields");
   document.getElementById("editTitle").textContent = `${item.name} の編集`;
-
   fields.innerHTML = `
     <label>レベル</label>
     <input type="number" id="editLevel" value="${item.level}" min="1" max="90">
@@ -250,10 +255,8 @@ function openEditModal(item, isCharacter) {
       <input type="number" id="editAmplify" value="${item.amplify}" min="0" max="5">
     `}
   `;
-
   modal.classList.add("active");
   overlay.classList.add("active");
-
   document.getElementById("cancelEdit").onclick = closeModal;
   document.getElementById("saveEdit").onclick = () => {
     item.level = Number(document.getElementById("editLevel").value);
@@ -264,63 +267,55 @@ function openEditModal(item, isCharacter) {
     } else {
       item.amplify = Number(document.getElementById("editAmplify").value);
     }
-    saveState();
-    renderAll();
-    closeModal();
+    saveState(); renderAll(); closeModal();
   };
 }
-
 function closeModal() {
   document.getElementById("editModal").classList.remove("active");
   document.getElementById("overlay").classList.remove("active");
 }
-
 function saveState() {
   localStorage.setItem("ownedData", JSON.stringify({characters, mindsets}));
 }
-
 function loadState() {
   const saved = JSON.parse(localStorage.getItem("ownedData") || "{}");
   if (saved.characters) mergeState(saved.characters, characters);
   if (saved.mindsets) mergeState(saved.mindsets, mindsets);
 }
-
 function mergeState(savedArray, baseArray) {
   savedArray.forEach(savedItem => {
     const match = baseArray.find(i => i.name === savedItem.name);
     if (match) Object.assign(match, savedItem);
   });
 }
-
 function encodeState() {
   return encodeURIComponent(btoa(JSON.stringify({characters, mindsets})));
 }
-
 function decodeState(str) {
   try {
     const data = JSON.parse(atob(decodeURIComponent(str)));
     if (data.characters) mergeState(data.characters, characters);
     if (data.mindsets) mergeState(data.mindsets, mindsets);
-  } catch (e) {
-    console.warn("共有データの読み込みに失敗しました");
-  }
+  } catch {}
 }
-
 function renderAll() {
   renderCards(characters, "characterGrid", true);
   renderCards(mindsets, "mindsetGrid", false);
 }
-
-document.getElementById("generateLink").addEventListener("click", () => {
+document.getElementById("generateLink").addEventListener("click", async () => {
   const url = `${location.origin}${location.pathname}?data=${encodeState()}`;
   const link = document.getElementById("shareLink");
   link.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+  try {
+    await navigator.clipboard.writeText(url);
+    const notice = document.getElementById("copyNotice");
+    notice.classList.add("visible");
+    setTimeout(() => notice.classList.remove("visible"), 2500);
+  } catch (e) {
+    console.warn("コピー失敗:", e);
+  }
 });
-
-if (location.search.startsWith("?data=")) {
-  decodeState(location.search.substring(6));
-}
-
+if (location.search.startsWith("?data=")) decodeState(location.search.substring(6));
 loadState();
 renderAll();
 </script>
