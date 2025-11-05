@@ -509,6 +509,10 @@ function getSelectedData() {
 }
 
 // 既存のencodeState()を改良して、引数を受け取る関数に変更
+function encodeData(data) {
+  return encodeURIComponent(btoa(JSON.stringify(data)));
+}
+
 // URLからデータを復元する関数
 function decodeData(str) {
   try {
