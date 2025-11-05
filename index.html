@@ -6,50 +6,97 @@
 <title>リバース1999 所持キャラ＆心相一覧</title>
 <style>
 body {
-  font-family: "Segoe UI", "Hiragino Sans", sans-serif;
-  background: #f5f6fa;
+  font-family: "Noto Sans JP", "Hiragino Sans", sans-serif;
+  background: linear-gradient(180deg, #202637 0%, #0f121a 100%);
+  color: #ddd;
   margin: 0;
-  padding: 20px;
-  color: #333;
+  padding: 40px 20px;
 }
+
+/* ページ全体タイトル */
 h1 {
   text-align: center;
-  margin-bottom: 30px;
-}
-.section {
   margin-bottom: 50px;
+  color: #f1f3f8;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(255,255,255,0.1);
 }
+
+/* 各セクション */
+.section {
+  margin: 0 auto 60px;
+  max-width: 1000px;
+}
+.section h2 {
+  border-left: 5px solid #59bfff;
+  padding-left: 10px;
+  color: #bcdcff;
+  margin-bottom: 20px;
+}
+
+/* グリッド配置 */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
 }
+
+/* カード全体 */
 .card {
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
   text-align: center;
-  padding: 10px;
-  transition: all 0.25s ease;
+  padding: 12px;
+  transition: all 0.3s ease;
   cursor: pointer;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
 }
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.6);
+}
+
+/* キャラ画像 */
 .card img {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  transition: opacity 0.3s ease;
 }
+
+/* 名前・数値 */
 .card h3 {
-  margin: 8px 0 4px;
+  margin: 6px 0 4px;
   font-size: 16px;
+  color: #fff;
+  font-weight: 600;
 }
 .card p {
-  font-size: 14px;
-  color: #666;
+  font-size: 13px;
+  color: #a8b3c1;
   margin: 0;
 }
+
+/* 所持中（クリック時） */
 .card.owned {
-  border: 2px solid #fbc531;
-  box-shadow: 0 0 10px rgba(251,197,49,0.6);
-  background: #fff8e1;
+  border: 2px solid #ffde6b;
+  box-shadow: 0 0 12px rgba(255, 222, 107, 0.7);
+  background: linear-gradient(160deg, rgba(255,222,107,0.15), rgba(255,222,107,0.05));
+}
+.card.owned h3 {
+  color: #ffde6b;
+}
+.card.owned img {
+  opacity: 0.95;
+}
+
+/* レスポンシブ */
+@media (max-width: 600px) {
+  body { padding: 20px; }
+  h1 { font-size: 20px; }
 }
 </style>
 </head>
@@ -81,6 +128,7 @@ const mindsets = [
 
 function renderCards(data, containerId, isCharacter = true) {
   const container = document.getElementById(containerId);
+  container.innerHTML = "";
   data.forEach(item => {
     const card = document.createElement("div");
     card.className = "card";
