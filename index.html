@@ -12,8 +12,6 @@ body {
   margin: 0;
   padding: 40px 20px;
 }
-
-/* ページ全体タイトル */
 h1 {
   text-align: center;
   margin-bottom: 50px;
@@ -22,8 +20,6 @@ h1 {
   font-weight: 600;
   text-shadow: 0 0 10px rgba(255,255,255,0.1);
 }
-
-/* 各セクション */
 .section {
   margin: 0 auto 60px;
   max-width: 1000px;
@@ -34,15 +30,11 @@ h1 {
   color: #bcdcff;
   margin-bottom: 20px;
 }
-
-/* グリッド配置 */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 20px;
 }
-
-/* カード全体 */
 .card {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.1);
@@ -58,16 +50,12 @@ h1 {
   transform: translateY(-4px);
   box-shadow: 0 6px 14px rgba(0,0,0,0.6);
 }
-
-/* キャラ画像 */
 .card img {
   width: 100%;
   border-radius: 10px;
   margin-bottom: 8px;
   transition: opacity 0.3s ease;
 }
-
-/* 名前・数値 */
 .card h3 {
   margin: 6px 0 4px;
   font-size: 16px;
@@ -79,25 +67,71 @@ h1 {
   color: #a8b3c1;
   margin: 0;
 }
-
-/* 所持中（クリック時） */
 .card.owned {
   border: 2px solid #ffde6b;
   box-shadow: 0 0 12px rgba(255, 222, 107, 0.7);
   background: linear-gradient(160deg, rgba(255,222,107,0.15), rgba(255,222,107,0.05));
 }
-.card.owned h3 {
-  color: #ffde6b;
-}
-.card.owned img {
-  opacity: 0.95;
+.card.owned h3 { color: #ffde6b; }
+.card.owned img { opacity: 0.95; }
+
+/* ポップアップ背景 */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
 }
 
-/* レスポンシブ */
-@media (max-width: 600px) {
-  body { padding: 20px; }
-  h1 { font-size: 20px; }
+/* ポップアップ本体 */
+.modal-content {
+  background: #2b3248;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  color: #eee;
+  text-align: left;
+  animation: popin 0.25s ease;
 }
+@keyframes popin {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.modal-content h3 {
+  margin-top: 0;
+  text-align: center;
+  color: #ffde6b;
+}
+.modal-content label {
+  display: block;
+  margin: 10px 0 4px;
+}
+.modal-content input {
+  width: 100%;
+  padding: 6px;
+  border-radius: 5px;
+  border: none;
+  background: #404864;
+  color: #fff;
+}
+.modal-buttons {
+  text-align: center;
+  margin-top: 15px;
+}
+.modal-buttons button {
+  margin: 0 10px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn-save { background: #59bfff; color: white; }
+.btn-cancel { background: #555; color: #ddd; }
 </style>
 </head>
 <body>
@@ -113,6 +147,25 @@ h1 {
   <div class="grid" id="mindsetGrid"></div>
 </div>
 
+<!-- 編集モーダル -->
+<div class="modal" id="editModal">
+  <div class="modal-content">
+    <h3 id="editName"></h3>
+    <label>レベル</label>
+    <input type="number" id="editLevel" min="1" max="90">
+    <label>洞察</label>
+    <input type="number" id="editInsight" min="0" max="3">
+    <label>共鳴</label>
+    <input type="number" id="editResonance" min="0" max="15">
+    <label>塑像</label>
+    <input type="number" id="editStatue" min="0" max="5">
+    <div class="modal-buttons">
+      <button class="btn-save" id="saveBtn">保存</button>
+      <button class="btn-cancel" id="cancelBtn">キャンセル</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const characters = [
   {name: "ノーティカ", level: 60, insight: 3, resonance: 10, statue: 1, img: "images/nautika.png"},
@@ -126,18 +179,25 @@ const mindsets = [
   {name: "帰郷の追悼", level: 10, img: "images/mind3.png"}
 ];
 
+let currentEditIndex = null;
+
 function renderCards(data, containerId, isCharacter = true) {
   const container = document.getElementById(containerId);
   container.innerHTML = "";
-  data.forEach(item => {
+  data.forEach((item, index) => {
     const card = document.createElement("div");
     card.className = "card";
+    if (item.owned) card.classList.add("owned");
     card.innerHTML = `
       <img src="${item.img}" alt="${item.name}">
       <h3>${item.name}</h3>
       <p>${isCharacter ? `Lv.${item.level} 洞察${item.insight} 共鳴${item.resonance} 塑像${item.statue}` : `Lv.${item.level}`}</p>
     `;
-    card.addEventListener("click", () => {
+    card.addEventListener("click", (e) => {
+      if (isCharacter) openEditModal(index);
+    });
+    card.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
       card.classList.toggle("owned");
       item.owned = !item.owned;
       saveState();
@@ -146,31 +206,47 @@ function renderCards(data, containerId, isCharacter = true) {
   });
 }
 
+function openEditModal(index) {
+  currentEditIndex = index;
+  const c = characters[index];
+  document.getElementById("editName").textContent = c.name;
+  document.getElementById("editLevel").value = c.level;
+  document.getElementById("editInsight").value = c.insight;
+  document.getElementById("editResonance").value = c.resonance;
+  document.getElementById("editStatue").value = c.statue;
+  document.getElementById("editModal").style.display = "flex";
+}
+
+document.getElementById("cancelBtn").onclick = () => {
+  document.getElementById("editModal").style.display = "none";
+};
+document.getElementById("saveBtn").onclick = () => {
+  if (currentEditIndex !== null) {
+    const c = characters[currentEditIndex];
+    c.level = parseInt(document.getElementById("editLevel").value);
+    c.insight = parseInt(document.getElementById("editInsight").value);
+    c.resonance = parseInt(document.getElementById("editResonance").value);
+    c.statue = parseInt(document.getElementById("editStatue").value);
+    saveState();
+    renderCards(characters, "characterGrid", true);
+    document.getElementById("editModal").style.display = "none";
+  }
+};
+
 function saveState() {
   localStorage.setItem("ownedData", JSON.stringify({characters, mindsets}));
 }
-
 function loadState() {
   const saved = JSON.parse(localStorage.getItem("ownedData") || "{}");
   if (saved.characters) {
-    saved.characters.forEach((s, i) => characters[i].owned = s.owned);
-    saved.mindsets.forEach((s, i) => mindsets[i].owned = s.owned);
+    saved.characters.forEach((s, i) => Object.assign(characters[i], s));
+    saved.mindsets.forEach((s, i) => Object.assign(mindsets[i], s));
   }
-}
-
-function applyOwnedState() {
-  document.querySelectorAll("#characterGrid .card").forEach((card, i) => {
-    if (characters[i].owned) card.classList.add("owned");
-  });
-  document.querySelectorAll("#mindsetGrid .card").forEach((card, i) => {
-    if (mindsets[i].owned) card.classList.add("owned");
-  });
 }
 
 loadState();
 renderCards(characters, "characterGrid", true);
 renderCards(mindsets, "mindsetGrid", false);
-applyOwnedState();
 </script>
 </body>
 </html>
