@@ -501,47 +501,48 @@ function renderAll() {
   renderCards(characters, "characterGrid", true);
   renderCards(mindsets, "mindsetGrid", false);
 }
-// 追加・修正部分：選択状態のデータを取得する関数
+
 function getSelectedData() {
-  const ownedCharacters = characters.filter(c => c.owned);
-  const ownedMindsets = mindsets.filter(m => m.owned);
-  return { characters: ownedCharacters, mindsets: ownedMindsets };
+// 例：所有しているキャラと心相だけを抽出
+const ownedCharacters = characters.filter(c => c.owned);
+const ownedMindsets = mindsets.filter(m => m.owned);
+return { characters: ownedCharacters, mindsets: ownedMindsets };
 }
 
-// 既存のencodeState()を改良して、引数を受け取る関数に変更
 function encodeData(data) {
-  return encodeURIComponent(btoa(JSON.stringify(data)));
+return encodeURIComponent(btoa(JSON.stringify(data)));
 }
 
-// URLからデータを復元する関数
-function decodeData(str) {
-  try {
-    const data = JSON.parse(atob(decodeURIComponent(str)));
-    if (data.characters) mergeState(data.characters, characters);
-    if (data.mindsets) mergeState(data.mindsets, mindsets);
-  } catch (e) {
-    console.warn("デコードエラー:", e);
-  }
-}
-
-// 共有URL発行ボタンのイベントリスナー修正
 document.getElementById("generateLink").addEventListener("click", async () => {
-  const selectedData = getSelectedData();
-  const url = `${location.origin}${location.pathname}?data=${encodeData(selectedData)}`;
-  const link = document.getElementById("shareLink");
-  link.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
-  try {
-    await navigator.clipboard.writeText(url);
-    const notice = document.getElementById("copyNotice");
-    notice.classList.add("visible");
-    setTimeout(() => notice.classList.remove("visible"), 2500);
-  } catch (e) {
-    console.warn("コピー失敗:", e);
-  }
-if (location.search.startsWith("?data=")) {
-  decodeData(location.search.substring(6));
+const selectedData = getSelectedData();
+const url = `${location.origin}${location.pathname}?data=${encodeData(selectedData)}`;
+const link = document.getElementById("shareLink");
+link.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+try {
+await navigator.clipboard.writeText(url);
+const notice = document.getElementById("copyNotice");
+notice.classList.add("visible");
+setTimeout(() => notice.classList.remove("visible"), 2500);
+} catch (e) {
+console.warn("コピー失敗:", e);
 }
 });
+
+function decodeData(str) {
+try {
+const data = JSON.parse(atob(decodeURIComponent(str)));
+// 既存のmerge処理
+if (data.characters) mergeState(data.characters, characters);
+if (data.mindsets) mergeState(data.mindsets, mindsets);
+} catch {}
+}
+
+if (location.search.startsWith("?data=")) {
+decodeData(location.search.substring(6));
+}
+});
+loadState();
+renderAll();
 </script>
 </body>
 </html>
