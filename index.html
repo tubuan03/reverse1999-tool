@@ -541,7 +541,9 @@ document.getElementById("generateLink").addEventListener("click", async () => {
 });
 loadState();
 renderAll();
-if (location.search.startsWith("?data=")) decodeState(location.search.substring(6));
+if (location.search.startsWith("?data=")) {
+  decodeData(location.search.substring(6));
+}
 </script>
 </body>
 </html>
