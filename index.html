@@ -168,6 +168,8 @@ h2 {
 <div class="share-link" id="shareLink"></div>
 <div id="copyNotice">✅ 共有URLをコピーしました！</div>
 
+<button class="share-btn" id="toggleFilter">👁️ 所持済みのみ表示</button>
+  
 <div class="section">
   <h2>キャラ一覧</h2>
   <div class="grid" id="characterGrid"></div>
@@ -193,6 +195,8 @@ h2 {
   <script>
 localStorage.removeItem("ownedData");
 
+let showOnlyOwned = false;
+    
 function renderStars(count) {
   let html = '';
   for (let i = 0; i < 5; i++) html += `<span class="star ${i < count ? 'filled' : ''}">★</span>`;
@@ -202,12 +206,14 @@ function renderCards(data, containerId, isCharacter = true) {
   const container = document.getElementById(containerId);
   container.innerHTML = "";
   data.forEach((item) => {
+    if (showOnlyOwned && !item.owned) return; // ← ここが追加ポイント
+
     const card = document.createElement("div");
     card.className = "card";
     if (item.owned) card.classList.add("owned");
     card.innerHTML = `
       <button class="edit-button">✎</button>
-      <img src="${item.img}" alt="${item.name}">
+      <img src="${item.img}" alt="${item.name}" onerror="this.src='images/placeholder.png'">
       <h3>${item.name}</h3>
       <p>
         Lv.${item.level} ${isCharacter ? `洞察${item.insight} 共鳴${item.resonance}<br>塑像：${renderStars(item.statue)}` : `増幅：${renderStars(item.amplify)}`}
@@ -216,8 +222,8 @@ function renderCards(data, containerId, isCharacter = true) {
     card.addEventListener("click", (e) => {
       if (e.target.classList.contains("edit-button")) return;
       item.owned = !item.owned;
-      card.classList.toggle("owned");
       saveState();
+      renderAll(); // ← 状態変更後に再描画
     });
     card.querySelector(".edit-button").addEventListener("click", (e) => {
       e.stopPropagation();
@@ -327,7 +333,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 初期描画
   renderAll();
-  }
 
   // 共有ボタンのイベント登録
   document.getElementById("generateLink").addEventListener("click", async () => {
@@ -344,7 +349,16 @@ document.addEventListener("DOMContentLoaded", () => {
       console.warn("コピー失敗:", e);
     }
   });
-});
+
+  // フィルターボタンのイベント登録
+  document.getElementById("toggleFilter").addEventListener("click", () => {
+    showOnlyOwned = !showOnlyOwned;
+    document.getElementById("toggleFilter").textContent = showOnlyOwned
+      ? "👁️ 全表示に戻す"
+      : "👁️ 所持済みのみ表示";
+    renderAll();
+  });
+}); // ← ここでちゃんと閉じる！
 </script>
 </body>
 </html>
