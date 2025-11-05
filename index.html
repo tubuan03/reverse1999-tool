@@ -437,7 +437,7 @@ function openEditModal(item, isCharacter) {
   document.getElementById("editTitle").textContent = `${item.name} の編集`;
   fields.innerHTML = `
     <label>レベル</label>
-    <input type="number" id="editLevel" value="${item.level}" min="1" max="90">
+    <input type="number" id="editLevel" value="${item.level}" min="1" max="50">
     ${isCharacter ? `
       <label>洞察</label>
       <input type="number" id="editInsight" value="${item.insight}" min="0" max="3">
@@ -540,6 +540,8 @@ document.getElementById("generateLink").addEventListener("click", async () => {
     console.warn("コピー失敗:", e);
   }
 });
+loadState();
+renderAll();
 </script>
 </body>
 </html>
