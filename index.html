@@ -261,7 +261,7 @@ function renderCards(data, containerId, isCharacter = true) {
     ${item.madness?.length
       ? `<br>${item.madness.map(type => `
       <span class="madness-label ${highlightedMadness.includes(type) ? 'madness-highlight' : ''}">${type}</span>
-    `).join("・")}`
+    `).join("")}`
   : ""}
   </p>
   <div class="stars">
@@ -316,8 +316,8 @@ function openEditModal(item, isCharacter) {
      <div class="madness-row">
        ${item.madness.map(type => `
          <div class="madness-item">
-           <span>${type}</span><br>
-           <input type="checkbox" value="${type}" ${highlightedMadness.includes(type) ? "checked" : ""}>
+           <input type="checkbox" value="${type}" ${highlightedMadness.includes(type) ? "checked" : ""}><br>
+           <span>${type}</span>
          </div>
        `).join("")}
      </div>`
