@@ -219,7 +219,7 @@ function renderCards(data, containerId, isCharacter = true) {
       <img src="${item.img}" alt="${item.name}" onerror="this.src='images/placeholder.png'">
       <h3>${item.name}</h3>
       <p>
-      　Lv.${item.level} ${isCharacter ? `洞察${item.insight}<br>共鳴${item.resonance}<br>${renderStars(item.statue)}` : `増幅：${renderStars(item.amplify)}`}
+      　Lv.${item.level} ${isCharacter ? `洞察${item.insight}<br>共鳴${item.resonance}<br>${renderStars(item.statue)}` : `${renderStars(item.amplify)}`}
       </p>
     `;
     // 旧バージョン（塑像あり）
