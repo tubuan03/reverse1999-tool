@@ -105,6 +105,19 @@ h2 {
 .madness-highlight {
   color: #ffde73; /* 好きな強調色に変更可能 */
 }
+
+.distortion-group {
+  text-align: center;
+  margin: 4px 0;
+}
+
+.distortion-label {
+  display: inline-block;
+  margin: 0 2px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #ffffff; /* 青系にして差別化 */
+}  
   
 .edit-button {
   position: absolute;
@@ -214,6 +227,40 @@ h2 {
   transition: opacity 0.4s ease;
 }
 #copyNotice.visible { opacity: 1; }
+
+.distortion-panel {
+  position: fixed;
+  top: 50%;
+  left: calc(50% + 160px); /* モーダルの右側に配置（調整可） */
+  transform: translateY(-50%);
+  background: #2a2a2a;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+  padding: 20px;
+  z-index: 1001;
+  width: 200px;
+  display: none;
+  color: #eee;
+}
+
+.distortion-panel.active {
+  display: block;
+}
+
+.distortion-toggle-btn {
+  margin-top: 12px;
+  background: #555;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.distortion-toggle-btn:hover {
+  background: #fbc531;
+  color: #111;
+}
+  
 </style>
   
 <script src="https://cdn.jsdelivr.net/npm/lz-string@1.4.4/libs/lz-string.min.js"></script>
@@ -247,6 +294,11 @@ h2 {
   </div>
 </div>
 
+<div id="distortionPanel" class="distortion-panel">
+  <h3>変調一覧</h3>
+  <div id="distortionList"></div>
+</div>
+  
   <script src="data.js"></script>
   
   <script>
@@ -268,6 +320,7 @@ function renderCards(data, containerId, isCharacter = true) {
   data.forEach((item) => {
     if (showOnlyOwned && !item.owned) return; // ← ここが追加ポイント
     if (!item.highlightedMadness) item.highlightedMadness = [];
+    if (!item.selectedDistortion) item.selectedDistortion = [];
     
     const card = document.createElement("div");
     card.className = "card";
@@ -279,6 +332,17 @@ function renderCards(data, containerId, isCharacter = true) {
   <p>
     Lv.${item.level} ${isCharacter ? `洞察${item.insight}<br>共鳴${item.resonance}` : ""}
   </p>
+  ${isCharacter && item.selectedDistortion?.length
+  ? `<div class="distortion-group">
+      ${
+        item.selectedDistortion.includes("全部！")
+          ? `<span class="distortion-label">全部！</span>`
+          : item.selectedDistortion.map(type => `
+              <span class="distortion-label">${type}</span>
+            `).join("")
+      }
+    </div>`
+  : ""}
   <div class="card-footer">
     ${item.madness?.length
       ? item.madness.map(type => `
@@ -290,14 +354,8 @@ function renderCards(data, containerId, isCharacter = true) {
     </div>
   </div>
 `;
-   /* card.innerHTML = `
-      <button class="edit-button">✎</button>
-      <img src="${item.img}" alt="${item.name}" onerror="this.src='images/placeholder.png'">
-      <h3>${item.name}</h3>
-      <p>
-      　Lv.${item.level} ${isCharacter ? `洞察${item.insight}<br>共鳴${item.resonance}<br>${renderStars(item.statue)}` : `増幅<br>${renderStars(item.amplify)}`}
-      </p>
-    `;  */
+   /* レベル洞察共鳴狂想星card.innerHTML = `
+      Lv.${item.level} ${isCharacter ? `洞察${item.insight}<br>共鳴${item.resonance}<br>${renderStars(item.statue)}` : `増幅<br>${renderStars(item.amplify)}`} */
     // 旧バージョン（塑像あり）
     // const oldText = `Lv.${item.level} ${isCharacter ? `洞察${item.insight} 共鳴${item.resonance}<br>塑像：${renderStars(item.statue)}` : `増幅：${renderStars(item.amplify)}`}
 
@@ -327,6 +385,7 @@ function openEditModal(item, isCharacter) {
       <input type="number" id="editInsight" value="${item.insight}" min="0" max="3">
       <label>共鳴</label>
       <input type="number" id="editResonance" value="${item.resonance}" min="0" max="15">
+      <button id="toggleDistortionPanel" class="distortion-toggle-btn">変調を表示</button>
       <label>塑像</label>
       <input type="number" id="editStatue" value="${item.statue}" min="0" max="5">
     ` : `
@@ -357,9 +416,50 @@ ${item.madness?.length
     } else {
       item.amplify = Number(document.getElementById("editAmplify").value);
     }
-    
+
+  const distortionTypes = [
+  "通暁", "誠実", "亢奮", "鼓舞", "希望", "慈悲",
+  "満足", "鎮静", "節制", "一意専心", "奇想天外", "無我夢中",
+  "泰然自若", "均衡調和", "全部！", 
+];
+
+  document.getElementById("toggleDistortionPanel").onclick = () => {
+  const panel = document.getElementById("distortionPanel");
+     panel.classList.toggle("active");
+
+  const list = document.getElementById("distortionList");
+     list.innerHTML = distortionTypes.map(type => `
+    <label>
+      <input type="checkbox" value="${type}" ${item.selectedDistortion?.includes(type) ? "checked" : ""}>
+      ${type}
+    </label>
+  `).join("<br>");
+// list.innerHTML = item.distortion.map(type => `
+const checkboxes = list.querySelectorAll("input[type=checkbox]");
+checkboxes.forEach(cb => {
+  cb.addEventListener("change", () => {
+    if (cb.value === "全部！" && cb.checked) {
+      // 「全部！」が選ばれた → 他を外す
+      checkboxes.forEach(other => {
+        if (other.value !== "全部！") other.checked = false;
+      });
+    } else if (cb.value !== "全部！" && cb.checked) {
+      // 他が選ばれた → 「全部！」を外す
+      checkboxes.forEach(other => {
+        if (other.value === "全部！") other.checked = false;
+      });
+    }
+  });
+});    
+};  
+   
 const madnessChecks = document.querySelectorAll("#madnessToggleGroup input[type=checkbox]");
 item.highlightedMadness = Array.from(madnessChecks)
+  .filter(cb => cb.checked)
+  .map(cb => cb.value);
+
+const distortionChecks = document.querySelectorAll("#distortionList input[type=checkbox]");
+item.selectedDistortion = Array.from(distortionChecks)
   .filter(cb => cb.checked)
   .map(cb => cb.value);
     
@@ -409,6 +509,7 @@ function getSelectedData() {
       statue: c.statue,
       madness: c.madness,
       highlightedMadness: c.highlightedMadness || [],
+      selectedDistortion: c.selectedDistortion || [],
       img: c.img,
       owned: true
     }));
