@@ -406,26 +406,15 @@ ${item.madness?.length
 `;
   modal.classList.add("active");
   overlay.classList.add("active");
-  document.getElementById("cancelEdit").onclick = closeModal;
-  document.getElementById("saveEdit").onclick = () => {
-    item.level = Number(document.getElementById("editLevel").value);
-    if (isCharacter) {
-      item.insight = Number(document.getElementById("editInsight").value);
-      item.resonance = Number(document.getElementById("editResonance").value);
-      item.statue = Number(document.getElementById("editStatue").value);
-    } else {
-      item.amplify = Number(document.getElementById("editAmplify").value);
-    }
+    document.getElementById("toggleDistortionPanel").onclick = () => {
+  const panel = document.getElementById("distortionPanel");
+     panel.classList.toggle("active");
 
   const distortionTypes = [
   "通暁", "誠実", "亢奮", "鼓舞", "希望", "慈悲",
   "満足", "鎮静", "節制", "一意専心", "奇想天外", "無我夢中",
   "泰然自若", "均衡調和", "全部！", 
 ];
-
-  document.getElementById("toggleDistortionPanel").onclick = () => {
-  const panel = document.getElementById("distortionPanel");
-     panel.classList.toggle("active");
 
   const list = document.getElementById("distortionList");
      list.innerHTML = distortionTypes.map(type => `
@@ -452,6 +441,16 @@ checkboxes.forEach(cb => {
   });
 });    
 };  
+  document.getElementById("cancelEdit").onclick = closeModal;
+  document.getElementById("saveEdit").onclick = () => {
+    item.level = Number(document.getElementById("editLevel").value);
+    if (isCharacter) {
+      item.insight = Number(document.getElementById("editInsight").value);
+      item.resonance = Number(document.getElementById("editResonance").value);
+      item.statue = Number(document.getElementById("editStatue").value);
+    } else {
+      item.amplify = Number(document.getElementById("editAmplify").value);
+    }
    
 const madnessChecks = document.querySelectorAll("#madnessToggleGroup input[type=checkbox]");
 item.highlightedMadness = Array.from(madnessChecks)
