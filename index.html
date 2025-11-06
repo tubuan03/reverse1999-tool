@@ -45,6 +45,10 @@ h2 {
   opacity: 0.4;
   filter: grayscale(60%);
   box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* 上下に分散配置 */
+  height: 100%; /* 高さを固定する場合は指定 */
 }
 .card img {
   width: 100%;
@@ -65,6 +69,9 @@ h2 {
   border: 1px solid #F99931;
   box-shadow: 0 0 14px rgba(251,197,49,0.6);
   background: linear-gradient(145deg, #2d250f, #3b320f);
+}
+.card .stars {
+  margin-top: auto; /* 一番下に押し出す */
 }
 .edit-button {
   position: absolute;
@@ -215,13 +222,24 @@ function renderCards(data, containerId, isCharacter = true) {
     card.className = "card";
     if (item.owned) card.classList.add("owned");
     card.innerHTML = `
+  <button class="edit-button">✎</button>
+  <img src="${item.img}" alt="${item.name}" onerror="this.src='images/placeholder.png'">
+  <h3>${item.name}</h3>
+  <p>
+    Lv.${item.level} ${isCharacter ? `洞察${item.insight}<br>共鳴${item.resonance}` : ""}
+  </p>
+  <div class="stars">
+    ${isCharacter ? renderStars(item.statue) : renderStars(item.amplify)}
+  </div>
+`;
+   /* card.innerHTML = `
       <button class="edit-button">✎</button>
       <img src="${item.img}" alt="${item.name}" onerror="this.src='images/placeholder.png'">
       <h3>${item.name}</h3>
       <p>
       　Lv.${item.level} ${isCharacter ? `洞察${item.insight}<br>共鳴${item.resonance}<br>${renderStars(item.statue)}` : `増幅<br>${renderStars(item.amplify)}`}
       </p>
-    `;
+    `;  */
     // 旧バージョン（塑像あり）
     // const oldText = `Lv.${item.level} ${isCharacter ? `洞察${item.insight} 共鳴${item.resonance}<br>塑像：${renderStars(item.statue)}` : `増幅：${renderStars(item.amplify)}`}
 
