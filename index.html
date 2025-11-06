@@ -76,6 +76,11 @@ h2 {
   margin-top: auto; /* 一番下に押し出す */
 }
 
+.madness-group {
+  text-align: center;
+  margin-top: 6px;
+}
+  
 .madness-label {
   display: inline-block;
   margin-top: 4px;
@@ -259,13 +264,15 @@ function renderCards(data, containerId, isCharacter = true) {
   <h3>${item.name}</h3>
   <p>
     Lv.${item.level} ${isCharacter ? `洞察${item.insight}<br>共鳴${item.resonance}` : ""}
+    </p>
+  <div class="madness-group">
     ${item.madness?.length
   ? `<br>${item.madness.map(type => `
       <span class="madness-label ${item.highlightedMadness?.includes(type) ? 'madness-highlight' : ''}">${type}</span>
     `).join("")}`
   : ""}
-  </p>
-  <div class="stars">
+  </div>
+    <div class="stars">
     ${isCharacter ? renderStars(item.statue) : renderStars(item.amplify)}
   </div>
 `;
