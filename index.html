@@ -385,8 +385,32 @@ function renderAll() {
   renderCards(mindsets, "mindsetGrid", false);
 }
 function getSelectedData() {
-  const ownedCharacters = characters.filter(c => c.owned);
-  const ownedMindsets = mindsets.filter(m => m.owned);
+  const ownedCharacters = characters
+    .filter(c => c.owned)
+    .map(c => ({
+      name: c.name,
+      level: c.level,
+      insight: c.insight,
+      resonance: c.resonance,
+      statue: c.statue,
+      madness: c.madness,
+      highlightedMadness: c.highlightedMadness || [],
+      img: c.img,
+      owned: true
+    }));
+
+  const ownedMindsets = mindsets
+    .filter(m => m.owned)
+    .map(m => ({
+      name: m.name,
+      level: m.level,
+      amplify: m.amplify,
+      madness: m.madness,
+      highlightedMadness: m.highlightedMadness || [],
+      img: m.img,
+      owned: true
+    }));
+
   return { characters: ownedCharacters, mindsets: ownedMindsets };
 }
 function encodeData(data) {
