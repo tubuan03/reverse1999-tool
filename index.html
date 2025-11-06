@@ -75,6 +75,15 @@ h2 {
 .card .stars {
   margin-top: auto; /* 一番下に押し出す */
 }
+
+.madness-label {
+  display: inline-block;
+  margin-top: 4px;
+  color: #fbc531;
+  font-weight: bold;
+  font-size: 13px;
+}
+
 .edit-button {
   position: absolute;
   top: 6px;
@@ -231,6 +240,9 @@ function renderCards(data, containerId, isCharacter = true) {
   <h3>${item.name}</h3>
   <p>
     Lv.${item.level} ${isCharacter ? `洞察${item.insight}<br>共鳴${item.resonance}` : ""}
+    ${item.madness && item.madness.length > 0
+  ? `<br><span class="madness-label"> ${item.madness.join("・")}</span>`
+  : ""}
   </p>
   <div class="stars">
     ${isCharacter ? renderStars(item.statue) : renderStars(item.amplify)}
@@ -273,6 +285,8 @@ function openEditModal(item, isCharacter) {
       <input type="number" id="editInsight" value="${item.insight}" min="0" max="3">
       <label>共鳴</label>
       <input type="number" id="editResonance" value="${item.resonance}" min="0" max="15">
+      <label>狂想（カンマ区切りで入力）</label>
+      <input type="text" id="editMadness" value="${item.madness ? item.madness.join(',') : ''}">
       <label>塑像</label>
       <input type="number" id="editStatue" value="${item.statue}" min="0" max="5">
     ` : `
@@ -289,6 +303,11 @@ function openEditModal(item, isCharacter) {
       item.insight = Number(document.getElementById("editInsight").value);
       item.resonance = Number(document.getElementById("editResonance").value);
       item.statue = Number(document.getElementById("editStatue").value);
+      const madnessInput = document.getElementById("editMadness").value;
+      item.madness = madnessInput
+        .split(',')
+        .map(s => s.trim())
+        .filter(s => s.length > 0);
     } else {
       item.amplify = Number(document.getElementById("editAmplify").value);
     }
