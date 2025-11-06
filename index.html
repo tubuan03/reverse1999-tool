@@ -299,6 +299,11 @@ function renderAll() {
   renderCards(characters, "characterGrid", true);
   renderCards(mindsets, "mindsetGrid", false);
 }
+function getSelectedData() {
+  const ownedCharacters = characters.filter(c => c.owned);
+  const ownedMindsets = mindsets.filter(m => m.owned);
+  return { characters: ownedCharacters, mindsets: ownedMindsets };
+}
 function encodeData(data) {
   const json = JSON.stringify(data);
   const uint8Array = new TextEncoder().encode(json);
