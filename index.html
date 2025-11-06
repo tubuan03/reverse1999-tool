@@ -267,7 +267,7 @@ function renderCards(data, containerId, isCharacter = true) {
     </p>
   <div class="madness-group">
     ${item.madness?.length
-  ? item.madness.map(type => `
+  ? `<br>${item.madness.map(type => `
       <span class="madness-label ${item.highlightedMadness?.includes(type) ? 'madness-highlight' : ''}">${type}</span>
     `).join("")}`
   : ""}
