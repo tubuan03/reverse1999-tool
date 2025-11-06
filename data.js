@@ -73,7 +73,7 @@ const characters = [
   {name: "マチルダ", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, madness: ["啓示"], img: "images/Matilda.png"},
   {name: "カシャパシャ", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/Click.png"},
   {name: "X", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/X.png"},
-  {name: "バルーンパーティー", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/BalloonPayty.png"},
+  {name: "バルーンパーティー", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/BalloonParty.png"},
   {name: "ソネット", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/Sonetto.png"},
   {name: "ネクロ･ロギスト", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/Necrologist.png"},
   {name: "パミエ", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/Dikke.png"},
