@@ -57,9 +57,15 @@ h2 {
   object-fit: cover;   /* はみ出しをトリミング */
   border-radius: 8px;
 }
+/*.card h3 {
+  margin: 8px 0 4px;
+  font-size: 16px; */
 .card h3 {
   margin: 8px 0 4px;
-  font-size: 16px;
+  font-size: clamp(12px, 4vw, 16px); /* ← 画面幅に応じて縮小 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .card p {
   font-size: 14px;
