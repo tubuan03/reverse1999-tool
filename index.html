@@ -223,7 +223,7 @@ function renderCards(data, containerId, isCharacter = true) {
       </p>
     `;
     // 旧バージョン（塑像あり）
-    // Lv.${item.level} ${isCharacter ? `洞察${item.insight} 共鳴${item.resonance}<br>塑像：${renderStars(item.statue)}` : `増幅：${renderStars(item.amplify)}`}
+    // const oldText = `Lv.${item.level} ${isCharacter ? `洞察${item.insight} 共鳴${item.resonance}<br>塑像：${renderStars(item.statue)}` : `増幅：${renderStars(item.amplify)}`}
 
     card.addEventListener("click", (e) => {
       if (e.target.classList.contains("edit-button")) return;
