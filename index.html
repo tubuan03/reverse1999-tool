@@ -144,6 +144,19 @@ h2 {
   background: #fbc531;
   color: #111;
 }
+
+.madness-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  justify-content: center;
+}
+
+.madness-item {
+  text-align: center;
+  font-size: 13px;
+}
+  
 .overlay {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -300,12 +313,12 @@ function openEditModal(item, isCharacter) {
     `}
     ${item.madness?.length
   ? `<label>狂想</label>
-     <div id="madnessToggleGroup">
+     <div class="madness-row">
        ${item.madness.map(type => `
-         <label style="margin-right:8px;">
+         <div class="madness-item">
+           <span>${type}</span><br>
            <input type="checkbox" value="${type}" ${highlightedMadness.includes(type) ? "checked" : ""}>
-           ${type}
-         </label>
+         </div>
        `).join("")}
      </div>`
   : ""}
