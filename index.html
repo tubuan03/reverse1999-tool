@@ -171,6 +171,8 @@ h2 {
 }
 #copyNotice.visible { opacity: 1; }
 </style>
+  
+<script src="https://cdn.jsdelivr.net/npm/lz-string@1.4.4/libs/lz-string.min.js"></script>
 </head>
 <body>
 <h1>リバース1999 所持キャラ・心相管理</h1>
@@ -332,9 +334,7 @@ function getSelectedData() {
 }
 function encodeData(data) {
   const json = JSON.stringify(data);
-  const uint8Array = new TextEncoder().encode(json);
-  const base64 = btoa(String.fromCharCode(...uint8Array));
-  return encodeURIComponent(base64);
+  return LZString.compressToEncodedURIComponent(json);
 }
 
 async function generateShortUrl(data) {
@@ -344,54 +344,16 @@ async function generateShortUrl(data) {
   return shortUrl;
 }
 
-/* function decodeData(str) {
-  try {
-    const binary = atob(decodeURIComponent(str));
-    const bytes = new Uint8Array([...binary].map(c => c.charCodeAt(0)));
-    const json = new TextDecoder().decode(bytes);
-    const data = JSON.parse(json);
-    if (data.characters) mergeState(data.characters, characters);
-    if (data.mindsets) mergeState(data.mindsets, mindsets);
-  } catch (e) {
-    console.warn("デコードエラー:", e);
-  }
-} */
 function decodeData(str) {
   try {
-    const binary = atob(decodeURIComponent(str));
-    const bytes = new Uint8Array([...binary].map(c => c.charCodeAt(0)));
-    const json = new TextDecoder().decode(bytes);
-    const data = JSON.parse(json);
-    return data;
+    const json = LZString.decompressFromEncodedURIComponent(str);
+    return JSON.parse(json);
   } catch (e) {
     console.warn("デコードエラー:", e);
     return null;
   }
 }
     
-/* document.addEventListener("DOMContentLoaded", () => {
-  // URLパラメータの処理（先に復元）
-  if (location.search.startsWith("?data=")) {
-    decodeData(location.search.substring(6));
-    
-  // ローカル保存データの読み込み
-  loadState();
-
-  // 初期描画
-  renderAll();
-  } */
-    
-  /* document.addEventListener("DOMContentLoaded", () => {
-  const hasSharedData = location.search.startsWith("?data=");
-
-  if (hasSharedData) {
-    decodeData(location.search.substring(6));
-  } else {
-    loadState(); // ← 共有データがない場合のみローカルデータを読み込む
-  }
-
-  renderAll();
-}); */
 document.addEventListener("DOMContentLoaded", () => {
   const hasSharedData = location.search.startsWith("?data=");
   let sharedData = null;
