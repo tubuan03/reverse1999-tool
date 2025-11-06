@@ -203,7 +203,7 @@ h2 {
   
   <script>
 // ローカルデータ消去
-// localStorage.removeItem("ownedData");
+localStorage.removeItem("ownedData");
 
 let showOnlyOwned = false;
     
@@ -342,7 +342,7 @@ async function generateShortUrl(data) {
   return shortUrl;
 }
 
-function decodeData(str) {
+/* function decodeData(str) {
   try {
     const binary = atob(decodeURIComponent(str));
     const bytes = new Uint8Array([...binary].map(c => c.charCodeAt(0)));
@@ -353,8 +353,20 @@ function decodeData(str) {
   } catch (e) {
     console.warn("デコードエラー:", e);
   }
+} */
+function decodeData(str) {
+  try {
+    const binary = atob(decodeURIComponent(str));
+    const bytes = new Uint8Array([...binary].map(c => c.charCodeAt(0)));
+    const json = new TextDecoder().decode(bytes);
+    const data = JSON.parse(json);
+    return data;
+  } catch (e) {
+    console.warn("デコードエラー:", e);
+    return null;
+  }
 }
-
+    
 /* document.addEventListener("DOMContentLoaded", () => {
   // URLパラメータの処理（先に復元）
   if (location.search.startsWith("?data=")) {
@@ -366,13 +378,31 @@ function decodeData(str) {
   // 初期描画
   renderAll();
   } */
-  document.addEventListener("DOMContentLoaded", () => {
+    
+  /* document.addEventListener("DOMContentLoaded", () => {
   const hasSharedData = location.search.startsWith("?data=");
 
   if (hasSharedData) {
     decodeData(location.search.substring(6));
   } else {
     loadState(); // ← 共有データがない場合のみローカルデータを読み込む
+  }
+
+  renderAll();
+}); */
+document.addEventListener("DOMContentLoaded", () => {
+  const hasSharedData = location.search.startsWith("?data=");
+  let sharedData = null;
+
+  if (hasSharedData) {
+    sharedData = decodeData(location.search.substring(6));
+  }
+
+  if (sharedData && sharedData.characters && sharedData.characters.length > 0) {
+    mergeState(sharedData.characters, characters);
+    mergeState(sharedData.mindsets, mindsets);
+  } else {
+    loadState(); // ← 有効な共有データがない場合のみローカルを読み込む
   }
 
   renderAll();
