@@ -248,7 +248,8 @@ function renderCards(data, containerId, isCharacter = true) {
   container.innerHTML = "";
   data.forEach((item) => {
     if (showOnlyOwned && !item.owned) return; // ← ここが追加ポイント
-
+    if (!item.highlightedMadness) item.highlightedMadness = [];
+    
     const card = document.createElement("div");
     card.className = "card";
     if (item.owned) card.classList.add("owned");
@@ -259,8 +260,8 @@ function renderCards(data, containerId, isCharacter = true) {
   <p>
     Lv.${item.level} ${isCharacter ? `洞察${item.insight}<br>共鳴${item.resonance}` : ""}
     ${item.madness?.length
-      ? `<br>${item.madness.map(type => `
-      <span class="madness-label ${highlightedMadness.includes(type) ? 'madness-highlight' : ''}">${type}</span>
+  ? `<br>${item.madness.map(type => `
+      <span class="madness-label ${item.highlightedMadness?.includes(type) ? 'madness-highlight' : ''}">${type}</span>
     `).join("")}`
   : ""}
   </p>
@@ -337,7 +338,7 @@ ${item.madness?.length
     }
     
 const madnessChecks = document.querySelectorAll("#madnessToggleGroup input[type=checkbox]");
-highlightedMadness = Array.from(madnessChecks)
+item.highlightedMadness = Array.from(madnessChecks)
   .filter(cb => cb.checked)
   .map(cb => cb.value);
     
