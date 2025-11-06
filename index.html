@@ -311,9 +311,9 @@ function openEditModal(item, isCharacter) {
       <label>増幅</label>
       <input type="number" id="editAmplify" value="${item.amplify}" min="0" max="5">
     `}
-    ${item.madness?.length
+${item.madness?.length
   ? `<label>狂想</label>
-     <div class="madness-row">
+     <div id="madnessToggleGroup" class="madness-row">
        ${item.madness.map(type => `
          <div class="madness-item">
            <input type="checkbox" value="${type}" ${highlightedMadness.includes(type) ? "checked" : ""}><br>
