@@ -255,7 +255,7 @@ h2 {
 
 let showOnlyOwned = false;
 
-let highlightedMadness = []; // ← 狂想の種類ごとのON状態を保持
+// let highlightedMadness = []; // ← 狂想の種類ごとのON状態を保持
     
 function renderStars(count) {
   let html = '';
@@ -338,7 +338,7 @@ ${item.madness?.length
      <div id="madnessToggleGroup" class="madness-row">
        ${item.madness.map(type => `
          <div class="madness-item">
-           <input type="checkbox" value="${type}" ${highlightedMadness.includes(type) ? "checked" : ""}><br>
+           <input type="checkbox" value="${type}" ${item.highlightedMadness?.includes(type) ? "checked" : ""}><br>
            <span>${type}</span>
          </div>
        `).join("")}
