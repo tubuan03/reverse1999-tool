@@ -462,12 +462,15 @@ item.selectedDistortion = Array.from(distortionChecks)
   .filter(cb => cb.checked)
   .map(cb => cb.value);
     
-    saveState(); renderAll(); closeModal();
+    saveState(); renderAll();
+    document.getElementById("distortionPanel").classList.remove("active");
+    closeModal();
   };
 }
 function closeModal() {
   document.getElementById("editModal").classList.remove("active");
   document.getElementById("overlay").classList.remove("active");
+  document.getElementById("distortionPanel").classList.remove("active"); // ← 追加
 }
 function saveState() {
   localStorage.setItem("ownedData", JSON.stringify({characters, mindsets}));
