@@ -355,7 +355,7 @@ function decodeData(str) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+/* document.addEventListener("DOMContentLoaded", () => {
   // URLパラメータの処理（先に復元）
   if (location.search.startsWith("?data=")) {
     decodeData(location.search.substring(6));
@@ -365,7 +365,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 初期描画
   renderAll();
+  } */
+  document.addEventListener("DOMContentLoaded", () => {
+  const hasSharedData = location.search.startsWith("?data=");
+
+  if (hasSharedData) {
+    decodeData(location.search.substring(6));
+  } else {
+    loadState(); // ← 共有データがない場合のみローカルデータを読み込む
   }
+
+  renderAll();
+});
 
   // 共有ボタンのイベント登録
 document.getElementById("generateLink").addEventListener("click", async () => {
