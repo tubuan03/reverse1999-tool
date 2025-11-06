@@ -83,7 +83,10 @@ h2 {
   font-weight: bold;
   font-size: 13px;
 }
-
+.madness-highlight {
+  color: #ff6b81; /* 好きな強調色に変更可能 */
+}
+  
 .edit-button {
   position: absolute;
   top: 6px;
@@ -219,6 +222,8 @@ h2 {
 // localStorage.removeItem("ownedData");
 
 let showOnlyOwned = false;
+
+let highlightedMadness = []; // ← 狂想の種類ごとのON状態を保持
     
 function renderStars(count) {
   let html = '';
@@ -240,8 +245,10 @@ function renderCards(data, containerId, isCharacter = true) {
   <h3>${item.name}</h3>
   <p>
     Lv.${item.level} ${isCharacter ? `洞察${item.insight}<br>共鳴${item.resonance}` : ""}
-    ${item.madness && item.madness.length > 0
-  ? `<br><span class="madness-label"> ${item.madness.join("・")}</span>`
+    ${item.madness?.length
+      ? `<br>${item.madness.map(type => `
+      <span class="madness-label ${highlightedMadness.includes(type) ? 'madness-highlight' : ''}">${type}</span>
+    `).join("・")}`
   : ""}
   </p>
   <div class="stars">
@@ -285,15 +292,24 @@ function openEditModal(item, isCharacter) {
       <input type="number" id="editInsight" value="${item.insight}" min="0" max="3">
       <label>共鳴</label>
       <input type="number" id="editResonance" value="${item.resonance}" min="0" max="15">
-      <label>狂想（カンマ区切りで入力）</label>
-      <input type="text" id="editMadness" value="${item.madness ? item.madness.join(',') : ''}">
       <label>塑像</label>
       <input type="number" id="editStatue" value="${item.statue}" min="0" max="5">
     ` : `
       <label>増幅</label>
       <input type="number" id="editAmplify" value="${item.amplify}" min="0" max="5">
     `}
-  `;
+    ${item.madness?.length
+  ? `<label>狂想表示（ONにすると色が変わります）</label>
+     <div id="madnessToggleGroup">
+       ${item.madness.map(type => `
+         <label style="margin-right:8px;">
+           <input type="checkbox" value="${type}" ${highlightedMadness.includes(type) ? "checked" : ""}>
+           ${type}
+         </label>
+       `).join("")}
+     </div>`
+  : ""}
+`;
   modal.classList.add("active");
   overlay.classList.add("active");
   document.getElementById("cancelEdit").onclick = closeModal;
@@ -303,14 +319,15 @@ function openEditModal(item, isCharacter) {
       item.insight = Number(document.getElementById("editInsight").value);
       item.resonance = Number(document.getElementById("editResonance").value);
       item.statue = Number(document.getElementById("editStatue").value);
-      const madnessInput = document.getElementById("editMadness").value;
-      item.madness = madnessInput
-        .split(',')
-        .map(s => s.trim())
-        .filter(s => s.length > 0);
     } else {
       item.amplify = Number(document.getElementById("editAmplify").value);
     }
+    
+const madnessChecks = document.querySelectorAll("#madnessToggleGroup input[type=checkbox]");
+highlightedMadness = Array.from(madnessChecks)
+  .filter(cb => cb.checked)
+  .map(cb => cb.value);
+    
     saveState(); renderAll(); closeModal();
   };
 }
