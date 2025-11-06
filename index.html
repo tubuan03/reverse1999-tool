@@ -79,7 +79,7 @@ h2 {
 .madness-label {
   display: inline-block;
   margin-top: 4px;
-  color: #fbc531;
+  color: #555;
   font-weight: bold;
   font-size: 13px;
 }
@@ -299,7 +299,7 @@ function openEditModal(item, isCharacter) {
       <input type="number" id="editAmplify" value="${item.amplify}" min="0" max="5">
     `}
     ${item.madness?.length
-  ? `<label>狂想表示（ONにすると色が変わります）</label>
+  ? `<label>狂想</label>
      <div id="madnessToggleGroup">
        ${item.madness.map(type => `
          <label style="margin-right:8px;">
