@@ -36,7 +36,7 @@ const characters = [
   {name: "6", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/six.png"},
   {name: "37", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/thirtyseven.png"},
   {name: "シャーマィン", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/shamane.png"},
-  {name: "カーラ･ボナー", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/Blackdwarf.png"},
+  {name: "カーラ･ボナー", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/BlackDwarf.png"},
   {name: "ジェシカ", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/changeling.png"},
   {name: "トゥースフェアリー", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/tooth.png"},
   {name: "ピクルス", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/Pickles.png"},
