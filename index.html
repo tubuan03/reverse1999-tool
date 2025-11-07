@@ -311,6 +311,7 @@ h2 {
 
 <div id="distortionPanel" class="distortion-panel">
   <h3>変調一覧</h3>
+  <button id="closeDistortion" style="float:right;">✖</button>
   <div id="distortionList"></div>
 </div>
   
@@ -584,6 +585,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 console.log("characters:", characters);
   renderAll();
+
+document.getElementById("closeDistortion")?.addEventListener("click", () => {
+    document.getElementById("distortionPanel").classList.remove("active");
+  });
 });
 
   // 共有ボタンのイベント登録
