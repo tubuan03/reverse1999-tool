@@ -492,7 +492,8 @@ function closeModal() {
   document.getElementById("distortionPanel").classList.remove("active"); // ← 追加
 }
 function saveState() {
-  localStorage.setItem("ownedData", JSON.stringify({characters, mindsets}));
+  if (isSharedView) return; // 共有URLから開いた場合は保存しない
+  localStorage.setItem("ownedData", JSON.stringify({ characters, mindsets }));
 }
 function loadState() {
   const saved = JSON.parse(localStorage.getItem("ownedData") || "{}");
