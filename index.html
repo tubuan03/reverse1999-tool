@@ -494,10 +494,13 @@ item.highlightedMadness = Array.from(madnessChecks)
   .filter(cb => cb.checked)
   .map(cb => cb.value);
 
-const distortionChecks = document.querySelectorAll("#distortionList input[type=checkbox]");
-item.selectedDistortion = Array.from(distortionChecks)
-  .filter(cb => cb.checked)
-  .map(cb => cb.value);
+const distortionList = document.getElementById("distortionList");
+if (distortionList) {
+  const distortionChecks = distortionList.querySelectorAll("input[type=checkbox]");
+  item.selectedDistortion = Array.from(distortionChecks)
+    .filter(cb => cb.checked)
+    .map(cb => cb.value);
+}
     
     saveState(); renderAll();
     document.getElementById("distortionPanel").classList.remove("active");
