@@ -455,12 +455,13 @@ if (toggleButton) {
     ];
 
     const list = document.getElementById("distortionList");
-    list.innerHTML = distortionTypes.map(type => `
-      <label>
-        <input type="checkbox" value="${type}" ${item.selectedDistortion?.includes(type) ? "checked" : ""}>
-        ${type}
-      </label>
-    `).join("<br>");
+list.dataset.owner = item.name;
+list.innerHTML = distortionTypes.map(type => `
+  <label>
+    <input type="checkbox" value="${type}" ${item.selectedDistortion?.includes(type) ? "checked" : ""}>
+    ${type}
+  </label>
+`).join("<br>");
 
     const checkboxes = list.querySelectorAll("input[type=checkbox]");
     checkboxes.forEach(cb => {
@@ -495,7 +496,7 @@ item.highlightedMadness = Array.from(madnessChecks)
   .map(cb => cb.value);
 
 const distortionList = document.getElementById("distortionList");
-if (distortionList) {
+if (distortionList?.dataset.owner === item.name) {
   const distortionChecks = distortionList.querySelectorAll("input[type=checkbox]");
   item.selectedDistortion = Array.from(distortionChecks)
     .filter(cb => cb.checked)
@@ -510,7 +511,12 @@ if (distortionList) {
 function closeModal() {
   document.getElementById("editModal").classList.remove("active");
   document.getElementById("overlay").classList.remove("active");
-  document.getElementById("distortionPanel").classList.remove("active"); // ← 追加
+  document.getElementById("distortionPanel").classList.remove("active");
+  const list = document.getElementById("distortionList");
+  if (list) {
+    list.innerHTML = "";
+    delete list.dataset.owner;
+  }
 }
 function saveState() {
   if (isSharedView) return; // 共有URLから開いた場合は保存しない
