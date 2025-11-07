@@ -406,41 +406,42 @@ ${item.madness?.length
 `;
   modal.classList.add("active");
   overlay.classList.add("active");
-    document.getElementById("toggleDistortionPanel").onclick = () => {
-  const panel = document.getElementById("distortionPanel");
-     panel.classList.toggle("active");
+  const toggleButton = document.getElementById("toggleDistortionPanel");
+if (toggleButton) {
+  toggleButton.onclick = () => {
+    const panel = document.getElementById("distortionPanel");
+    panel.classList.toggle("active");
 
-  const distortionTypes = [
-  "通暁", "誠実", "亢奮", "鼓舞", "希望", "慈悲",
-  "満足", "鎮静", "節制", "一意専心", "奇想天外", "無我夢中",
-  "泰然自若", "均衡調和", "❖ 全部 ❖", 
-];
+    const distortionTypes = [
+      "通暁", "誠実", "亢奮", "鼓舞", "希望", "慈悲",
+      "満足", "鎮静", "節制", "一意専心", "奇想天外", "無我夢中",
+      "泰然自若", "均衡調和", "❖ 全部 ❖",
+    ];
 
-  const list = document.getElementById("distortionList");
-     list.innerHTML = distortionTypes.map(type => `
-    <label>
-      <input type="checkbox" value="${type}" ${item.selectedDistortion?.includes(type) ? "checked" : ""}>
-      ${type}
-    </label>
-  `).join("<br>");
-// list.innerHTML = item.distortion.map(type => `
-const checkboxes = list.querySelectorAll("input[type=checkbox]");
-checkboxes.forEach(cb => {
-  cb.addEventListener("change", () => {
-    if (cb.value === "全部！" && cb.checked) {
-      // 「全部！」が選ばれた → 他を外す
-      checkboxes.forEach(other => {
-        if (other.value !== "全部！") other.checked = false;
+    const list = document.getElementById("distortionList");
+    list.innerHTML = distortionTypes.map(type => `
+      <label>
+        <input type="checkbox" value="${type}" ${item.selectedDistortion?.includes(type) ? "checked" : ""}>
+        ${type}
+      </label>
+    `).join("<br>");
+
+    const checkboxes = list.querySelectorAll("input[type=checkbox]");
+    checkboxes.forEach(cb => {
+      cb.addEventListener("change", () => {
+        if (cb.value === "全部！" && cb.checked) {
+          checkboxes.forEach(other => {
+            if (other.value !== "全部！") other.checked = false;
+          });
+        } else if (cb.value !== "全部！" && cb.checked) {
+          checkboxes.forEach(other => {
+            if (other.value === "全部！") other.checked = false;
+          });
+        }
       });
-    } else if (cb.value !== "全部！" && cb.checked) {
-      // 他が選ばれた → 「全部！」を外す
-      checkboxes.forEach(other => {
-        if (other.value === "全部！") other.checked = false;
-      });
-    }
-  });
-});    
-};  
+    });
+  };
+}
   document.getElementById("cancelEdit").onclick = closeModal;
   document.getElementById("saveEdit").onclick = () => {
     item.level = Number(document.getElementById("editLevel").value);
