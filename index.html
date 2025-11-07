@@ -570,6 +570,8 @@ function decodeData(str) {
     return null;
   }
 }
+
+let isSharedView = false;
     
 document.addEventListener("DOMContentLoaded", () => {
   const hasSharedData = location.search.startsWith("?data=");
@@ -577,16 +579,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (hasSharedData) {
     sharedData = decodeData(location.search.substring(6));
+    isSharedView = true;
   }
 
   if (sharedData && sharedData.characters && sharedData.characters.length > 0) {
     mergeState(sharedData.characters, characters);
     mergeState(sharedData.mindsets, mindsets);
   } else {
-    loadState(); // ← 有効な共有データがない場合のみローカルを読み込む
+    loadState();
   }
-console.log("characters:", characters);
+
   renderAll();
+
 
 document.getElementById("closeDistortion")?.addEventListener("click", () => {
     document.getElementById("distortionPanel").classList.remove("active");
