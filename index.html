@@ -574,11 +574,15 @@ document.querySelectorAll(".level-buttons button").forEach(btn => {
   });
 });
 
+if (isCharacter) {
   const resonanceSlider = document.getElementById("editResonance");
-const resonanceDisplay = document.getElementById("resonanceValue");
-resonanceSlider.addEventListener("input", () => {
-  resonanceDisplay.textContent = resonanceSlider.value;
-});
+  const resonanceDisplay = document.getElementById("resonanceValue");
+  if (resonanceSlider && resonanceDisplay) {
+    resonanceSlider.addEventListener("input", () => {
+      resonanceDisplay.textContent = resonanceSlider.value;
+    });
+  }
+}
   
   const toggleButton = document.getElementById("toggleDistortionPanel");
 if (toggleButton) {
