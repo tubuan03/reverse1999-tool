@@ -647,9 +647,9 @@ fields.querySelectorAll('.radio-group').forEach(group => {
     const statueInput = document.querySelector("input[name=statue]:checked");
     if (statueInput) item.statue = Number(statueInput.value);
   } else {
-    const amplifyInput = document.querySelector("input[name=amplify]:checked");
-    if (amplifyInput) item.amplify = Number(amplifyInput.value);
-  }
+  const amplifyInput = fields.querySelector("input[name=amplify]:checked");
+  if (amplifyInput) item.amplify = Number(amplifyInput.value);
+}
   
 const madnessChecks = document.querySelectorAll("#madnessToggleGroup input[type=checkbox]");
 item.highlightedMadness = Array.from(madnessChecks)
