@@ -178,6 +178,75 @@ h2 {
   color: #111;
 }
 
+.level-buttons {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.soft-btn {
+  padding: 5px 10px;
+  background: #444;
+  color: #eee;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.soft-btn:hover {
+  background: #fbc531;
+  color: #111;
+}
+
+.radio-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  justify-content: center;
+}
+
+.soft-radio {
+  width: 36px;
+  height: 36px;
+  background: #444;
+  color: #eee;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  position: relative;
+}
+.soft-radio:hover {
+  background: #fbc531;
+  color: #111;
+}
+.soft-radio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.soft-radio input[type="radio"]:checked + span {
+  color: #fbc531;
+}
+
+  .slider-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+input[type="range"] {
+  flex: 1;
+  accent-color: #fbc531; /* スライダーのつまみ色 */
+}
+  
 .madness-row {
   display: flex;
   gap: 16px;
@@ -415,18 +484,47 @@ function openEditModal(item, isCharacter) {
   document.getElementById("editTitle").textContent = `${item.name} の編集`;
   fields.innerHTML = `
     <label>レベル</label>
-    <input type="number" id="editLevel" value="${item.level}" min="1" max="60">
+<div class="level-buttons">
+  <button class="soft-btn" data-delta="-10">-10</button>
+  <button class="soft-btn" data-delta="-1">-1</button>
+  <input type="number" id="editLevel" value="${item.level}" min="1" max="60">
+  <button class="soft-btn" data-delta="1">+1</button>
+  <button class="soft-btn" data-delta="10">+10</button>
+</div>
     ${isCharacter ? `
       <label>洞察</label>
-      <input type="number" id="editInsight" value="${item.insight}" min="0" max="3">
+<div class="radio-group" id="insightGroup">
+  ${[0, 1, 2, 3].map(val => `
+    <label class="soft-radio">
+      <input type="radio" name="insight" value="${val}" ${item.insight === val ? "checked" : ""}>
+      <span>${val}</span>
+    </label>
+  `).join("")}
+</div>
       <label>共鳴</label>
-      <input type="number" id="editResonance" value="${item.resonance}" min="0" max="15">
-      <button id="toggleDistortionPanel" class="distortion-toggle-btn">変調を表示</button>
+<div class="slider-group">
+  <input type="range" id="editResonance" min="1" max="15" step="1" value="${item.resonance}">
+  <span id="resonanceValue">${item.resonance}</span>
+</div>
       <label>塑像</label>
-      <input type="number" id="editStatue" value="${item.statue}" min="0" max="5">
+<div class="radio-group" id="statueGroup">
+  ${[0, 1, 2, 3, 4, 5].map(val => `
+    <label class="soft-radio">
+      <input type="radio" name="statue" value="${val}" ${item.statue === val ? "checked" : ""}>
+      <span>${val}</span>
+    </label>
+  `).join("")}
+</div>
     ` : `
       <label>増幅</label>
-      <input type="number" id="editAmplify" value="${item.amplify}" min="0" max="5">
+<div class="radio-group" id="amplifyGroup">
+  ${[0, 1, 2, 3, 4, 5].map(val => `
+    <label class="soft-radio">
+      <input type="radio" name="amplify" value="${val}" ${item.amplify === val ? "checked" : ""}>
+      <span>${val}</span>
+    </label>
+  `).join("")}
+</div>
     `}
 ${item.madness?.length
   ? `<label>狂想</label>
@@ -442,6 +540,22 @@ ${item.madness?.length
 `;
   modal.classList.add("active");
   overlay.classList.add("active");
+
+document.querySelectorAll(".level-buttons button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const input = document.getElementById("editLevel");
+    const delta = Number(btn.dataset.delta);
+    let newVal = Math.min(60, Math.max(1, Number(input.value) + delta));
+    input.value = newVal;
+  });
+});
+
+  const resonanceSlider = document.getElementById("editResonance");
+const resonanceDisplay = document.getElementById("resonanceValue");
+resonanceSlider.addEventListener("input", () => {
+  resonanceDisplay.textContent = resonanceSlider.value;
+});
+  
   const toggleButton = document.getElementById("toggleDistortionPanel");
 if (toggleButton) {
   toggleButton.onclick = () => {
@@ -481,15 +595,21 @@ list.innerHTML = distortionTypes.map(type => `
 }
   document.getElementById("cancelEdit").onclick = closeModal;
   document.getElementById("saveEdit").onclick = () => {
-    item.level = Number(document.getElementById("editLevel").value);
-    if (isCharacter) {
-      item.insight = Number(document.getElementById("editInsight").value);
-      item.resonance = Number(document.getElementById("editResonance").value);
-      item.statue = Number(document.getElementById("editStatue").value);
-    } else {
-      item.amplify = Number(document.getElementById("editAmplify").value);
-    }
-   
+  item.level = Number(document.getElementById("editLevel").value);
+
+  if (isCharacter) {
+    const insightInput = document.querySelector("input[name=insight]:checked");
+    if (insightInput) item.insight = Number(insightInput.value);
+
+    item.resonance = Number(document.getElementById("editResonance").value);
+
+    const statueInput = document.querySelector("input[name=statue]:checked");
+    if (statueInput) item.statue = Number(statueInput.value);
+  } else {
+    const amplifyInput = document.querySelector("input[name=amplify]:checked");
+    if (amplifyInput) item.amplify = Number(amplifyInput.value);
+  }
+  
 const madnessChecks = document.querySelectorAll("#madnessToggleGroup input[type=checkbox]");
 item.highlightedMadness = Array.from(madnessChecks)
   .filter(cb => cb.checked)
