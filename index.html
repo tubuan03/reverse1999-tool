@@ -240,7 +240,7 @@ h2 {
   z-index: -1;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); */
 .soft-radio.selected {
-  background: #1a1a1a !important;
+  background: #212121 !important;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
   color: #fbc531 !important;
 }
@@ -464,8 +464,8 @@ function renderCards(data, containerId, isCharacter = true) {
   ${isCharacter && item.selectedDistortion?.length
   ? `<div class="distortion-group">
       ${
-        item.selectedDistortion.includes("全部！")
-          ? `<span class="distortion-label">全部！</span>`
+        item.selectedDistortion.includes("❖ 全部 ❖")
+          ? `<span class="distortion-label">❖ 全部 ❖</span>`
           : item.selectedDistortion.map(type => `
               <span class="distortion-label">${type}</span>
             `).join("")
@@ -604,13 +604,13 @@ list.innerHTML = distortionTypes.map(type => `
     const checkboxes = list.querySelectorAll("input[type=checkbox]");
     checkboxes.forEach(cb => {
       cb.addEventListener("change", () => {
-        if (cb.value === "全部！" && cb.checked) {
+        if (cb.value === "❖ 全部 ❖" && cb.checked) {
           checkboxes.forEach(other => {
-            if (other.value !== "全部！") other.checked = false;
+            if (other.value !== "❖ 全部 ❖") other.checked = false;
           });
-        } else if (cb.value !== "全部！" && cb.checked) {
+        } else if (cb.value !== "❖ 全部 ❖" && cb.checked) {
           checkboxes.forEach(other => {
-            if (other.value === "全部！") other.checked = false;
+            if (other.value === "❖ 全部 ❖") other.checked = false;
           });
         }
       });
@@ -618,17 +618,19 @@ list.innerHTML = distortionTypes.map(type => `
   };
 }
 
-// ラジオボタンの選択状態に応じて .selected クラスを付与
-fields.querySelectorAll('.soft-radio input[type="radio"]').forEach(radio => {
-  if (radio.checked) {
-    radio.closest('.soft-radio').classList.add('selected');
-  }
-
-  radio.addEventListener('change', () => {
-    fields.querySelectorAll('.soft-radio').forEach(el => el.classList.remove('selected'));
+fields.querySelectorAll('.radio-group').forEach(group => {
+  const radios = group.querySelectorAll('input[type="radio"]');
+  radios.forEach(radio => {
     if (radio.checked) {
       radio.closest('.soft-radio').classList.add('selected');
     }
+
+    radio.addEventListener('change', () => {
+      group.querySelectorAll('.soft-radio').forEach(el => el.classList.remove('selected'));
+      if (radio.checked) {
+        radio.closest('.soft-radio').classList.add('selected');
+      }
+    });
   });
 });
   
