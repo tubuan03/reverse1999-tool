@@ -240,9 +240,9 @@ h2 {
   z-index: -1;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); */
 .soft-radio.selected {
-  background: #1a1a1a;
+  background: #1a1a1a !important;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
-  color: #fbc531;
+  color: #fbc531 !important;
 }
    
 .soft-radio input[type="radio"]:checked + span {
@@ -617,6 +617,21 @@ list.innerHTML = distortionTypes.map(type => `
     });
   };
 }
+
+// ラジオボタンの選択状態に応じて .selected クラスを付与
+fields.querySelectorAll('.soft-radio input[type="radio"]').forEach(radio => {
+  if (radio.checked) {
+    radio.closest('.soft-radio').classList.add('selected');
+  }
+
+  radio.addEventListener('change', () => {
+    fields.querySelectorAll('.soft-radio').forEach(el => el.classList.remove('selected'));
+    if (radio.checked) {
+      radio.closest('.soft-radio').classList.add('selected');
+    }
+  });
+});
+  
   document.getElementById("cancelEdit").onclick = closeModal;
   document.getElementById("saveEdit").onclick = () => {
   item.level = Number(document.getElementById("editLevel").value);
