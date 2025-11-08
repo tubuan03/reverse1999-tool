@@ -494,12 +494,12 @@ function openEditModal(item, isCharacter) {
     ${isCharacter ? `
 <label>洞察</label>
 <div class="radio-group" id="insightGroup">
-${[0, 1, 2, 3].map(val => `
-<label class="soft-radio">
-<input type="radio" name="insight" value="${val}" ${item.insight === val ? "checked" : ""}>
-<span>${val}</span>
-</label>
-`).join("")}
+  ${[0, 1, 2, 3].map(val => `
+    <label class="soft-radio">
+      <input type="radio" name="insight" value="${val}" ${item.insight === val ? "checked" : ""}>
+      <span>${val}</span>
+    </label>
+  `.trim()).join("")}
 </div>
       <label>共鳴</label>
 <div class="slider-group">
