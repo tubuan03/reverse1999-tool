@@ -231,6 +231,15 @@ h2 {
   opacity: 0;
   pointer-events: none;
 }
+.soft-radio input[type="radio"]:checked + span::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #222; /* 沈んだような暗い色 */
+  border-radius: 50%;
+  z-index: -1;
+}
+   
 .soft-radio input[type="radio"]:checked + span {
   color: #fbc531;
 }
@@ -241,6 +250,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative; /* 背景との重なり制御 */
 }
   
 .slider-group {
