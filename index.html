@@ -657,6 +657,7 @@ let selectedMindset = item.selectedMindset;
           <span>${ms.name}</span>
         </div>
       `).join("");
+  } 
 
     function updateMindsetSelectionUI() {
       mindsetList.querySelectorAll(".mindset-card").forEach(card => {
@@ -697,6 +698,7 @@ list.innerHTML = distortionTypes.map(type => `
     ${type}
   </label>
 `).join("<br>");
+      };
 
     const checkboxes = list.querySelectorAll("input[type=checkbox]");
     checkboxes.forEach(cb => {
@@ -880,8 +882,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (isSharedView) {
     document.getElementById("sharedNotice").style.display = "block";
-}
-
+  }
+  
 document.getElementById("closeDistortion")?.addEventListener("click", () => {
     document.getElementById("distortionPanel").classList.remove("active");
   });
