@@ -270,17 +270,6 @@ input[type="range"] {
   flex: 1;
   accent-color: #fbb831; /* スライダーのつまみ色 */
 }
-
-.option-buttons {
-  display: flex;
-  gap: 12px; /* ← ボタン間の余白を調整 */
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-
-.option-buttons button {
-  flex-shrink: 0;
-}
   
 .madness-row {
   display: flex;
@@ -379,50 +368,6 @@ input[type="range"] {
     box-shadow: 0 4px 20px rgba(0,0,0,0.7);
     z-index: 1001;
   }
-.mindset-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.mindset-card {
-  width: 80px;
-  border: 2px solid transparent;
-  border-radius: 6px;
-  padding: 4px;
-  text-align: center;
-  cursor: pointer;
-  transition: border 0.2s ease;
-  background: #f9f9f9;
-}
-
-.mindset-card.selected {
-  border-color: #f39c12;
-  background-color: #fffbe6;
-}
-
-.mindset-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-}
-
-.char-mindset {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 50%;
-  border: 2px solid #aaa;
-  border-radius: 6px;
-  background: #fff;
-  padding: 2px;
-}
-
-.mindset-icon {
-  width: 100%;
-  height: auto;
-  display: block;
 }
 
 .shared-notice {
@@ -516,11 +461,6 @@ function renderCards(data, containerId, isCharacter = true) {
   <p>
     Lv.${item.level} ${isCharacter ? `洞察${item.insight}<br>共鳴${item.resonance}` : ""}
   </p>
-  ${isCharacter && item.selectedMindset ? `
-  <div class="char-mindset">
-    <img src="${mindsets.find(m => m.name === item.selectedMindset)?.img}" class="mindset-icon">
-  </div>
-` : ""}
   ${isCharacter && item.selectedDistortion?.length
   ? `<div class="distortion-group">
       ${
@@ -562,8 +502,6 @@ function renderCards(data, containerId, isCharacter = true) {
   });
 }
 function openEditModal(item, isCharacter) {
-  let selectedMindset = item.selectedMindset;
-  const mindsetList = document.getElementById("mindsetList");
   const modal = document.getElementById("editModal");
   const overlay = document.getElementById("overlay");
   const fields = document.getElementById("editFields");
@@ -592,10 +530,7 @@ function openEditModal(item, isCharacter) {
   <input type="range" id="editResonance" min="1" max="15" step="1" value="${item.resonance}">
   <span id="resonanceValue">${item.resonance}</span>
 </div>
-  <div class="option-buttons">
   <button id="toggleDistortionPanel" class="distortion-toggle-btn">変調を表示</button>
-  <button id="toggleMindsetPanel" class="mindset-toggle-btn">心相を選択</button>
-</div>
       <label>塑像</label>
 <div class="radio-group" id="statueGroup">
   ${[0, 1, 2, 3, 4, 5].map(val => `
@@ -647,37 +582,9 @@ if (isCharacter) {
     resonanceSlider.addEventListener("input", () => {
       resonanceDisplay.textContent = resonanceSlider.value;
     });
-  }  
-    
-    mindsetList.innerHTML = mindsets
-      .filter(ms => ms.owned)
-      .map(ms => `
-        <div class="mindset-card" data-name="${ms.name}">
-          <img src="${ms.img}" alt="${ms.name}">
-          <span>${ms.name}</span>
-        </div>
-      `).join("");
-  } 
-
-    function updateMindsetSelectionUI() {
-      mindsetList.querySelectorAll(".mindset-card").forEach(card => {
-        card.classList.toggle("selected", card.dataset.name === selectedMindset);
-      });
-    }
-    updateMindsetSelectionUI();
-
-    mindsetList.querySelectorAll(".mindset-card").forEach(card => {
-      card.addEventListener("click", () => {
-        const name = card.dataset.name;
-        selectedMindset = (selectedMindset === name) ? null : name;
-        updateMindsetSelectionUI();
-      });
-    });
-
-    document.getElementById("toggleMindsetPanel").onclick = () => {
-      mindsetList.style.display = (mindsetList.style.display === "none") ? "block" : "none";
-    };
-
+  }
+}
+  
   const toggleButton = document.getElementById("toggleDistortionPanel");
 if (toggleButton) {
   toggleButton.onclick = () => {
@@ -698,7 +605,6 @@ list.innerHTML = distortionTypes.map(type => `
     ${type}
   </label>
 `).join("<br>");
-      };
 
     const checkboxes = list.querySelectorAll("input[type=checkbox]");
     checkboxes.forEach(cb => {
@@ -745,7 +651,6 @@ fields.querySelectorAll('.radio-group').forEach(group => {
 
     const statueInput = document.querySelector("input[name=statue]:checked");
     if (statueInput) item.statue = Number(statueInput.value);
-    item.selectedMindset = selectedMindset;
   } else {
   const amplifyInput = fields.querySelector("input[name=amplify]:checked");
   if (amplifyInput) item.amplify = Number(amplifyInput.value);
@@ -767,7 +672,8 @@ if (distortionList?.dataset.owner === item.name) {
     saveState(); renderAll();
     document.getElementById("distortionPanel").classList.remove("active");
     closeModal();
-
+  };
+}
 function closeModal() {
   document.getElementById("editModal").classList.remove("active");
   document.getElementById("overlay").classList.remove("active");
@@ -881,8 +787,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (isSharedView) {
     document.getElementById("sharedNotice").style.display = "block";
-  }
-  
+}
+
 document.getElementById("closeDistortion")?.addEventListener("click", () => {
     document.getElementById("distortionPanel").classList.remove("active");
   });
