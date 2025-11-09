@@ -463,10 +463,10 @@
       }
 
       .mindset-card.selected {
-        border-color: #007bff;
+        border-color: #ff8800;
         background-color: #eef;
         transform: scale(1.03);
-        transition: transform 0.06s ease-out;
+        transition: transform 0.04s ease-out;
       }
 
       .selected-mindset {
@@ -1017,6 +1017,7 @@ ${
             madness: c.madness,
             highlightedMadness: c.highlightedMadness || [],
             selectedDistortion: c.selectedDistortion || [],
+            selectedMindset: c.selectedMindset || null,
             img: c.img,
             owned: true,
           }));
