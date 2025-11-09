@@ -868,11 +868,18 @@ document.addEventListener("DOMContentLoaded", () => {
   if (hasSharedData) {
     sharedData = decodeData(location.search.substring(6));
     isSharedView = true;
+
+console.log("sharedData:", sharedData);
+console.log("characters after merge:", characters);
+console.log("mindsets after merge:", mindsets);
   }
 
   if (sharedData && sharedData.characters && sharedData.characters.length > 0) {
     mergeState(sharedData.characters, characters);
     mergeState(sharedData.mindsets, mindsets);
+
+    console.log("characters after merge:", characters);
+  console.log("mindsets after merge:", mindsets);
   } else {
     loadState();
   }
