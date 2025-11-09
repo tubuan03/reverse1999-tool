@@ -530,6 +530,7 @@ function openEditModal(item, isCharacter) {
   <input type="range" id="editResonance" min="1" max="15" step="1" value="${item.resonance}">
   <span id="resonanceValue">${item.resonance}</span>
 </div>
+  <button id="toggleDistortionPanel" class="distortion-toggle-btn">変調を表示</button>
       <label>塑像</label>
 <div class="radio-group" id="statueGroup">
   ${[0, 1, 2, 3, 4, 5].map(val => `
