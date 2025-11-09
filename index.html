@@ -344,6 +344,11 @@
       .share-btn:hover {
         background: #ffdc75;
       }
+
+      .share-btn:active {
+        transform: scale(0.98);
+      }
+
       .share-link {
         text-align: center;
         color: #fbc531;
@@ -414,11 +419,12 @@
       }
 
       #toggleMindsetPanel {
-        padding: 6px 12px;
+        margin-top: 12px;
+        background: #555;
+        color: #fff;
         border: none;
-        border-radius: 8px; /* ✅ 角を丸く */
-        background-color: #555;
-        font-size: 14px;
+        padding: 6px 10px;
+        border-radius: 6px;
         cursor: pointer;
         transition: background-color 0.2s ease, transform 0.2s ease;
       }
