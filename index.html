@@ -399,6 +399,13 @@
         background: #fbc531;
         color: #111;
       }
+
+      @media (hover: none) {
+        .distortion-toggle-btn:hover {
+          background-color: inherit;
+        }
+      }
+
       .distortion-toggle-btn:active {
         transform: scale(0.98); /* ✅ 押し込まれる感触 */
       }
@@ -420,8 +427,14 @@
 
       .mindset-spacer {
         height: max(21px, 1.3125em);
-        /*  height: clamp(18px, 2em, 21px);*/
-}
+        /* height: 21px; /* 狂想の高さに合わせて調整 */
+      }
+
+      /*  @media (min-width: 600px) {
+        .mindset-spacer {
+          height: 21px;
+        }
+      } */
 
       #toggleMindsetPanel {
         margin-top: 12px;
@@ -436,7 +449,14 @@
 
       #toggleMindsetPanel:hover {
         background-color: #fbc531;
+        color: #111;
         /*  transform: scale(1.02); /* ✅ ふわっと浮く感触  */
+      }
+
+      @media (hover: none) {
+        #toggleMindsetPanel:hover {
+          background-color: inherit;
+        }
       }
 
       #toggleMindsetPanel:active {
@@ -452,7 +472,8 @@
         ); /* grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); */
         gap: 12px;
         margin-top: 8px;
-        max-height: 200px;
+        max-height: clamp(160px, 50vh, 200px);
+        /* max-height: 200px; */
         overflow-y: auto;
         padding: 4px;
       }
