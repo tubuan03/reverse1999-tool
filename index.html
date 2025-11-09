@@ -1,512 +1,687 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>リバース1999 所持キャラ＆心相一覧</title>
-<style>
-body {
-  font-family: "Segoe UI", "Hiragino Sans", sans-serif;
-  background: #1a1a1a;
-  margin: 0;
-  padding: 20px;
-  color: #eee;
-}
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>リバース1999 所持キャラ＆心相一覧</title>
+    <style>
+      body {
+        font-family: "Segoe UI", "Hiragino Sans", sans-serif;
+        background: #1a1a1a;
+        margin: 0;
+        padding: 20px;
+        color: #eee;
+      }
 
-h1 {
-  text-align: center;
-  margin-bottom: 30px;
-  color: #fbc531;
-}
-h2 {
-  color: #ddd;
-  border-left: 4px solid #fbc531;
-  padding-left: 8px;
-  margin-bottom: 16px;
-}
-.section {
-  margin-bottom: 50px;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  grid-auto-rows: 1fr; /* ← これで高さを揃える */
-  gap: 24px;
-  max-width: 85vw; /* ← 画面幅の75%に制限 */
-  margin: 0 auto;  /* ← 中央寄せ */
-}
-.card {
-  position: relative;
-  background: #2a2a2a;
-  border-radius: 10px;
-  text-align: center;
-  padding: 10px;
-  transition: all 0.25s ease;
-  cursor: pointer;
-  color: #f0f0f0;
-  opacity: 0.4;
-  filter: grayscale(60%);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* 上下に分散配置 */
-  height: 100%; /* 高さを固定する場合は指定 */
-}
-.card img {
-  width: 100%;
-  aspect-ratio: 1 / 1; /* 正方形を維持 */
-  object-fit: cover;   /* はみ出しをトリミング */
-  border-radius: 8px;
-}
-/*.card h3 {
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #fbc531;
+      }
+      h2 {
+        color: #ddd;
+        border-left: 4px solid #fbc531;
+        padding-left: 8px;
+        margin-bottom: 16px;
+      }
+      .section {
+        margin-bottom: 50px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        grid-auto-rows: 1fr; /* ← これで高さを揃える */
+        gap: 24px;
+        max-width: 85vw; /* ← 画面幅の75%に制限 */
+        margin: 0 auto; /* ← 中央寄せ */
+      }
+      .card {
+        position: relative;
+        background: #2a2a2a;
+        border-radius: 10px;
+        text-align: center;
+        padding: 10px;
+        transition: all 0.25s ease;
+        cursor: pointer;
+        color: #f0f0f0;
+        opacity: 0.4;
+        filter: grayscale(60%);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* 上下に分散配置 */
+        height: 100%; /* 高さを固定する場合は指定 */
+      }
+      .card img {
+        width: 100%;
+        aspect-ratio: 1 / 1; /* 正方形を維持 */
+        object-fit: cover; /* はみ出しをトリミング */
+        border-radius: 8px;
+      }
+      /*.card h3 {
   margin: 8px 0 4px;
   font-size: 16px; */
-.card h3 {
-  margin: 8px 0 4px;
-  font-size: clamp(12px, 4vw, 16px); /* ← 画面幅に応じて縮小 */
-  white-space: normal; /* 改行 nowrap */
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.card p {
-  font-size: 14px;
-  color: #ccc;
-  margin: 0;
-}
-.card.owned {
-  opacity: 1;
-  filter: none;
-  border: 1px solid #F99931;
-  box-shadow: 0 0 14px rgba(251,197,49,0.6);
-  background: linear-gradient(145deg, #2d250f, #3b320f);
-}
+      .card h3 {
+        margin: 8px 0 4px;
+        font-size: clamp(12px, 4vw, 16px); /* ← 画面幅に応じて縮小 */
+        white-space: normal; /* 改行 nowrap */
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .card p {
+        font-size: 14px;
+        color: #ccc;
+        margin: 0;
+      }
+      .card.owned {
+        opacity: 1;
+        filter: none;
+        border: 1px solid #f99931;
+        box-shadow: 0 0 14px rgba(251, 197, 49, 0.6);
+        background: linear-gradient(145deg, #2d250f, #3b320f);
+      }
 
-.madness-group {
-  text-align: center;
-  margin-bottom: 4px;
-}
-  
-.card-footer {
-  margin-top: auto; /* ← これで狂想＋星を下に押し込む */
-  text-align: center;
-}
+      .madness-group {
+        text-align: center;
+        margin-bottom: 4px;
+      }
 
-.card .stars {
-  margin-top: 0; /* 一番下に押し出す */
-}
-  
-.madness-label {
-  display: inline-block;
-  margin: 0 2px;
-  font-size: 13px;
-  font-weight: bold;
-  color: #555;
-}
+      .card-footer {
+        margin-top: auto; /* ← これで狂想＋星を下に押し込む */
+        text-align: center;
+      }
 
-.madness-highlight {
-  color: #ffde73; /* 好きな強調色に変更可能 */
-}
+      .card .stars {
+        margin-top: 0; /* 一番下に押し出す */
+      }
 
-.distortion-group {
-  text-align: center;
-  margin: 4px 0;
-}
+      .madness-label {
+        display: inline-block;
+        margin: 0 2px;
+        font-size: 13px;
+        font-weight: bold;
+        color: #555;
+      }
 
-.distortion-label {
-  display: inline-block;
-  margin: 0 2px;
-  font-size: 13px;
-  font-weight: normal;
-  color: #ccc; /* 差別化 */
-}  
-  
-.edit-button {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  background: #555;
-  border: none;
-  border-radius: 5px;
-  font-size: 12px;
-  padding: 3px 6px;
-  cursor: pointer;
-  color: #fff;
-  transition: background 0.2s;
-}
-.edit-button:hover {
-  background: #fbc531;
-  color: #111;
-}
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #2a2a2a;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.7);
-  padding: 20px;
-  z-index: 1000;
-  display: none;
-  width: 280px;
-  color: #eee;
-}
-.modal.active { display: block; }
-.modal h2 { margin-top: 0; color: #fbc531; }
-.modal label { display: block; margin: 8px 0 4px; }
-.modal input {
-  width: 100%;
-  padding: 4px;
-  background: #1a1a1a;
-  color: #eee;
-  border: 1px solid #444;
-  border-radius: 4px;
-}
-.star { color: #555; font-size: 16px; }
-.star.filled { color: #f77031; }
-.modal-buttons { text-align: right; margin-top: 24px; }
-.modal-buttons button {
-  margin-left: 8px;
-  padding: 5px 10px;
-  background: #444;
-  color: #eee;
-  border: none;
-  border-radius: 5px;
-}
-.modal-buttons button:hover {
-  background: #fbc531;
-  color: #111;
-}
+      .madness-highlight {
+        color: #ffde73; /* 好きな強調色に変更可能 */
+      }
 
-.level-buttons {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  flex-wrap: nowrap;
-  margin-bottom: 8px;
-  justify-content: center;
-}
+      .distortion-group {
+        text-align: center;
+        margin: 4px 0;
+      }
 
-.level-buttons input[type="number"] {
-  width: 60px; /* ← お好みで調整。50〜70pxが使いやすい */
-  text-align: center;
-  padding: 4px 6px;
-  font-size: 14px;
-}
-  
-.soft-btn {
-  padding: 5px 10px;
-  background: #444;
-  color: #eee;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.soft-btn:hover {
-  background: #fbc531;
-  color: #111;
-}
+      .distortion-label {
+        display: inline-block;
+        margin: 0 2px;
+        font-size: 13px;
+        font-weight: normal;
+        color: #ccc; /* 差別化 */
+      }
 
-.radio-group {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 12px;
-  justify-content: center;
-}
+      .edit-button {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        background: #555;
+        border: none;
+        border-radius: 5px;
+        font-size: 12px;
+        padding: 3px 6px;
+        cursor: pointer;
+        color: #fff;
+        transition: background 0.2s;
+      }
+      .edit-button:hover {
+        background: #fbc531;
+        color: #111;
+      }
+      .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #2a2a2a;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        z-index: 1000;
+        display: none;
+        width: 280px;
+        color: #eee;
+      }
+      .modal.active {
+        display: block;
+      }
+      .modal h2 {
+        margin-top: 0;
+        color: #fbc531;
+      }
+      .modal label {
+        display: block;
+        margin: 8px 0 4px;
+      }
+      .modal input {
+        width: 100%;
+        padding: 4px;
+        background: #1a1a1a;
+        color: #eee;
+        border: 1px solid #444;
+        border-radius: 4px;
+      }
+      .star {
+        color: #555;
+        font-size: 16px;
+      }
+      .star.filled {
+        color: #f77031;
+      }
+      .modal-buttons {
+        text-align: right;
+        margin-top: 24px;
+      }
+      .modal-buttons button {
+        margin-left: 8px;
+        padding: 5px 10px;
+        background: #444;
+        color: #eee;
+        border: none;
+        border-radius: 5px;
+      }
+      .modal-buttons button:hover {
+        background: #fbc531;
+        color: #111;
+      }
 
-.soft-radio {
-  width: 36px;
-  height: 36px;
-  background: #444;
-  color: #eee;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-  position: relative;
-}
-.soft-radio:hover {
-  background: #fbc531;
-  color: #111;
-}
-.soft-radio input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
+      .level-buttons {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        flex-wrap: nowrap;
+        margin-bottom: 8px;
+        justify-content: center;
+      }
 
-.soft-radio.selected {
-  background: #212121 !important;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
-  color: #fbc531 !important;
-}
-   
-.soft-radio input[type="radio"]:checked + span {
-  color: #fbc531;
-}
+      .level-buttons input[type="number"] {
+        width: 60px; /* ← お好みで調整。50〜70pxが使いやすい */
+        text-align: center;
+        padding: 4px 6px;
+        font-size: 14px;
+      }
 
-.soft-radio span {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative; /* 背景との重なり制御 */
-}
-  
-.slider-group {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-}
+      /*  .level-buttons:active {
+        transform: scale(0.98); /* ✅ 押し込まれる感触 */
 
-input[type="range"] {
-  flex: 1;
-  accent-color: #fbb831; /* スライダーのつまみ色 */
-}
-  
-.madness-row {
-  display: flex;
-  gap: 16px;
-  margin-top: 8px;
-  justify-content: center;
-}
+      .soft-btn {
+        padding: 5px 10px;
+        background: #444;
+        color: #eee;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.07s;
+      }
+      .soft-btn:hover {
+        background: #fbc531;
+        color: #111;
+      }
 
-.madness-item {
-  text-align: center;
-  font-size: 13px;
-}
-  
-.overlay {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  z-index: 999;
-  display: none;
-}
-.overlay.active { display: block; }
-.share-btn {
-  display: block;
-  margin: 0 auto 20px;
-  background: #fbc531;
-  color: #111;
-  font-weight: bold;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-.share-btn:hover {
-  background: #ffdc75;
-}
-.share-link {
-  text-align: center;
-  color: #fbc531;
-  margin-top: 10px;
-  word-break: break-all;
-}
-#copyNotice {
-  text-align: center;
-  color: #7bed9f;
-  font-weight: bold;
-  margin-top: 8px;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-#copyNotice.visible { opacity: 1; }
+      .soft-btn:active {
+        transform: scale(0.98);
+      }
 
-.distortion-panel {
-  position: fixed;
-  top: 50%;
-  left: calc(50% + 160px); /* モーダルの右側に配置（調整可） */
-  transform: translateY(-50%);
-  background: #2a2a2a;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.7);
-  padding: 20px;
-  z-index: 1001;
-  width: 200px;
-  display: none;
-  color: #eee;
-}
+      .radio-group {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+        justify-content: center;
+      }
 
-.distortion-panel.active {
-  display: block;
-}
+      .soft-radio {
+        width: 36px;
+        height: 36px;
+        background: #444;
+        color: #eee;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+        position: relative;
+      }
+      .soft-radio:hover {
+        background: #fbc531;
+        color: #111;
+      }
+      .soft-radio input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
 
-.distortion-toggle-btn {
-  margin-top: 12px;
-  background: #555;
-  color: #fff;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.distortion-toggle-btn:hover {
-  background: #fbc531;
-  color: #111;
-}
+      .soft-radio.selected {
+        background: #212121 !important;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+        color: #fbc531 !important;
+      }
 
-  @media screen and (max-width: 600px) {
-  .distortion-panel {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90vw;
-    max-height: 70vh;
-    overflow-y: auto;
-    padding: 16px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.7);
-    z-index: 1001;
-  }
-}
+      .soft-radio input[type="radio"]:checked + span {
+        color: #fbc531;
+      }
 
-.shared-notice {
-  position: sticky;
-  top: 0;
-  background: rgba(0, 0, 0, 0.6); /* 半透明の黒背景 */
-  color: #fff;                    /* 白文字 */
-  font-weight: bold;
-  text-align: center;
-  padding: 10px;
-  z-index: 1002;
-  display: none;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-}
-  
-</style>
-  
-<script src="https://cdn.jsdelivr.net/npm/lz-string@1.4.4/libs/lz-string.min.js"></script>
-</head>
-<body>
-<div id="sharedNotice" class="shared-notice">
-  🔒 共有モードで開いています（編集内容は保存されません）
-</div>
-    
-<h1>リバース1999 所持キャラ・心相管理</h1>
+      .soft-radio span {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative; /* 背景との重なり制御 */
+      }
 
-<button class="share-btn" id="generateLink">🔗 状態を共有URLとして発行</button>
-<div class="share-link" id="shareLink"></div>
-<div id="copyNotice">✅ 共有URLをコピーしました！</div>
+      .slider-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
 
-<button class="share-btn" id="toggleFilter">👁️ 所持済みのみ表示</button>
-  
-<div class="section">
-  <h2>キャラ一覧</h2>
-  <div class="grid" id="characterGrid"></div>
-</div>
+      input[type="range"] {
+        flex: 1;
+        accent-color: #fbb831; /* スライダーのつまみ色 */
+      }
 
-<div class="section">
-  <h2>心相一覧</h2>
-  <div class="grid" id="mindsetGrid"></div>
-</div>
+      .madness-row {
+        display: flex;
+        gap: 16px;
+        margin-top: 8px;
+        justify-content: center;
+      }
 
-<div class="overlay" id="overlay"></div>
-<div class="modal" id="editModal">
-  <h2 id="editTitle"></h2>
-  <div id="editFields"></div>
-  <div class="modal-buttons">
-    <button id="cancelEdit">キャンセル</button>
-    <button id="saveEdit">保存</button>
-  </div>
-</div>
+      .madness-item {
+        text-align: center;
+        font-size: 13px;
+      }
 
-<div id="distortionPanel" class="distortion-panel">
-  <h3>変調一覧</h3>
-  <div id="distortionList"></div>
-  <div style="text-align: center; margin-top: 16px;">
-    <button id="closeDistortion" class="distortion-toggle-btn">保存</button>
-  </div>
-</div>
-  
-  <script src="data.js"></script>
-  
-  <script>
-// ローカルデータ消去
-// localStorage.removeItem("ownedData");
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 999;
+        display: none;
+      }
+      .overlay.active {
+        display: block;
+      }
+      .share-btn {
+        display: block;
+        margin: 0 auto 20px;
+        background: #fbc531;
+        color: #111;
+        font-weight: bold;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      .share-btn:hover {
+        background: #ffdc75;
+      }
+      .share-link {
+        text-align: center;
+        color: #fbc531;
+        margin-top: 10px;
+        word-break: break-all;
+      }
+      #copyNotice {
+        text-align: center;
+        color: #7bed9f;
+        font-weight: bold;
+        margin-top: 8px;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      #copyNotice.visible {
+        opacity: 1;
+      }
 
-let showOnlyOwned = false;
+      .distortion-panel {
+        position: fixed;
+        top: 50%;
+        left: calc(50% + 160px); /* モーダルの右側に配置（調整可） */
+        transform: translateY(-50%);
+        background: #2a2a2a;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        z-index: 1001;
+        width: 200px;
+        display: none;
+        color: #eee;
+      }
 
-// let highlightedMadness = []; // ← 狂想の種類ごとのON状態を保持
-    
-function renderStars(count) {
-  let html = '';
-  for (let i = 0; i < 5; i++) html += `<span class="star ${i < count ? 'filled' : ''}">★</span>`;
-  return html;
-}
-function renderCards(data, containerId, isCharacter = true) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = "";
-  data.forEach((item) => {
-    if (showOnlyOwned && !item.owned) return; // ← ここが追加ポイント
-    if (!item.highlightedMadness) item.highlightedMadness = [];
-    if (!item.selectedDistortion) item.selectedDistortion = [];
-    
-    const card = document.createElement("div");
-    card.className = "card";
-    if (item.owned) card.classList.add("owned");
-    card.innerHTML = `
+      .distortion-panel.active {
+        display: block;
+      }
+
+      .distortion-toggle-btn {
+        margin-top: 12px;
+        background: #555;
+        color: #fff;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .distortion-toggle-btn:hover {
+        background: #fbc531;
+        color: #111;
+      }
+      .distortion-toggle-btn:active {
+        transform: scale(0.98); /* ✅ 押し込まれる感触 */
+      }
+
+      @media screen and (max-width: 600px) {
+        .distortion-panel {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 90vw;
+          max-height: 70vh;
+          overflow-y: auto;
+          padding: 16px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+          z-index: 1001;
+        }
+      }
+
+      #toggleMindsetPanel {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 8px; /* ✅ 角を丸く */
+        background-color: #555;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+      }
+
+      #toggleMindsetPanel:hover {
+        background-color: #fbc531;
+        /*  transform: scale(1.02); /* ✅ ふわっと浮く感触  */
+      }
+
+      #toggleMindsetPanel:active {
+        background-color: #ccc;
+        transform: scale(0.98); /* ✅ 押し込まれる感触 */
+      }
+
+      .mindset-list {
+        display: grid;
+        grid-template-columns: repeat(
+          2,
+          1fr
+        ); /* grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); */
+        gap: 12px;
+        margin-top: 8px;
+        max-height: 200px;
+        overflow-y: auto;
+        padding: 4px;
+      }
+
+      .mindset-card {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 6px;
+        background-color: #fff;
+        cursor: pointer;
+        text-align: center;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .mindset-card img {
+        width: 100%;
+        height: auto;
+        max-height: 80px; /* ✅ 高さ制限でカードに収める */
+        object-fit: contain;
+        margin-bottom: 4px;
+      }
+
+      .mindset-card span {
+        font-size: 13px;
+        word-break: break-word;
+      }
+
+      .mindset-card.selected {
+        border-color: #007bff;
+        background-color: #eef;
+        transform: scale(1.03);
+        transition: transform 0.06s ease-out;
+      }
+
+      .selected-mindset {
+        display: block; /* ← inline-block → block に変更 */
+        width: 52px;
+        height: 52px;
+        margin-top: auto; /* ← flexアイテムとして下に押し出す */
+        padding: 0;
+        margin: 4px auto; /* ← autoで中央揃え！ */
+        background-color: transparent;
+        line-height: 0;
+        box-sizing: border-box;
+      }
+
+      .selected-mindset img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 2px;
+        outline-offset: -5px;
+        outline: 3px double #000000;
+      }
+
+      .shared-notice {
+        position: sticky;
+        top: 0;
+        background: rgba(0, 0, 0, 0.6); /* 半透明の黒背景 */
+        color: #fff; /* 白文字 */
+        font-weight: bold;
+        text-align: center;
+        padding: 10px;
+        z-index: 1002;
+        display: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/lz-string@1.4.4/libs/lz-string.min.js"></script>
+  </head>
+  <body>
+    <div id="sharedNotice" class="shared-notice">
+      🔒 共有モードで開いています（編集内容は保存されません）
+    </div>
+
+    <h1>リバース1999 所持キャラ・心相管理</h1>
+
+    <button class="share-btn" id="generateLink">
+      🔗 状態を共有URLとして発行
+    </button>
+    <div class="share-link" id="shareLink"></div>
+    <div id="copyNotice">✅ 共有URLをコピーしました！</div>
+
+    <button class="share-btn" id="toggleFilter">👁️ 所持済みのみ表示</button>
+
+    <div class="section">
+      <h2>キャラ一覧</h2>
+      <div class="grid" id="characterGrid"></div>
+    </div>
+
+    <div class="section">
+      <h2>心相一覧</h2>
+      <div class="grid" id="mindsetGrid"></div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="modal" id="editModal">
+      <h2 id="editTitle"></h2>
+      <div id="editFields"></div>
+      <div class="modal-buttons">
+        <button id="cancelEdit">キャンセル</button>
+        <button id="saveEdit">保存</button>
+      </div>
+    </div>
+
+    <div id="distortionPanel" class="distortion-panel">
+      <h3>変調一覧</h3>
+      <div id="distortionList"></div>
+      <div style="text-align: center; margin-top: 16px">
+        <button id="closeDistortion" class="distortion-toggle-btn">保存</button>
+      </div>
+    </div>
+
+    <script src="data.js"></script>
+
+    <script>
+      // ローカルデータ消去
+      // localStorage.removeItem("ownedData");
+
+      let showOnlyOwned = false;
+      let currentItem = null;
+      let selectedMindset = null;
+
+      // let highlightedMadness = []; // ← 狂想の種類ごとのON状態を保持
+
+      function renderStars(count) {
+        let html = "";
+        for (let i = 0; i < 5; i++)
+          html += `<span class="star ${i < count ? "filled" : ""}">★</span>`;
+        return html;
+      }
+      function renderCards(data, containerId, isCharacter = true) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+        data.forEach((item) => {
+          if (showOnlyOwned && !item.owned) return; // ← ここが追加ポイント
+          if (!item.highlightedMadness) item.highlightedMadness = [];
+          if (!item.selectedDistortion) item.selectedDistortion = [];
+
+          const card = document.createElement("div");
+          card.className = "card";
+          if (item.owned) card.classList.add("owned");
+          card.innerHTML = `
   <button class="edit-button">✎</button>
-  <img src="${item.img}" alt="${item.name}" onerror="this.src='images/placeholder.png'">
+  <img src="${item.img}" alt="${
+            item.name
+          }" onerror="this.src='images/placeholder.png'">
   <h3>${item.name}</h3>
   <p>
-    Lv.${item.level} ${isCharacter ? `洞察${item.insight}<br>共鳴${item.resonance}` : ""}
+    Lv.${item.level} ${
+            isCharacter ? `洞察${item.insight}<br>共鳴${item.resonance}` : ""
+          }
   </p>
-  ${isCharacter && item.selectedDistortion?.length
-  ? `<div class="distortion-group">
+  ${
+    isCharacter && item.selectedDistortion?.length
+      ? `<div class="distortion-group">
       ${
         item.selectedDistortion.includes("❖ 全部 ❖")
           ? `<span class="distortion-label">❖ 全部 ❖</span>`
-          : item.selectedDistortion.map(type => `
+          : item.selectedDistortion
+              .map(
+                (type) => `
               <span class="distortion-label">${type}</span>
-            `).join("")
+            `
+              )
+              .join("")
       }
     </div>`
-  : ""}
+      : ""
+  }
+      
   <div class="card-footer">
-    ${item.madness?.length
-      ? item.madness.map(type => `
-          <span class="madness-label ${item.highlightedMadness?.includes(type) ? 'madness-highlight' : ''}">${type}</span>
-        `).join("")
-      : ""}
+${
+  item.selectedMindset
+    ? (() => {
+        const mindset = mindsets.find((ms) => ms.name === item.selectedMindset);
+        return mindset
+          ? `<div class="selected-mindset"><img src="${mindset.img}" alt="${mindset.name}"></div>`
+          : "";
+      })()
+    : ""
+}
+
+    ${
+      item.madness?.length
+        ? item.madness
+            .map(
+              (type) => `
+          <span class="madness-label ${
+            item.highlightedMadness?.includes(type) ? "madness-highlight" : ""
+          }">${type}</span>
+        `
+            )
+            .join("")
+        : ""
+    }
     <div class="stars">
       ${isCharacter ? renderStars(item.statue) : renderStars(item.amplify)}
     </div>
   </div>
 `;
-   /* レベル洞察共鳴狂想星card.innerHTML = `
+          /* レベル洞察共鳴狂想星card.innerHTML = `
       Lv.${item.level} ${isCharacter ? `洞察${item.insight}<br>共鳴${item.resonance}<br>${renderStars(item.statue)}` : `増幅<br>${renderStars(item.amplify)}`} */
-    // 旧バージョン（塑像あり）
-    // const oldText = `Lv.${item.level} ${isCharacter ? `洞察${item.insight} 共鳴${item.resonance}<br>塑像：${renderStars(item.statue)}` : `増幅：${renderStars(item.amplify)}`}
+          // 旧バージョン（塑像あり）
+          // const oldText = `Lv.${item.level} ${isCharacter ? `洞察${item.insight} 共鳴${item.resonance}<br>塑像：${renderStars(item.statue)}` : `増幅：${renderStars(item.amplify)}`}
 
-    card.addEventListener("click", (e) => {
-      if (e.target.classList.contains("edit-button")) return;
-      item.owned = !item.owned;
-      saveState();
-      renderAll(); // ← 状態変更後に再描画
-    });
-    card.querySelector(".edit-button").addEventListener("click", (e) => {
-      e.stopPropagation();
-      openEditModal(item, isCharacter);
-    });
-    container.appendChild(card);
-  });
-}
-function openEditModal(item, isCharacter) {
-  const modal = document.getElementById("editModal");
-  const overlay = document.getElementById("overlay");
-  const fields = document.getElementById("editFields");
-  document.getElementById("editTitle").textContent = `${item.name} の編集`;
-  fields.innerHTML = `
+          card.addEventListener("click", (e) => {
+            if (e.target.classList.contains("edit-button")) return;
+            item.owned = !item.owned;
+            saveState();
+            renderAll(); // ← 状態変更後に再描画
+          });
+          card.querySelector(".edit-button").addEventListener("click", (e) => {
+            e.stopPropagation();
+            openEditModal(item, isCharacter);
+          });
+          container.appendChild(card);
+        });
+      }
+
+      function setupMindsetSelection() {
+        const cards = document.querySelectorAll(".mindset-card");
+        cards.forEach((card) => {
+          card.addEventListener("click", () => {
+            cards.forEach((c) => c.classList.remove("selected"));
+            card.classList.add("selected");
+          });
+        });
+      }
+
+      function getSelectedMindset() {
+        const selectedCard = document.querySelector(".mindset-card.selected");
+        return selectedCard?.dataset.name || null;
+      }
+
+      function openEditModal(item, isCharacter) {
+        currentItem = item;
+        selectedMindset = item.selectedMindset;
+        const modal = document.getElementById("editModal");
+        const overlay = document.getElementById("overlay");
+        const fields = document.getElementById("editFields");
+        document.getElementById(
+          "editTitle"
+        ).textContent = `${item.name} の編集`;
+        fields.innerHTML = `
     <label>レベル</label>
 <div class="level-buttons">
   <button class="soft-btn" data-delta="-10">-10</button>
@@ -515,323 +690,458 @@ function openEditModal(item, isCharacter) {
   <button class="soft-btn" data-delta="1">+1</button>
   <button class="soft-btn" data-delta="10">+10</button>
 </div>
-    ${isCharacter ? `
+    ${
+      isCharacter
+        ? `
 <label>洞察</label>
 <div class="radio-group" id="insightGroup">
-  ${[0, 1, 2, 3].map(val => `
+  ${[0, 1, 2, 3]
+    .map((val) =>
+      `
     <label class="soft-radio">
-      <input type="radio" name="insight" value="${val}" ${item.insight === val ? "checked" : ""}>
+      <input type="radio" name="insight" value="${val}" ${
+        item.insight === val ? "checked" : ""
+      }>
       <span>${val}</span>
     </label>
-  `.trim()).join("")}
+  `.trim()
+    )
+    .join("")}
 </div>
       <label>共鳴</label>
 <div class="slider-group">
-  <input type="range" id="editResonance" min="1" max="15" step="1" value="${item.resonance}">
+  <input type="range" id="editResonance" min="1" max="15" step="1" value="${
+    item.resonance
+  }">
   <span id="resonanceValue">${item.resonance}</span>
 </div>
   <button id="toggleDistortionPanel" class="distortion-toggle-btn">変調を表示</button>
+  <button id="toggleMindsetPanel" class="mindset-toggle-btn">心相を選択</button>
+<div id="mindsetList" style="display: none;" class="mindset-list"></div>
       <label>塑像</label>
 <div class="radio-group" id="statueGroup">
-  ${[0, 1, 2, 3, 4, 5].map(val => `
+  ${[0, 1, 2, 3, 4, 5]
+    .map(
+      (val) => `
     <label class="soft-radio">
-      <input type="radio" name="statue" value="${val}" ${item.statue === val ? "checked" : ""}>
+      <input type="radio" name="statue" value="${val}" ${
+        item.statue === val ? "checked" : ""
+      }>
       <span>${val}</span>
     </label>
-  `).join("")}
+  `
+    )
+    .join("")}
 </div>
-    ` : `
+    `
+        : `
       <label>増幅</label>
 <div class="radio-group" id="amplifyGroup">
-  ${[0, 1, 2, 3, 4, 5].map(val => `
+  ${[0, 1, 2, 3, 4, 5]
+    .map(
+      (val) => `
     <label class="soft-radio">
-      <input type="radio" name="amplify" value="${val}" ${item.amplify === val ? "checked" : ""}>
+      <input type="radio" name="amplify" value="${val}" ${
+        item.amplify === val ? "checked" : ""
+      }>
       <span>${val}</span>
     </label>
-  `).join("")}
+  `
+    )
+    .join("")}
 </div>
-    `}
-${item.madness?.length
-  ? `<label>狂想</label>
+    `
+    }
+${
+  item.madness?.length
+    ? `<label>狂想</label>
      <div id="madnessToggleGroup" class="madness-row">
-       ${item.madness.map(type => `
+       ${item.madness
+         .map(
+           (type) => `
          <div class="madness-item">
-           <input type="checkbox" value="${type}" ${item.highlightedMadness?.includes(type) ? "checked" : ""}><br>
+           <input type="checkbox" value="${type}" ${
+             item.highlightedMadness?.includes(type) ? "checked" : ""
+           }><br>
            <span>${type}</span>
          </div>
-       `).join("")}
+       `
+         )
+         .join("")}
      </div>`
-  : ""}
-`;
-  modal.classList.add("active");
-  overlay.classList.add("active");
-
-document.querySelectorAll(".level-buttons button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const input = document.getElementById("editLevel");
-    const delta = Number(btn.dataset.delta);
-    let newVal = Math.min(60, Math.max(1, Number(input.value) + delta));
-    input.value = newVal;
-  });
-});
-
-if (isCharacter) {
-  const resonanceSlider = document.getElementById("editResonance");
-  const resonanceDisplay = document.getElementById("resonanceValue");
-  if (resonanceSlider && resonanceDisplay) {
-    resonanceSlider.addEventListener("input", () => {
-      resonanceDisplay.textContent = resonanceSlider.value;
-    });
-  }
+    : ""
 }
-  
-  const toggleButton = document.getElementById("toggleDistortionPanel");
-if (toggleButton) {
-  toggleButton.onclick = () => {
-    const panel = document.getElementById("distortionPanel");
-    panel.classList.toggle("active");
+`;
+        modal.classList.add("active");
+        overlay.classList.add("active");
 
-    const distortionTypes = [
-      "通暁", "誠実", "亢奮", "鼓舞", "希望", "慈悲",
-      "満足", "鎮静", "節制", "一意専心", "奇想天外", "無我夢中",
-      "泰然自若", "均衡調和", "❖ 全部 ❖",
-    ];
+        document.querySelectorAll(".level-buttons button").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const input = document.getElementById("editLevel");
+            const delta = Number(btn.dataset.delta);
+            let newVal = Math.min(60, Math.max(1, Number(input.value) + delta));
+            input.value = newVal;
+          });
+        });
 
-    const list = document.getElementById("distortionList");
-list.dataset.owner = item.name;
-list.innerHTML = distortionTypes.map(type => `
+        if (isCharacter) {
+          const resonanceSlider = document.getElementById("editResonance");
+          const resonanceDisplay = document.getElementById("resonanceValue");
+          if (resonanceSlider && resonanceDisplay) {
+            resonanceSlider.addEventListener("input", () => {
+              resonanceDisplay.textContent = resonanceSlider.value;
+            });
+          }
+        }
+
+        if (isCharacter) {
+          let selectedMindset = item.selectedMindset;
+          const mindsetList = document.getElementById("mindsetList");
+
+          // 描画処理
+          mindsetList.innerHTML = mindsets
+            .filter((ms) => ms.owned)
+            .map(
+              (ms) => `
+      <div class="mindset-card ${
+        selectedMindset === ms.name ? "selected" : ""
+      }" data-name="${ms.name}">
+        <img src="${ms.img}" alt="${ms.name}">
+        <span>${ms.name}</span>
+      </div>
+    `
+            )
+            .join("");
+
+          mindsetList.querySelectorAll(".mindset-card").forEach((card) => {
+            card.addEventListener("click", () => {
+              const name = card.dataset.name;
+              selectedMindset = selectedMindset === name ? null : name;
+              /* updateMindsetSelectionUI(); */
+
+              mindsetList
+                .querySelectorAll(".mindset-card")
+                .forEach((c) => c.classList.remove("selected"));
+              if (selectedMindset) {
+                mindsetList
+                  .querySelector(`[data-name="${selectedMindset}"]`)
+                  ?.classList.add("selected");
+              }
+            });
+          });
+
+          // 表示切り替え
+          document.getElementById("toggleMindsetPanel").onclick = () => {
+            mindsetList.style.display =
+              mindsetList.style.display === "none" ? "block" : "none";
+          };
+        }
+        const toggleButton = document.getElementById("toggleDistortionPanel");
+        if (toggleButton) {
+          toggleButton.onclick = () => {
+            const panel = document.getElementById("distortionPanel");
+            panel.classList.toggle("active");
+
+            const distortionTypes = [
+              "通暁",
+              "誠実",
+              "亢奮",
+              "鼓舞",
+              "希望",
+              "慈悲",
+              "満足",
+              "鎮静",
+              "節制",
+              "一意専心",
+              "奇想天外",
+              "無我夢中",
+              "泰然自若",
+              "均衡調和",
+              "❖ 全部 ❖",
+            ];
+
+            const list = document.getElementById("distortionList");
+            list.dataset.owner = item.name;
+            list.innerHTML = distortionTypes
+              .map(
+                (type) => `
   <label>
-    <input type="checkbox" value="${type}" ${item.selectedDistortion?.includes(type) ? "checked" : ""}>
+    <input type="checkbox" value="${type}" ${
+                  item.selectedDistortion?.includes(type) ? "checked" : ""
+                }>
     ${type}
   </label>
-`).join("<br>");
+`
+              )
+              .join("<br>");
 
-    const checkboxes = list.querySelectorAll("input[type=checkbox]");
-    checkboxes.forEach(cb => {
-      cb.addEventListener("change", () => {
-        if (cb.value === "❖ 全部 ❖" && cb.checked) {
-          checkboxes.forEach(other => {
-            if (other.value !== "❖ 全部 ❖") other.checked = false;
-          });
-        } else if (cb.value !== "❖ 全部 ❖" && cb.checked) {
-          checkboxes.forEach(other => {
-            if (other.value === "❖ 全部 ❖") other.checked = false;
-          });
+            const checkboxes = list.querySelectorAll("input[type=checkbox]");
+            checkboxes.forEach((cb) => {
+              cb.addEventListener("change", () => {
+                if (cb.value === "❖ 全部 ❖" && cb.checked) {
+                  checkboxes.forEach((other) => {
+                    if (other.value !== "❖ 全部 ❖") other.checked = false;
+                  });
+                } else if (cb.value !== "❖ 全部 ❖" && cb.checked) {
+                  checkboxes.forEach((other) => {
+                    if (other.value === "❖ 全部 ❖") other.checked = false;
+                  });
+                }
+              });
+            });
+          };
         }
+
+        fields.querySelectorAll(".radio-group").forEach((group) => {
+          const radios = group.querySelectorAll('input[type="radio"]');
+          radios.forEach((radio) => {
+            if (radio.checked) {
+              radio.closest(".soft-radio").classList.add("selected");
+            }
+
+            radio.addEventListener("change", () => {
+              group
+                .querySelectorAll(".soft-radio")
+                .forEach((el) => el.classList.remove("selected"));
+              if (radio.checked) {
+                radio.closest(".soft-radio").classList.add("selected");
+              }
+            });
+          });
+        });
+
+        document.getElementById("cancelEdit").onclick = closeModal;
+        document.getElementById("saveEdit").onclick = () => {
+          item.level = Number(document.getElementById("editLevel").value);
+
+          if (isCharacter) {
+            const insightInput = document.querySelector(
+              "input[name=insight]:checked"
+            );
+            if (insightInput) item.insight = Number(insightInput.value);
+
+            item.resonance = Number(
+              document.getElementById("editResonance").value
+            );
+
+            const statueInput = document.querySelector(
+              "input[name=statue]:checked"
+            );
+            if (statueInput) item.statue = Number(statueInput.value);
+          } else {
+            const amplifyInput = fields.querySelector(
+              "input[name=amplify]:checked"
+            );
+            if (amplifyInput) item.amplify = Number(amplifyInput.value);
+          }
+
+          const madnessChecks = document.querySelectorAll(
+            "#madnessToggleGroup input[type=checkbox]"
+          );
+          item.highlightedMadness = Array.from(madnessChecks)
+            .filter((cb) => cb.checked)
+            .map((cb) => cb.value);
+
+          const distortionList = document.getElementById("distortionList");
+          if (distortionList?.dataset.owner === item.name) {
+            const distortionChecks = distortionList.querySelectorAll(
+              "input[type=checkbox]"
+            );
+            item.selectedDistortion = Array.from(distortionChecks)
+              .filter((cb) => cb.checked)
+              .map((cb) => cb.value);
+          }
+
+          currentItem.selectedMindset = getSelectedMindset();
+          item.selectedMindset = getSelectedMindset();
+
+          saveState();
+          renderAll();
+          document.getElementById("distortionPanel").classList.remove("active");
+          closeModal();
+        };
+      }
+      function closeModal() {
+        document.getElementById("editModal").classList.remove("active");
+        document.getElementById("overlay").classList.remove("active");
+        document.getElementById("distortionPanel").classList.remove("active");
+        const list = document.getElementById("distortionList");
+        if (list) {
+          list.innerHTML = "";
+          delete list.dataset.owner;
+        }
+      }
+      function saveState() {
+        if (isSharedView) return; // 共有URLから開いた場合は保存しない
+        localStorage.setItem(
+          "ownedData",
+          JSON.stringify({ characters, mindsets })
+        );
+      }
+      function loadState() {
+        const saved = JSON.parse(localStorage.getItem("ownedData") || "{}");
+        if (saved.characters) mergeState(saved.characters, characters);
+        if (saved.mindsets) mergeState(saved.mindsets, mindsets);
+      }
+      function mergeState(savedArray, baseArray) {
+        savedArray.forEach((savedItem) => {
+          const match = baseArray.find((i) => i.name === savedItem.name);
+          if (match) Object.assign(match, savedItem);
+        });
+      }
+      function encodeState() {
+        return encodeURIComponent(
+          btoa(JSON.stringify({ characters, mindsets }))
+        );
+      }
+      function decodeState(str) {
+        try {
+          const data = JSON.parse(atob(decodeURIComponent(str)));
+          if (data.characters) mergeState(data.characters, characters);
+          if (data.mindsets) mergeState(data.mindsets, mindsets);
+        } catch {}
+      }
+      function renderAll() {
+        renderCards(characters, "characterGrid", true);
+        renderCards(mindsets, "mindsetGrid", false);
+      }
+      function getSelectedData() {
+        const ownedCharacters = characters
+          .filter((c) => c.owned)
+          .map((c) => ({
+            name: c.name,
+            level: c.level,
+            insight: c.insight,
+            resonance: c.resonance,
+            statue: c.statue,
+            madness: c.madness,
+            highlightedMadness: c.highlightedMadness || [],
+            selectedDistortion: c.selectedDistortion || [],
+            img: c.img,
+            owned: true,
+          }));
+
+        const ownedMindsets = mindsets
+          .filter((m) => m.owned)
+          .map((m) => ({
+            name: m.name,
+            level: m.level,
+            amplify: m.amplify,
+            madness: m.madness,
+            highlightedMadness: m.highlightedMadness || [],
+            img: m.img,
+            owned: true,
+          }));
+
+        return { characters: ownedCharacters, mindsets: ownedMindsets };
+      }
+      function encodeData(data) {
+        const json = JSON.stringify(data);
+        return LZString.compressToEncodedURIComponent(json);
+      }
+
+      async function generateShortUrl(data) {
+        const longUrl = `${location.origin}${
+          location.pathname
+        }?data=${encodeData(data)}`;
+        const tinyApi = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(
+          longUrl
+        )}`;
+        const shortUrl = await fetch(tinyApi).then((res) => res.text());
+        return shortUrl;
+      }
+
+      function decodeData(str) {
+        try {
+          const json = LZString.decompressFromEncodedURIComponent(str);
+          return JSON.parse(json);
+        } catch (e) {
+          console.warn("デコードエラー:", e);
+          return null;
+        }
+      }
+
+      let isSharedView = false;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const hasSharedData = location.search.startsWith("?data=");
+        let sharedData = null;
+
+        if (hasSharedData) {
+          sharedData = decodeData(location.search.substring(6));
+          isSharedView = true;
+        }
+
+        if (
+          sharedData &&
+          sharedData.characters &&
+          sharedData.characters.length > 0
+        ) {
+          mergeState(sharedData.characters, characters);
+          mergeState(sharedData.mindsets, mindsets);
+        } else {
+          loadState();
+        }
+
+        renderAll();
+
+        if (isSharedView) {
+          document.getElementById("sharedNotice").style.display = "block";
+        }
+
+        document
+          .getElementById("closeDistortion")
+          ?.addEventListener("click", () => {
+            document
+              .getElementById("distortionPanel")
+              .classList.remove("active");
+          });
+        document
+          .querySelectorAll('.soft-radio input[type="radio"]')
+          .forEach((radio) => {
+            radio.addEventListener("change", () => {
+              document
+                .querySelectorAll(".soft-radio")
+                .forEach((el) => el.classList.remove("selected"));
+              if (radio.checked) {
+                radio.closest(".soft-radio").classList.add("selected");
+              }
+            });
+
+            if (radio.checked) {
+              radio.closest(".soft-radio").classList.add("selected");
+            }
+          });
       });
-    });
-  };
-}
 
-fields.querySelectorAll('.radio-group').forEach(group => {
-  const radios = group.querySelectorAll('input[type="radio"]');
-  radios.forEach(radio => {
-    if (radio.checked) {
-      radio.closest('.soft-radio').classList.add('selected');
-    }
+      // 共有ボタンのイベント登録
+      document
+        .getElementById("generateLink")
+        .addEventListener("click", async () => {
+          const selectedData = getSelectedData();
+          const shortUrl = await generateShortUrl(selectedData); // ← 短縮URLを取得
 
-    radio.addEventListener('change', () => {
-      group.querySelectorAll('.soft-radio').forEach(el => el.classList.remove('selected'));
-      if (radio.checked) {
-        radio.closest('.soft-radio').classList.add('selected');
-      }
-    });
-  });
-});
-  
-  document.getElementById("cancelEdit").onclick = closeModal;
-  document.getElementById("saveEdit").onclick = () => {
-  item.level = Number(document.getElementById("editLevel").value);
+          const link = document.getElementById("shareLink");
+          link.innerHTML = `<a href="${shortUrl}" target="_blank">${shortUrl}</a>`;
 
-  if (isCharacter) {
-    const insightInput = document.querySelector("input[name=insight]:checked");
-    if (insightInput) item.insight = Number(insightInput.value);
+          try {
+            await navigator.clipboard.writeText(shortUrl);
+            const notice = document.getElementById("copyNotice");
+            notice.classList.add("visible");
+            setTimeout(() => notice.classList.remove("visible"), 2500);
+          } catch (e) {
+            console.warn("コピー失敗:", e);
+          }
+        });
 
-    item.resonance = Number(document.getElementById("editResonance").value);
-
-    const statueInput = document.querySelector("input[name=statue]:checked");
-    if (statueInput) item.statue = Number(statueInput.value);
-  } else {
-  const amplifyInput = fields.querySelector("input[name=amplify]:checked");
-  if (amplifyInput) item.amplify = Number(amplifyInput.value);
-}
-  
-const madnessChecks = document.querySelectorAll("#madnessToggleGroup input[type=checkbox]");
-item.highlightedMadness = Array.from(madnessChecks)
-  .filter(cb => cb.checked)
-  .map(cb => cb.value);
-
-const distortionList = document.getElementById("distortionList");
-if (distortionList?.dataset.owner === item.name) {
-  const distortionChecks = distortionList.querySelectorAll("input[type=checkbox]");
-  item.selectedDistortion = Array.from(distortionChecks)
-    .filter(cb => cb.checked)
-    .map(cb => cb.value);
-}
-    
-    saveState(); renderAll();
-    document.getElementById("distortionPanel").classList.remove("active");
-    closeModal();
-  };
-}
-function closeModal() {
-  document.getElementById("editModal").classList.remove("active");
-  document.getElementById("overlay").classList.remove("active");
-  document.getElementById("distortionPanel").classList.remove("active");
-  const list = document.getElementById("distortionList");
-  if (list) {
-    list.innerHTML = "";
-    delete list.dataset.owner;
-  }
-}
-function saveState() {
-  if (isSharedView) return; // 共有URLから開いた場合は保存しない
-  localStorage.setItem("ownedData", JSON.stringify({ characters, mindsets }));
-}
-function loadState() {
-  const saved = JSON.parse(localStorage.getItem("ownedData") || "{}");
-  if (saved.characters) mergeState(saved.characters, characters);
-  if (saved.mindsets) mergeState(saved.mindsets, mindsets);
-}
-function mergeState(savedArray, baseArray) {
-  savedArray.forEach(savedItem => {
-    const match = baseArray.find(i => i.name === savedItem.name);
-    if (match) Object.assign(match, savedItem);
-  });
-}
-function encodeState() {
-  return encodeURIComponent(btoa(JSON.stringify({characters, mindsets})));
-}
-function decodeState(str) {
-  try {
-    const data = JSON.parse(atob(decodeURIComponent(str)));
-    if (data.characters) mergeState(data.characters, characters);
-    if (data.mindsets) mergeState(data.mindsets, mindsets);
-  } catch {}
-}
-function renderAll() {
-  renderCards(characters, "characterGrid", true);
-  renderCards(mindsets, "mindsetGrid", false);
-}
-function getSelectedData() {
-  const ownedCharacters = characters
-    .filter(c => c.owned)
-    .map(c => ({
-      name: c.name,
-      level: c.level,
-      insight: c.insight,
-      resonance: c.resonance,
-      statue: c.statue,
-      madness: c.madness,
-      highlightedMadness: c.highlightedMadness || [],
-      selectedDistortion: c.selectedDistortion || [],
-      img: c.img,
-      owned: true
-    }));
-
-  const ownedMindsets = mindsets
-    .filter(m => m.owned)
-    .map(m => ({
-      name: m.name,
-      level: m.level,
-      amplify: m.amplify,
-      madness: m.madness,
-      highlightedMadness: m.highlightedMadness || [],
-      img: m.img,
-      owned: true
-    }));
-
-  return { characters: ownedCharacters, mindsets: ownedMindsets };
-}
-function encodeData(data) {
-  const json = JSON.stringify(data);
-  return LZString.compressToEncodedURIComponent(json);
-}
-
-async function generateShortUrl(data) {
-  const longUrl = `${location.origin}${location.pathname}?data=${encodeData(data)}`;
-  const tinyApi = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`;
-  const shortUrl = await fetch(tinyApi).then(res => res.text());
-  return shortUrl;
-}
-
-function decodeData(str) {
-  try {
-    const json = LZString.decompressFromEncodedURIComponent(str);
-    return JSON.parse(json);
-  } catch (e) {
-    console.warn("デコードエラー:", e);
-    return null;
-  }
-}
-
-let isSharedView = false;
-    
-document.addEventListener("DOMContentLoaded", () => {
-  const hasSharedData = location.search.startsWith("?data=");
-  let sharedData = null;
-
-  if (hasSharedData) {
-    sharedData = decodeData(location.search.substring(6));
-    isSharedView = true;
-  }
-
-  if (sharedData && sharedData.characters && sharedData.characters.length > 0) {
-    mergeState(sharedData.characters, characters);
-    mergeState(sharedData.mindsets, mindsets);
-  } else {
-    loadState();
-  }
-
-  renderAll();
-
-  if (isSharedView) {
-    document.getElementById("sharedNotice").style.display = "block";
-}
-
-document.getElementById("closeDistortion")?.addEventListener("click", () => {
-    document.getElementById("distortionPanel").classList.remove("active");
-  });
-document.querySelectorAll('.soft-radio input[type="radio"]').forEach(radio => {
-    radio.addEventListener('change', () => {
-      document.querySelectorAll('.soft-radio').forEach(el => el.classList.remove('selected'));
-      if (radio.checked) {
-        radio.closest('.soft-radio').classList.add('selected');
-      }
-    });
-
-    if (radio.checked) {
-      radio.closest('.soft-radio').classList.add('selected');
-    }
-  });
-});
-
-  // 共有ボタンのイベント登録
-document.getElementById("generateLink").addEventListener("click", async () => {
-  const selectedData = getSelectedData();
-  const shortUrl = await generateShortUrl(selectedData); // ← 短縮URLを取得
-
-  const link = document.getElementById("shareLink");
-  link.innerHTML = `<a href="${shortUrl}" target="_blank">${shortUrl}</a>`;
-
-  try {
-    await navigator.clipboard.writeText(shortUrl);
-    const notice = document.getElementById("copyNotice");
-    notice.classList.add("visible");
-    setTimeout(() => notice.classList.remove("visible"), 2500);
-  } catch (e) {
-    console.warn("コピー失敗:", e);
-  }
-});
-
-  // フィルターボタンのイベント登録
-  document.getElementById("toggleFilter").addEventListener("click", () => {
-    showOnlyOwned = !showOnlyOwned;
-    document.getElementById("toggleFilter").textContent = showOnlyOwned
-      ? "👁️ 全表示に戻す"
-      : "👁️ 所持済みのみ表示";
-    renderAll();
-  });
-</script>
-</body>
+      // フィルターボタンのイベント登録
+      document.getElementById("toggleFilter").addEventListener("click", () => {
+        showOnlyOwned = !showOnlyOwned;
+        document.getElementById("toggleFilter").textContent = showOnlyOwned
+          ? "👁️ 全表示に戻す"
+          : "👁️ 所持済みのみ表示";
+        renderAll();
+      });
+    </script>
+  </body>
 </html>
