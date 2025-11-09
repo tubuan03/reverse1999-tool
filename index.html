@@ -182,8 +182,9 @@ h2 {
   display: flex;
   gap: 6px;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   margin-bottom: 8px;
+  justify-content: center;
 }
 
 .soft-btn {
@@ -231,14 +232,7 @@ h2 {
   opacity: 0;
   pointer-events: none;
 }
-/* .soft-radio input[type="radio"]:checked + span::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #1a1a1a;
-  border-radius: 50%;
-  z-index: -1;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); */
+
 .soft-radio.selected {
   background: #212121 !important;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
@@ -256,7 +250,6 @@ h2 {
   align-items: center;
   justify-content: center;
   position: relative; /* 背景との重なり制御 */
-  /* background: none; */
 }
   
 .slider-group {
