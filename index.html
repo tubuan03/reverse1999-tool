@@ -562,6 +562,8 @@ function renderCards(data, containerId, isCharacter = true) {
   });
 }
 function openEditModal(item, isCharacter) {
+  let selectedMindset = item.selectedMindset;
+  const mindsetList = document.getElementById("mindsetList");
   const modal = document.getElementById("editModal");
   const overlay = document.getElementById("overlay");
   const fields = document.getElementById("editFields");
@@ -645,10 +647,8 @@ if (isCharacter) {
     resonanceSlider.addEventListener("input", () => {
       resonanceDisplay.textContent = resonanceSlider.value;
     });
-  }
-  
-let selectedMindset = item.selectedMindset;
-    const mindsetList = document.getElementById("mindsetList");
+  }  
+    
     mindsetList.innerHTML = mindsets
       .filter(ms => ms.owned)
       .map(ms => `
@@ -868,18 +868,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (hasSharedData) {
     sharedData = decodeData(location.search.substring(6));
     isSharedView = true;
-
-console.log("sharedData:", sharedData);
-console.log("characters after merge:", characters);
-console.log("mindsets after merge:", mindsets);
   }
 
   if (sharedData && sharedData.characters && sharedData.characters.length > 0) {
     mergeState(sharedData.characters, characters);
     mergeState(sharedData.mindsets, mindsets);
-
-    console.log("characters after merge:", characters);
-  console.log("mindsets after merge:", mindsets);
   } else {
     loadState();
   }
