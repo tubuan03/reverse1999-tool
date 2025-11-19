@@ -117,6 +117,7 @@ const characters = [
 ];
 
 const mindsets = [
+    {name: "種に囁きかけ", level: 1, amplify: 0, owned: false, img: "images/tanenisasayaki.png"},
     {name: "細流に流れ込んで", level: 1, amplify: 0, owned: false, img: "images/sairyuninagare.png"},
     {name: "帰郷の追悼", level: 1, amplify: 0, owned: false, img: "images/kikyounotuitou.png"},
     {name: "ふとしたきらめき", level: 1, amplify: 0, owned: false, img: "images/hutosita.png"},
@@ -164,6 +165,7 @@ const mindsets = [
     {name: "二度目の人生", level: 1, amplify: 0, owned: false, img: "images/nidomenozinsei.png"},
     {name: "ホップスコッチ", level: 1, amplify: 0, owned: false, img: "images/hopsukotti.png"},
     {name: "美しい新世界", level: 1, amplify: 0, owned: false, img: "images/utukusisinsekai.png"},
+    {name: "偽物と模造品", level: 1, amplify: 0, owned: false, img: "images/nisemonoto.png"},
     {name: "道端のほこり", level: 1, amplify: 0, owned: false, img: "images/mitibatanohokori.png"},
     {name: "懐かしい歌、新しいメロディー", level: 1, amplify: 0, owned: false, img: "images/natukasiuta.png"},
     {name: "舞台裏の注釈", level: 1, amplify: 0, owned: false, img: "images/butaiuranotyusyaku.png"},
