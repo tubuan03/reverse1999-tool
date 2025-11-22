@@ -348,7 +348,23 @@
       .share-btn:active {
         transform: scale(0.98);
       }
-
+      
+      .toolbar-row {
+        text-align: right;
+      }
+      .confirmSaveBtn {
+        display: block;
+        margin: 0 auto 20px;
+        background: #fbc531;
+        color: #111;
+        font-weight: bold;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      
       .share-link {
         text-align: center;
         color: #fbc531;
@@ -572,6 +588,12 @@
 
     <button class="share-btn" id="toggleFilter">👁️ 所持済みのみ表示</button>
 
+    <div class="toolbar-row">
+      <button id="confirmSaveBtn" class="confirmSaveBtn" style="display: none">
+        💾 この状態を保存する
+      </button>
+    </div>
+    
     <div class="section">
       <h2>キャラ一覧</h2>
       <div class="grid" id="characterGrid"></div>
@@ -1139,7 +1161,23 @@ ${
 
         if (isSharedView) {
           document.getElementById("sharedNotice").style.display = "block";
+          document.getElementById("confirmSaveBtn").style.display =
+            "inline-block";
         }
+
+        document
+          .getElementById("confirmSaveBtn")
+          ?.addEventListener("click", () => {
+            const confirmed =
+              window.confirm("この状態を自分の環境に保存しますか？");
+
+            if (confirmed) {
+              isSharedView = false; // 保存を許可
+              saveState(); // 保存実行
+              alert("保存しました！");
+              /* document.getElementById("confirmSaveBtn").style.display = "none"; // ボタンを隠す */
+            }
+          });
 
         document
           .getElementById("closeDistortion")
