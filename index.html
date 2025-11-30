@@ -348,7 +348,7 @@
       .share-btn:active {
         transform: scale(0.98);
       }
-      
+
       .toolbar-row {
         text-align: right;
       }
@@ -364,7 +364,7 @@
         cursor: pointer;
         transition: background 0.3s;
       }
-      
+
       .share-link {
         text-align: center;
         color: #fbc531;
@@ -593,7 +593,7 @@
         💾 この状態を保存する
       </button>
     </div>
-    
+
     <div class="section">
       <h2>キャラ一覧</h2>
       <div class="grid" id="characterGrid"></div>
@@ -1109,12 +1109,25 @@ ${
 
         return { characters: ownedCharacters, mindsets: ownedMindsets };
       }
+
+      function minifyData({ characters, mindsets }) {
+        return {
+          c: characters
+            .filter((ch) => ch.owned)
+            .map((ch) => ({ i: ch.id, o: 1 })),
+          m: mindsets
+            .filter((ms) => ms.owned)
+            .map((ms) => ({ i: ms.id, o: 1 })),
+        };
+      }
+
       function encodeData(data) {
         const json = JSON.stringify(data);
         return LZString.compressToEncodedURIComponent(json);
       }
 
       async function generateShortUrl(data) {
+        const minified = minifyData(data);
         const longUrl = `${location.origin}${
           location.pathname
         }?data=${encodeData(data)}`;
@@ -1128,7 +1141,15 @@ ${
       function decodeData(str) {
         try {
           const json = LZString.decompressFromEncodedURIComponent(str);
-          return JSON.parse(json);
+          const raw = JSON.parse(json);
+
+          return {
+            characters: (raw.c || []).map((ch) => ({
+              id: ch.i,
+              owned: !!ch.o,
+            })),
+            mindsets: (raw.m || []).map((ms) => ({ id: ms.i, owned: !!ms.o })),
+          };
         } catch (e) {
           console.warn("デコードエラー:", e);
           return null;
