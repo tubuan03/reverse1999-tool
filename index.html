@@ -1185,7 +1185,7 @@ ${
 
       let isSharedView = false;
 
-      document.addEventListener("DOMContentLoaded", () => {
+      /* document.addEventListener("DOMContentLoaded", () => {
         const hasSharedData = location.search.startsWith("?data=");
         let sharedData = null;
 
@@ -1202,6 +1202,33 @@ ${
           mergeState(sharedData.characters, characters);
           mergeState(sharedData.mindsets, mindsets);
         } else {
+          loadState();
+        }
+
+        renderAll();
+
+        if (isSharedView) {
+          document.getElementById("sharedNotice").style.display = "block";
+          document.getElementById("confirmSaveBtn").style.display =
+            "inline-block";
+        } */
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(location.search);
+        const encoded = params.get("data");
+        let sharedData = null;
+
+        if (encoded) {
+          sharedData = decodeData(encoded);
+          if (sharedData) {
+            isSharedView = true;
+            mergeState(sharedData.characters, characters);
+            mergeState(sharedData.mindsets, mindsets);
+          }
+        }
+
+        // 🔽 sharedData がなかったときだけ localStorage を読み込む
+        if (!sharedData) {
           loadState();
         }
 
