@@ -1083,6 +1083,7 @@ ${
         const ownedCharacters = characters
           .filter((c) => c.owned)
           .map((c) => ({
+            id: c.id, // ← 追加！
             name: c.name,
             level: c.level,
             insight: c.insight,
@@ -1099,6 +1100,7 @@ ${
         const ownedMindsets = mindsets
           .filter((m) => m.owned)
           .map((m) => ({
+            id: m.id, // ← 追加！
             name: m.name,
             level: m.level,
             amplify: m.amplify,
@@ -1214,6 +1216,13 @@ ${
         } */
 
       document.addEventListener("DOMContentLoaded", () => {
+        characters.forEach((ch, index) => {
+          ch.id = index;
+        });
+        mindsets.forEach((ms, index) => {
+          ms.id = index;
+        });
+
         const params = new URLSearchParams(location.search);
         const encoded = params.get("data");
         let sharedData = null;
