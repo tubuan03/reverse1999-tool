@@ -1163,6 +1163,17 @@ ${
         }
       }
 
+      function mergeState(savedArray, baseArray) {
+        savedArray.forEach((savedItem) => {
+          const match =
+            savedItem.id !== undefined
+              ? baseArray.find((i) => i.id === savedItem.id)
+              : baseArray.find((i) => i.name === savedItem.name);
+
+          if (match) Object.assign(match, savedItem);
+        });
+      }
+
       /* function mergeState(savedArray, baseArray) {
         savedArray.forEach((savedItem) => {
           const match =
