@@ -1057,12 +1057,12 @@ ${
         if (saved.characters) mergeState(saved.characters, characters);
         if (saved.mindsets) mergeState(saved.mindsets, mindsets);
       }
-      function mergeState(savedArray, baseArray) {
+      /* function mergeState(savedArray, baseArray) {
         savedArray.forEach((savedItem) => {
           const match = baseArray.find((i) => i.name === savedItem.name);
           if (match) Object.assign(match, savedItem);
         });
-      }
+      } */
       function encodeState() {
         return encodeURIComponent(
           btoa(JSON.stringify({ characters, mindsets }))
@@ -1115,10 +1115,12 @@ ${
         return {
           c: characters
             .filter((ch) => ch.owned)
-            .map((ch) => ({ i: ch.id, o: 1 })),
+            .map((ch) => ch.id)
+            .join(","),
           m: mindsets
             .filter((ms) => ms.owned)
-            .map((ms) => ({ i: ms.id, o: 1 })),
+            .map((ms) => ms.id)
+            .join(","),
         };
       }
 
@@ -1145,16 +1147,29 @@ ${
           const raw = JSON.parse(json);
 
           return {
-            characters: (raw.c || []).map((ch) => ({
-              id: ch.i,
-              owned: !!ch.o,
-            })),
-            mindsets: (raw.m || []).map((ms) => ({ id: ms.i, owned: !!ms.o })),
+            characters: (raw.c || "")
+              .split(",")
+              .filter(Boolean)
+              .map((id) => ({ id: Number(id), owned: true })),
+
+            mindsets: (raw.m || "")
+              .split(",")
+              .filter(Boolean)
+              .map((id) => ({ id: Number(id), owned: true })),
           };
         } catch (e) {
           console.warn("デコードエラー:", e);
           return null;
         }
+      }
+
+      function mergeState(savedArray, baseArray) {
+        savedArray.forEach((savedItem) => {
+          const match =
+            baseArray.find((i) => i.id === savedItem.id) ||
+            baseArray.find((i) => i.name === savedItem.name);
+          if (match) Object.assign(match, savedItem);
+        });
       }
 
       let isSharedView = false;
