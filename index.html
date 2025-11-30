@@ -1057,12 +1057,12 @@ ${
         if (saved.characters) mergeState(saved.characters, characters);
         if (saved.mindsets) mergeState(saved.mindsets, mindsets);
       }
-      /* function mergeState(savedArray, baseArray) {
+      function mergeState(savedArray, baseArray) {
         savedArray.forEach((savedItem) => {
           const match = baseArray.find((i) => i.name === savedItem.name);
           if (match) Object.assign(match, savedItem);
         });
-      } */
+      }
       function encodeState() {
         return encodeURIComponent(
           btoa(JSON.stringify({ characters, mindsets }))
@@ -1163,14 +1163,14 @@ ${
         }
       }
 
-      function mergeState(savedArray, baseArray) {
+      /* function mergeState(savedArray, baseArray) {
         savedArray.forEach((savedItem) => {
           const match =
             baseArray.find((i) => i.id === savedItem.id) ||
             baseArray.find((i) => i.name === savedItem.name);
           if (match) Object.assign(match, savedItem);
         });
-      }
+      } */
 
       let isSharedView = false;
 
