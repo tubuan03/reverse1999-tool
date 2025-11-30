@@ -1133,7 +1133,7 @@ ${
         const minified = minifyData(data);
         const longUrl = `${location.origin}${
           location.pathname
-        }?data=${encodeData(data)}`;
+        }?data=${encodeData(minified)}`;
         const tinyApi = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(
           longUrl
         )}`;
