@@ -566,7 +566,7 @@ const mindsets = [
     owned: false,
     img: "images/omoiwohasete.png",
   },
-  {
+  /* {
     name: "静謐",
     level: 1,
     amplify: 0,
@@ -642,5 +642,6 @@ const mindsets = [
     amplify: 0,
     owned: false,
     img: "images/sousitu.png",
-  },
+  }, */
 ];
+
