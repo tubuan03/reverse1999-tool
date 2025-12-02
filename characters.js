@@ -9,7 +9,8 @@ const characters = [
     owned: false,
     img: "images/corvus.png",
     selectedMindset: null,
-  },  {
+  },
+    {
     name: "ルブシカ",
     level: 1,
     insight: 0,
