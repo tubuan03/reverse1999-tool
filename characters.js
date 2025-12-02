@@ -1,6 +1,6 @@
 // data.js
 const characters = [
-    {
+   /*  {
     name: "コルヴス",
     level: 1,
     insight: 0,
@@ -19,7 +19,7 @@ const characters = [
     owned: false,
     img: "images/rubuska.png",
     selectedMindset: null,
-  },
+  }, */
   {
     name: "カローン",
     level: 1,
