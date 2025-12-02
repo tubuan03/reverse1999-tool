@@ -4,7 +4,7 @@ const mindsets = [
     level: 1,
     amplify: 0,
     owned: false,
-    img: "imagessasuraino.png",
+    img: "images/sasuraino.png",
   },
   {
     name: "種に囁きかけ",
@@ -651,6 +651,7 @@ const mindsets = [
     img: "images/sousitu.png",
   },
 ];
+
 
 
 
