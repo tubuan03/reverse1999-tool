@@ -1185,13 +1185,24 @@ ${
       function mergeState(savedArray, baseArray) {
         savedArray.forEach((savedItem) => {
           const match =
+            baseArray.find((i) => i.id === savedItem.id) ||
+            baseArray.find((i) => i.name.trim() === savedItem.name.trim());
+
+          if (match) Object.assign(match, savedItem);
+          else console.warn("⚠️ mergeState: マッチしなかった", savedItem.name);
+        });
+      }
+      
+     /* function mergeState(savedArray, baseArray) {
+        savedArray.forEach((savedItem) => {
+          const match =
             savedItem.id !== undefined
               ? baseArray.find((i) => i.id === savedItem.id)
               : baseArray.find((i) => i.name === savedItem.name);
 
           if (match) Object.assign(match, savedItem);
         });
-      }
+      } */
 
       /* function mergeState(savedArray, baseArray) {
         savedArray.forEach((savedItem) => {
