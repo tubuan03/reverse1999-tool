@@ -642,10 +642,6 @@
         return html;
       }
       function renderCards(data, containerId, isCharacter = true) {
-        console.log(
-          `🧩 ${containerId} に描画開始:`,
-          data.map((d) => `${d.name} (${d.owned ? "所持" : "未所持"})`)
-        );
         const container = document.getElementById(containerId);
         container.innerHTML = "";
         data.forEach((item) => {
@@ -1049,13 +1045,23 @@ ${
           delete list.dataset.owner;
         }
       }
+
       function saveState() {
+        if (isSharedView) return;
+        const fullCharacters = characters.map((c) => ({ ...c }));
+        const fullMindsets = mindsets.map((m) => ({ ...m }));
+        localStorage.setItem(
+          "ownedData",
+          JSON.stringify({ characters: fullCharacters, mindsets: fullMindsets })
+        );
+      }
+      /* function saveState() {
         if (isSharedView) return; // 共有URLから開いた場合は保存しない
         localStorage.setItem(
           "ownedData",
           JSON.stringify({ characters, mindsets })
         );
-      }
+      } */
       function loadState() {
         const saved = JSON.parse(localStorage.getItem("ownedData") || "{}");
         if (saved.characters) mergeState(saved.characters, characters);
@@ -1183,6 +1189,20 @@ ${
       }
 
       function mergeState(savedArray, baseArray) {
+        const savedNames = new Set(savedArray.map((item) => item.name.trim()));
+        baseArray.forEach((baseItem) => {
+          const savedItem = savedArray.find(
+            (item) =>
+              item.id === baseItem.id ||
+              item.name.trim() === baseItem.name.trim()
+          );
+          if (savedItem) {
+            Object.assign(baseItem, savedItem);
+          } else {
+            // 🔽 保存されていないキャラに初期状態を明示的に設定（任意）
+            baseItem.owned = baseItem.owned || false;
+          }
+        });
         savedArray.forEach((savedItem) => {
           const match =
             baseArray.find((i) => i.id === savedItem.id) ||
@@ -1192,8 +1212,8 @@ ${
           else console.warn("⚠️ mergeState: マッチしなかった", savedItem.name);
         });
       }
-      
-     /* function mergeState(savedArray, baseArray) {
+
+      /* function mergeState(savedArray, baseArray) {
         savedArray.forEach((savedItem) => {
           const match =
             savedItem.id !== undefined
