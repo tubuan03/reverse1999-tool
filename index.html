@@ -59,8 +59,8 @@
         border-radius: 8px;
       }
       /*.card h3 {
-  margin: 8px 0 4px;
-  font-size: 16px; */
+      margin: 8px 0 4px;
+      font-size: 16px; */
       .card h3 {
         margin: 8px 0 4px;
         font-size: clamp(12px, 4vw, 16px); /* ← 画面幅に応じて縮小 */
@@ -221,7 +221,7 @@
       }
 
       /*  .level-buttons:active {
-        transform: scale(0.98); /* ✅ 押し込まれる感触 */
+            transform: scale(0.98); /* ✅ 押し込まれる感触 */
 
       .soft-btn {
         padding: 5px 10px;
@@ -383,6 +383,36 @@
         opacity: 1;
       }
 
+      .batch-edit-toggle {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* ← 中央揃えのポイント */
+        margin-bottom: 24px;
+      }
+
+      .field-group {
+  margin-bottom: 17px; /* ← ここを16px → 24px に拡張 */
+  text-align: center;
+}
+
+.save-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.level-controls button {
+  margin: 0 2px; /* ← 左右に6pxの余白（今より広め） */
+  /* padding: 6px 10px; */
+}
+
+#levelDisplay {
+  display: inline-block;
+  width: 48px; /* ← ここで横幅を調整（例: 48〜64px） */
+  text-align: center;
+  font-weight: bold;
+}
+
       .distortion-panel {
         position: fixed;
         top: 50%;
@@ -448,10 +478,10 @@
       }
 
       /*  @media (min-width: 600px) {
-        .mindset-spacer {
-          height: 21px;
-        }
-      } */
+            .mindset-spacer {
+              height: 21px;
+            }
+          } */
 
       #toggleMindsetPanel {
         margin-top: 12px;
@@ -593,6 +623,45 @@
         💾 この状態を保存する
       </button>
     </div>
+
+    <div class="batch-edit-toggle">
+      <button id="toggleBatchEdit" class="share-btn">🛠️ 一括で編集</button>    
+
+    <div id="batchEditPanel" class="batch-edit-panel" style="display: none">
+      <div class="field-group">
+          <p class="batch-edit-note">所持状態のキャラクター全てに適用されます</p>
+        <label>レベル</label>
+        <div class="level-controls">
+          <button id="levelMinus10">-10</button>
+          <button id="levelMinus1">-1</button>
+          <span id="levelDisplay">0</span>
+          <button id="levelPlus1">+1</button>
+          <button id="levelPlus10">+10</button>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>洞察</label>
+        <div>
+          <label
+            ><input type="radio" name="insight" value="0" checked /> 0</label
+          >
+          <label><input type="radio" name="insight" value="1" /> 1</label>
+          <label><input type="radio" name="insight" value="2" /> 2</label>
+          <label><input type="radio" name="insight" value="3" /> 3</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>共鳴</label>
+        <input type="range" id="resonanceSlider" min="1" max="15" value="1" />
+        <span id="resonanceValue">1</span>
+      </div>
+
+<div class="save-button-wrapper">
+  <button id="applyBatchEdit">保存</button>
+</div>
+</div>
 
     <div class="section">
       <h2>キャラ一覧</h2>
@@ -1085,6 +1154,13 @@ ${
           if (data.mindsets) mergeState(data.mindsets, mindsets);
         } catch {}
       }
+
+      let batchLevel = 0;
+
+      function updateLevelDisplay() {
+        document.getElementById("levelDisplay").textContent = batchLevel;
+      }
+
       function renderAll() {
         renderCards(characters, "characterGrid", true);
         renderCards(mindsets, "mindsetGrid", false);
@@ -1363,6 +1439,71 @@ ${
               .getElementById("distortionPanel")
               .classList.remove("active");
           });
+
+        document
+          .getElementById("toggleBatchEdit")
+          ?.addEventListener("click", () => {
+            const panel = document.getElementById("batchEditPanel");
+            panel.style.display =
+              panel.style.display === "none" ? "block" : "none";
+          });
+
+        document
+          .getElementById("levelMinus10")
+          ?.addEventListener("click", () => {
+            batchLevel = Math.max(0, batchLevel - 10);
+            updateLevelDisplay();
+          });
+        document
+          .getElementById("levelMinus1")
+          ?.addEventListener("click", () => {
+            batchLevel = Math.max(0, batchLevel - 1);
+            updateLevelDisplay();
+          });
+        document.getElementById("levelPlus1")?.addEventListener("click", () => {
+          batchLevel = Math.min(90, batchLevel + 1);
+          updateLevelDisplay();
+        });
+        document
+          .getElementById("levelPlus10")
+          ?.addEventListener("click", () => {
+            batchLevel = Math.min(90, batchLevel + 10);
+            updateLevelDisplay();
+          });
+
+        document
+          .getElementById("resonanceSlider")
+          ?.addEventListener("input", (e) => {
+            document.getElementById("resonanceValue").textContent =
+              e.target.value;
+          });
+
+        document
+          .getElementById("applyBatchEdit")
+          ?.addEventListener("click", () => {
+            const insight = parseInt(
+              document.querySelector('input[name="insight"]:checked')?.value,
+              10
+            );
+            const resonance = parseInt(
+              document.getElementById("resonanceSlider").value,
+              10
+            );
+
+            const confirmed = confirm("所持状態のキャラクターすべてに適用しますか？");
+            if (!confirmed) return;
+
+            characters.forEach((ch) => {
+              if (ch.owned) {
+                ch.level = batchLevel;
+                ch.insight = insight;
+                ch.resonance = resonance;
+              }
+            });
+
+            renderAll();
+          });
+
         document
           .querySelectorAll('.soft-radio input[type="radio"]')
           .forEach((radio) => {
