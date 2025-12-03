@@ -657,3 +657,4 @@ const mindsets = [
 
 
 
+
