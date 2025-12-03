@@ -1117,12 +1117,26 @@ ${
         return {
           c: characters
             .filter((ch) => ch.owned)
-            .map((ch) => ch.id)
-            .join(","),
+            .map((ch) => ({
+              id: ch.id,
+              level: ch.level,
+              insight: ch.insight,
+              resonance: ch.resonance,
+              statue: ch.statue,
+              madness: ch.madness,
+              highlightedMadness: ch.highlightedMadness || [],
+              selectedDistortion: ch.selectedDistortion || [],
+              selectedMindset: ch.selectedMindset || null,
+            })),
           m: mindsets
             .filter((ms) => ms.owned)
-            .map((ms) => ms.id)
-            .join(","),
+            .map((ms) => ({
+              id: ms.id,
+              level: ms.level,
+              amplify: ms.amplify,
+              madness: ms.madness,
+              highlightedMadness: ms.highlightedMadness || [],
+            })),
         };
       }
 
@@ -1149,15 +1163,14 @@ ${
           const raw = JSON.parse(json);
 
           return {
-            characters: (raw.c || "")
-              .split(",")
-              .filter(Boolean)
-              .map((id) => ({ id: Number(id), owned: true })),
-
-            mindsets: (raw.m || "")
-              .split(",")
-              .filter(Boolean)
-              .map((id) => ({ id: Number(id), owned: true })),
+            characters: (raw.c || []).map((item) => ({
+              ...item,
+              owned: true,
+            })),
+            mindsets: (raw.m || []).map((item) => ({
+              ...item,
+              owned: true,
+            })),
           };
         } catch (e) {
           console.warn("デコードエラー:", e);
