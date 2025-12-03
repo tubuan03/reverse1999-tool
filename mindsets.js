@@ -1,4 +1,4 @@
-const mindsets = [
+window.mindsets = [
   {
     name: "さすらいの即興曲",
     level: 1,
@@ -651,6 +651,7 @@ const mindsets = [
     img: "images/sousitu.png",
   },
 ];
+
 
 
 
