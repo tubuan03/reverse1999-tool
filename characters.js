@@ -1,5 +1,4 @@
-// data.js
-const characters = [
+window.characters = [
   {
     name: "コルヴス",
     level: 1,
