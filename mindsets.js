@@ -1,11 +1,11 @@
 const mindsets = [
- /*  {
+  {
     name: "さすらいの即興曲",
     level: 1,
     amplify: 0,
     owned: false,
     img: "images/sasuraino.png",
-  }, */
+  },
   {
     name: "種に囁きかけ",
     level: 1,
@@ -651,6 +651,7 @@ const mindsets = [
     img: "images/sousitu.png",
   },
 ];
+
 
 
 
