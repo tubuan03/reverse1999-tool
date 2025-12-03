@@ -1188,7 +1188,7 @@ ${
         }
       }
 
-      /*     function mergeState(savedArray, baseArray) {
+      function mergeState(savedArray, baseArray) {
         savedArray.forEach((savedItem) => {
           const match =
             baseArray.find((i) => i.id === savedItem.id) ||
@@ -1212,8 +1212,9 @@ ${
             baseItem.owned = baseItem.owned || false;
           }
         });
-      } */
-      function mergeState(savedArray, baseArray) {
+      }
+
+      /* function mergeState(savedArray, baseArray) {
         savedArray.forEach((savedItem) => {
           const match =
             savedItem.id !== undefined
@@ -1222,7 +1223,7 @@ ${
 
           if (match) Object.assign(match, savedItem);
         });
-      }
+      } */
 
       /* function mergeState(savedArray, baseArray) {
         savedArray.forEach((savedItem) => {
