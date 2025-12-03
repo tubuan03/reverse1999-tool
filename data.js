@@ -1,5 +1,6 @@
 // data.js
 const characters = [
+  {name: "ルブシカ", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/rubuska.png", selectedMindset: null},
   {name: "カローン", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/charon.png", selectedMindset: null},
   {name: "センティネル", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/sentinel.png", selectedMindset: null},
   {name: "モルダー", level: 1, insight: 0, resonance: 1, statue: 0, owned: false, img: "images/moldir.png", selectedMindset: null},
