@@ -1497,7 +1497,9 @@ ${
               if (ch.owned) {
                 ch.level = batchLevel;
                 ch.insight = insight;
+                if ('resonance' in ch) {
                 ch.resonance = resonance;
+              }
               }
             });
 
