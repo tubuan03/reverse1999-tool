@@ -1189,30 +1189,30 @@ ${
       }
 
       function mergeState(savedArray, baseArray) {
-        const savedNames = new Set(savedArray.map((item) => item.name.trim()));
-        baseArray.forEach((baseItem) => {
-          const savedItem = savedArray.find(
-            (item) =>
-              item.id === baseItem.id ||
-              item.name.trim() === baseItem.name.trim()
-          );
-          if (savedItem) {
-            Object.assign(baseItem, savedItem);
-          } else {
-            // 🔽 保存されていないキャラに初期状態を明示的に設定（任意）
-            baseItem.owned = baseItem.owned || false;
-          }
-        });
         savedArray.forEach((savedItem) => {
           const match =
             baseArray.find((i) => i.id === savedItem.id) ||
             baseArray.find((i) => i.name.trim() === savedItem.name.trim());
 
-          if (match) Object.assign(match, savedItem);
-          else console.warn("⚠️ mergeState: マッチしなかった", savedItem.name);
+          if (match) {
+            Object.assign(match, savedItem);
+          } else {
+            console.warn("⚠️ mergeState: マッチしなかった", savedItem.name);
+          }
+        });
+
+        // 🔽 baseArray 側に存在するが、保存データにない項目に初期状態を明示（任意）
+        baseArray.forEach((baseItem) => {
+          const matched = savedArray.some(
+            (item) =>
+              item.id === baseItem.id ||
+              item.name.trim() === baseItem.name.trim()
+          );
+          if (!matched) {
+            baseItem.owned = baseItem.owned || false;
+          }
         });
       }
-
       /* function mergeState(savedArray, baseArray) {
         savedArray.forEach((savedItem) => {
           const match =
