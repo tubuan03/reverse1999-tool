@@ -856,7 +856,7 @@ ${!item.madness?.length ? `<div class="mindset-spacer"></div>` : ""}
   <input type="range" id="editResonance" min="1" max="15" step="1" value="${
     item.resonance
   }">
-  <span id="resonanceValue">${item.resonance}</span>
+  <span id="editresonanceValue">${item.resonance}</span>
 </div>
   <button id="toggleDistortionPanel" class="distortion-toggle-btn">変調を表示</button>
   <button id="toggleMindsetPanel" class="mindset-toggle-btn">心相を選択</button>
@@ -929,7 +929,7 @@ ${
 
         if (isCharacter) {
           const resonanceSlider = document.getElementById("editResonance");
-          const resonanceDisplay = document.getElementById("resonanceValue");
+          const resonanceDisplay = document.getElementById("editresonanceValue");
           if (resonanceSlider && resonanceDisplay) {
             resonanceSlider.addEventListener("input", () => {
               resonanceDisplay.textContent = resonanceSlider.value;
