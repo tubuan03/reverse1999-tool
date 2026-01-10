@@ -1,10 +1,19 @@
 window.mindsets = [
   {
+    name: "残された者の旅",
+    level: 1,
+    amplify: 0,
+    owned: false,
+    img: "images/nokosareta.png",
+    id: 0,
+  },
+  {
     name: "さすらいの即興曲",
     level: 1,
     amplify: 0,
     owned: false,
     img: "images/sasuraino.png",
+    id: 1,
   },
   {
     name: "種に囁きかけ",
@@ -12,6 +21,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/tanenisasayaki.png",
+    id: 2,
   },
   {
     name: "細流に流れ込んで",
@@ -19,6 +29,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/sairyuninagare.png",
+    id: 3,
   },
   {
     name: "帰郷の追悼",
@@ -26,6 +37,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/kikyounotuitou.png",
+    id: 4,
   },
   {
     name: "ふとしたきらめき",
@@ -33,6 +45,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/hutosita.png",
+    id: 5,
   },
   {
     name: "家族の導き手",
@@ -40,6 +53,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/kazokunomitibikite.png",
+    id: 6,
   },
   {
     name: "心の墓碑銘",
@@ -47,6 +61,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/kokoronobohimei.png",
+    id: 7,
   },
   {
     name: "叙事詩の終焉",
@@ -54,6 +69,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/jozisinosyuen.png",
+    id: 8,
   },
   {
     name: "黄昏に響く鐘",
@@ -61,6 +77,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/tasogarenihibiku.png",
+    id: 9,
   },
   {
     name: "春の足取り",
@@ -68,6 +85,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/harunoasidori.png",
+    id: 10,
   },
   {
     name: "終わらないQ&A",
@@ -75,6 +93,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/owaranaiqa.png",
+    id: 11,
   },
   {
     name: "脳の牢獄",
@@ -82,6 +101,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/nounorougoku.png",
+    id: 12,
   },
   {
     name: "最後のダイス",
@@ -89,6 +109,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/saigonodice.png",
+    id: 13,
   },
   {
     name: "夢づくりのリハーサル",
@@ -96,6 +117,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/yumedukurino.png",
+    id: 14,
   },
   {
     name: "直ちに応答せよ",
@@ -103,6 +125,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/tadatinioutouseyo.png",
+    id: 15,
   },
   {
     name: "貝殻のひび割れ",
@@ -110,6 +133,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/kaigaranohibiware.png",
+    id: 16,
   },
   {
     name: "別れの変奏曲",
@@ -117,6 +141,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/wakarenohensou.png",
+    id: 17,
   },
   {
     name: "秒針の住み処",
@@ -124,6 +149,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/byousinnosumidokoro.png",
+    id: 18,
   },
   {
     name: "ささやかな願い",
@@ -131,6 +157,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/sasayakananegai.png",
+    id: 19,
   },
   {
     name: "ノンリズムジャンプ",
@@ -138,6 +165,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/nonrhythm.png",
+    id: 20,
   },
   {
     name: "三度目の信頼",
@@ -145,6 +173,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/sandomenosinrai.png",
+    id: 21,
   },
   {
     name: "愛の本質",
@@ -152,6 +181,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/ainohonsitu.png",
+    id: 22,
   },
   {
     name: "夜の奥深くへと",
@@ -159,6 +189,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/yorunookuhukaku.png",
+    id: 23,
   },
   {
     name: "メイドは見た",
@@ -166,6 +197,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/meidohamita.png",
+    id: 24,
   },
   {
     name: "流れ行く泉のように",
@@ -173,6 +205,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/nagareyukuizumi.png",
+    id: 25,
   },
   {
     name: "最奥より",
@@ -180,6 +213,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/saiouyori.png",
+    id: 26,
   },
   {
     name: "語られざる軽さ",
@@ -187,6 +221,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/katararezaru.png",
+    id: 27,
   },
   {
     name: "勇ましい者の言葉",
@@ -194,6 +229,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/isamasimono.png",
+    id: 28,
   },
   {
     name: "前進の足音",
@@ -201,6 +237,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/zensinnoasioto.png",
+    id: 29,
   },
   {
     name: "近づく雨の音",
@@ -208,6 +245,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/tikadukuameno.png",
+    id: 30,
   },
   {
     name: "証明の試み",
@@ -215,6 +253,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/syoumeinokokoromi.png",
+    id: 31,
   },
   {
     name: "夜は明ける",
@@ -222,6 +261,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/yohaakeru.png",
+    id: 32,
   },
   {
     name: "もうひとつの物語",
@@ -229,6 +269,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/mouhitotuno.png",
+    id: 33,
   },
   {
     name: "狭いドアをノックして",
@@ -236,6 +277,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/semaidoawo.png",
+    id: 34,
   },
   {
     name: "目下に新事なし",
@@ -243,6 +285,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/mokkanisinzi.png",
+    id: 35,
   },
   {
     name: "四方城の外にて",
@@ -250,6 +293,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/sihoujou.png",
+    id: 36,
   },
   {
     name: "長い夜話",
@@ -257,6 +301,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/nagaiyawa.png",
+    id: 37,
   },
   {
     name: "バランスに注意",
@@ -264,6 +309,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/baransunityui.png",
+    id: 38,
   },
   {
     name: "沈黙と憧れ",
@@ -271,6 +317,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/tinmokutoakogare.png",
+    id: 39,
   },
   {
     name: "測定可能な心",
@@ -278,6 +325,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/sokuteikanou.png",
+    id: 40,
   },
   {
     name: "おとぎの国の外",
@@ -285,6 +333,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/otoginokuni.png",
+    id: 41,
   },
   {
     name: "娯楽至上",
@@ -292,6 +341,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/gorakusijou.png",
+    id: 42,
   },
   {
     name: "必要な記録",
@@ -299,6 +349,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/hituyounakiroku.png",
+    id: 43,
   },
   {
     name: "好奇心の塊",
@@ -306,6 +357,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/koukisinnokatamari.png",
+    id: 44,
   },
   {
     name: "万雷の拍手",
@@ -313,6 +365,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/banrainohakusyu.png",
+    id: 45,
   },
   {
     name: "夜を冒涜する者",
@@ -320,6 +373,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/yoruwoboutoku.png",
+    id: 46,
   },
   {
     name: "二度目の人生",
@@ -327,6 +381,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/nidomenozinsei.png",
+    id: 47,
   },
   {
     name: "ホップスコッチ",
@@ -334,6 +389,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/hopsukotti.png",
+    id: 48,
   },
   {
     name: "美しい新世界",
@@ -341,6 +397,15 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/utukusisinsekai.png",
+    id: 49,
+  },
+  {
+    name: "色褪せたエピタフ",
+    level: 1,
+    amplify: 0,
+    owned: false,
+    img: "images/epitaf.png",
+    id: 50,
   },
   {
     name: "偽物と模造品",
@@ -348,6 +413,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/nisemonoto.png",
+    id: 51,
   },
   {
     name: "道端のほこり",
@@ -355,6 +421,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/mitibatanohokori.png",
+    id: 52,
   },
   {
     name: "懐かしい歌、新しいメロディー",
@@ -362,6 +429,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/natukasiuta.png",
+    id: 53,
   },
   {
     name: "舞台裏の注釈",
@@ -369,6 +437,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/butaiuranotyusyaku.png",
+    id: 54,
   },
   {
     name: "除霊パートナー",
@@ -376,6 +445,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/joreipartner.png",
+    id: 55,
   },
   {
     name: "ベルト･イット･アウト",
@@ -383,6 +453,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/beltitout.png",
+    id: 56,
   },
   {
     name: "迷道の外",
@@ -390,6 +461,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/meidounosoto.png",
+    id: 57,
   },
   {
     name: "心に刻みこんだもの",
@@ -397,6 +469,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/kokoronikizamikonda.png",
+    id: 58,
   },
   {
     name: "現象の中に落ちて",
@@ -404,6 +477,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/gensyounonakaniotite.png",
+    id: 59,
   },
   {
     name: "生気に満ちた物語",
@@ -411,6 +485,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/seikinimitita.png",
+    id: 60,
   },
   {
     name: "知られざる芸術",
@@ -418,6 +493,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/sirarezarugeijutu.png",
+    id: 61,
   },
   {
     name: "自業自得",
@@ -425,6 +501,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/zigouzitoku.png",
+    id: 62,
   },
   {
     name: "デプレッション",
@@ -432,6 +509,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/depuressyon.png",
+    id: 63,
   },
   {
     name: "ウォーク･アローン",
@@ -439,6 +517,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/walkalone.png",
+    id: 64,
   },
   {
     name: "影にて",
@@ -446,6 +525,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/kagenite.png",
+    id: 65,
   },
   {
     name: "沈黙の眼差し",
@@ -453,6 +533,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/tinmokunomanazasi.png",
+    id: 66,
   },
   {
     name: "夜な夜な",
@@ -460,6 +541,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/yonayona.png",
+    id: 67,
   },
   {
     name: "歯車の外",
@@ -467,6 +549,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/hagurumanosoto.png",
+    id: 68,
   },
   {
     name: "昨日の出来事",
@@ -474,6 +557,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/kinounodekigoto.png",
+    id: 69,
   },
   {
     name: "新たなページ",
@@ -481,6 +565,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/aratanapage.png",
+    id: 70,
   },
   {
     name: "ティータイム",
@@ -488,6 +573,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/teatime.png",
+    id: 71,
   },
   {
     name: "苦しい旅の途中",
@@ -495,6 +581,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/kurusiitabinototyu.png",
+    id: 72,
   },
   {
     name: "いざ出航",
@@ -502,6 +589,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/izasyukkou.png",
+    id: 73,
   },
   {
     name: "アブサーディティ･ライフ",
@@ -509,6 +597,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/abusadexitexi.png",
+    id: 74,
   },
   {
     name: "サティスファイド･イーター",
@@ -516,6 +605,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/satexisufaido.png",
+    id: 75,
   },
   {
     name: "楽しげな笑い声",
@@ -523,6 +613,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/tanosigenawaraigoe.png",
+    id: 76,
   },
   {
     name: "自由な心",
@@ -530,6 +621,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/ziyunakokoro.png",
+    id: 77,
   },
   {
     name: "遥かなる前途",
@@ -537,6 +629,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/harukanaruzento.png",
+    id: 78,
   },
   {
     name: "午後の休憩",
@@ -544,6 +637,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/gogonokyukei.png",
+    id: 79,
   },
   {
     name: "むき出しの真実",
@@ -551,6 +645,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/mukidasinosinzitu.png",
+    id: 80,
   },
   {
     name: "気ままに",
@@ -558,6 +653,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/kimamani.png",
+    id: 81,
   },
   {
     name: "明日も同じ",
@@ -565,6 +661,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/asumoonazi.png",
+    id: 82,
   },
   {
     name: "思いを馳せて",
@@ -572,6 +669,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/omoiwohasete.png",
+    id: 83,
   },
   {
     name: "静謐",
@@ -579,6 +677,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/seihitu.png",
+    id: 84,
   },
   {
     name: "緑毒",
@@ -586,6 +685,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/ryokudoku.png",
+    id: 85,
   },
   {
     name: "貪欲",
@@ -593,6 +693,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/donyoku.png",
+    id: 86,
   },
   {
     name: "祟奉",
@@ -600,6 +701,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/tatari.png",
+    id: 87,
   },
   {
     name: "航海",
@@ -607,6 +709,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/koukai.png",
+    id: 88,
   },
   {
     name: "歓声",
@@ -614,6 +717,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/kannsei.png",
+    id: 89,
   },
   {
     name: "無感覚",
@@ -621,6 +725,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/mukankaku.png",
+    id: 90,
   },
   {
     name: "蒙昧",
@@ -628,6 +733,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/moumai.png",
+    id: 91,
   },
   {
     name: "軽蔑",
@@ -635,6 +741,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/keibetu.png",
+    id: 92,
   },
   {
     name: "鬱然",
@@ -642,6 +749,7 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/utuzen.png",
+    id: 93,
   },
   {
     name: "喪失",
@@ -649,13 +757,6 @@ window.mindsets = [
     amplify: 0,
     owned: false,
     img: "images/sousitu.png",
+    id: 94,
   },
 ];
-
-
-
-
-
-
-
-
