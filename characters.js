@@ -1,4 +1,33 @@
+// data.js
 window.characters = [
+  {
+    name: "グレイッシュブルー",
+    level: 1,
+    insight: 0,
+    resonance: 1,
+    statue: 0,
+    owned: false,
+    img: "images/brume.png",
+    selectedMindset: null,
+    madness: [],
+    highlightedMadness: [],
+    selectedDistortion: [],
+    id: 0,
+  },
+  {
+    name: "ベリル",
+    level: 1,
+    insight: 0,
+    resonance: 1,
+    statue: 0,
+    owned: false,
+    img: "images/beryl.png",
+    selectedMindset: null,
+    madness: [],
+    highlightedMadness: [],
+    selectedDistortion: [],
+    id: 1,
+  },
   {
     name: "コルヴス",
     level: 1,
@@ -8,6 +37,7 @@ window.characters = [
     owned: false,
     img: "images/corvus.png",
     selectedMindset: null,
+    id: 2,
   },
   {
     name: "ルブシカ",
@@ -18,6 +48,7 @@ window.characters = [
     owned: false,
     img: "images/rubuska.png",
     selectedMindset: null,
+    id: 3,
   },
   {
     name: "カローン",
@@ -28,6 +59,7 @@ window.characters = [
     owned: false,
     img: "images/charon.png",
     selectedMindset: null,
+    id: 4,
   },
   {
     name: "センティネル",
@@ -38,6 +70,7 @@ window.characters = [
     owned: false,
     img: "images/sentinel.png",
     selectedMindset: null,
+    id: 5,
   },
   {
     name: "モルダー",
@@ -48,6 +81,7 @@ window.characters = [
     owned: false,
     img: "images/moldir.png",
     selectedMindset: null,
+    id: 6,
   },
   {
     name: "ウルリッヒ",
@@ -58,6 +92,7 @@ window.characters = [
     owned: false,
     img: "images/ulrich.png",
     selectedMindset: null,
+    id: 7,
   },
   {
     name: "ノーティカ",
@@ -68,6 +103,7 @@ window.characters = [
     owned: false,
     img: "images/nautika.png",
     selectedMindset: null,
+    id: 8,
   },
   {
     name: "カサンドラ",
@@ -78,6 +114,7 @@ window.characters = [
     owned: false,
     img: "images/kassandra.png",
     selectedMindset: null,
+    id: 9,
   },
   {
     name: "エツィオ",
@@ -88,6 +125,7 @@ window.characters = [
     owned: false,
     img: "images/ezio.png",
     selectedMindset: null,
+    id: 10,
   },
   {
     name: "カイパリーナ",
@@ -98,6 +136,7 @@ window.characters = [
     owned: false,
     img: "images/kiperina.png",
     selectedMindset: null,
+    id: 11,
   },
   {
     name: "サーベス",
@@ -108,6 +147,7 @@ window.characters = [
     owned: false,
     img: "images/hissabeth.png",
     selectedMindset: null,
+    id: 12,
   },
   {
     name: "エル･アレフ",
@@ -118,6 +158,7 @@ window.characters = [
     owned: false,
     img: "images/aleph.png",
     selectedMindset: null,
+    id: 13,
   },
   {
     name: "レコレータ",
@@ -128,6 +169,7 @@ window.characters = [
     owned: false,
     img: "images/recoleta.png",
     selectedMindset: null,
+    id: 14,
   },
   {
     name: "ノワール",
@@ -138,6 +180,7 @@ window.characters = [
     owned: false,
     img: "images/noire.png",
     selectedMindset: null,
+    id: 15,
   },
   {
     name: "梁月",
@@ -148,6 +191,7 @@ window.characters = [
     owned: false,
     img: "images/liang.png",
     selectedMindset: null,
+    id: 16,
   },
   {
     name: "トゥトゥイ",
@@ -158,6 +202,7 @@ window.characters = [
     owned: false,
     img: "images/fatutu.png",
     selectedMindset: null,
+    id: 17,
   },
   {
     name: "バルカローラ",
@@ -168,6 +213,7 @@ window.characters = [
     owned: false,
     img: "images/barcarola.png",
     selectedMindset: null,
+    id: 18,
   },
   {
     name: "パタパタペーパー",
@@ -178,6 +224,7 @@ window.characters = [
     owned: false,
     img: "images/flutterpage.png",
     selectedMindset: null,
+    id: 19,
   },
   {
     name: "ヴィロー",
@@ -188,6 +235,7 @@ window.characters = [
     owned: false,
     img: "images/willow.png",
     selectedMindset: null,
+    id: 20,
   },
   {
     name: "ロペラ",
@@ -198,6 +246,7 @@ window.characters = [
     owned: false,
     img: "images/lopera.png",
     selectedMindset: null,
+    id: 21,
   },
   {
     name: "アンジョナナ",
@@ -208,6 +257,7 @@ window.characters = [
     owned: false,
     img: "images/anjonala.png",
     selectedMindset: null,
+    id: 22,
   },
   {
     name: "アルゴス",
@@ -216,9 +266,9 @@ window.characters = [
     resonance: 1,
     statue: 0,
     owned: false,
-    madness: ["S強化"],
     img: "images/argus.png",
     selectedMindset: null,
+    id: 23,
   },
   {
     name: "チューズデー",
@@ -229,6 +279,7 @@ window.characters = [
     owned: false,
     img: "images/tuesday.png",
     selectedMindset: null,
+    id: 24,
   },
   {
     name: "J",
@@ -239,6 +290,7 @@ window.characters = [
     owned: false,
     img: "images/Joe.png",
     selectedMindset: null,
+    id: 25,
   },
   {
     name: "マーキュリア",
@@ -249,6 +301,7 @@ window.characters = [
     owned: false,
     img: "images/mercuria.png",
     selectedMindset: null,
+    id: 26,
   },
   {
     name: "カカニア",
@@ -259,6 +312,7 @@ window.characters = [
     owned: false,
     img: "images/kakania.png",
     selectedMindset: null,
+    id: 27,
   },
   {
     name: "センメルワイス",
@@ -270,6 +324,7 @@ window.characters = [
     madness: ["血薪"],
     img: "images/semmelweis.png",
     selectedMindset: null,
+    id: 28,
   },
   {
     name: "ルーシー",
@@ -281,6 +336,7 @@ window.characters = [
     madness: ["電力"],
     img: "images/lucy.png",
     selectedMindset: null,
+    id: 29,
   },
   {
     name: "スヴィスティ",
@@ -291,6 +347,7 @@ window.characters = [
     owned: false,
     img: "images/windsong.png",
     selectedMindset: null,
+    id: 30,
   },
   {
     name: "ヴィラ",
@@ -302,6 +359,7 @@ window.characters = [
     madness: ["回復"],
     img: "images/Вила.png",
     selectedMindset: null,
+    id: 31,
   },
   {
     name: "マーカス",
@@ -313,6 +371,7 @@ window.characters = [
     madness: ["S強化"],
     img: "images/marcus.png",
     selectedMindset: null,
+    id: 32,
   },
   {
     name: "イゾルデ",
@@ -323,6 +382,7 @@ window.characters = [
     owned: false,
     img: "images/izolde.png",
     selectedMindset: null,
+    id: 33,
   },
   {
     name: "葛天",
@@ -334,6 +394,7 @@ window.characters = [
     madness: ["陣法"],
     img: "images/getian.png",
     selectedMindset: null,
+    id: 34,
   },
   {
     name: "曲娘",
@@ -345,6 +406,7 @@ window.characters = [
     madness: ["追撃"],
     img: "images/jinniangzi.png",
     selectedMindset: null,
+    id: 35,
   },
   {
     name: "エズラ",
@@ -356,6 +418,7 @@ window.characters = [
     madness: ["血薪", "電力"],
     img: "images/ezra.png",
     selectedMindset: null,
+    id: 36,
   },
   {
     name: "カエンボク",
@@ -366,6 +429,7 @@ window.characters = [
     owned: false,
     img: "images/spathodea.png",
     selectedMindset: null,
+    id: 37,
   },
   {
     name: "6",
@@ -376,6 +440,7 @@ window.characters = [
     owned: false,
     img: "images/six.png",
     selectedMindset: null,
+    id: 38,
   },
   {
     name: "37",
@@ -386,6 +451,7 @@ window.characters = [
     owned: false,
     img: "images/thirtyseven.png",
     selectedMindset: null,
+    id: 39,
   },
   {
     name: "シャーマィン",
@@ -397,6 +463,7 @@ window.characters = [
     madness: ["ULT"],
     img: "images/shamane.png",
     selectedMindset: null,
+    id: 40,
   },
   {
     name: "カーラ･ボナー",
@@ -407,6 +474,7 @@ window.characters = [
     owned: false,
     img: "images/BlackDwarf.png",
     selectedMindset: null,
+    id: 41,
   },
   {
     name: "ジェシカ",
@@ -418,6 +486,7 @@ window.characters = [
     madness: ["石化", "中毒"],
     img: "images/changeling.png",
     selectedMindset: null,
+    id: 42,
   },
   {
     name: "トゥースフェアリー",
@@ -428,6 +497,7 @@ window.characters = [
     owned: false,
     img: "images/tooth.png",
     selectedMindset: null,
+    id: 43,
   },
   {
     name: "ピクルス",
@@ -439,6 +509,7 @@ window.characters = [
     madness: ["強化"],
     img: "images/Pickles.png",
     selectedMindset: null,
+    id: 44,
   },
   {
     name: "メラニア",
@@ -450,6 +521,7 @@ window.characters = [
     madness: ["MP"],
     img: "images/Melania.png",
     selectedMindset: null,
+    id: 45,
   },
   {
     name: "ナイト",
@@ -458,9 +530,9 @@ window.characters = [
     resonance: 1,
     statue: 0,
     owned: false,
-    madness: ["Ult"],
     img: "images/Knight.png",
     selectedMindset: null,
+    id: 46,
   },
   {
     name: "ニューバベル",
@@ -472,6 +544,7 @@ window.characters = [
     madness: ["シールド"],
     img: "images/NewBabel.png",
     selectedMindset: null,
+    id: 47,
   },
   {
     name: "エターニティ",
@@ -483,6 +556,7 @@ window.characters = [
     madness: ["自傷", "血薪"],
     img: "images/Eternity.png",
     selectedMindset: null,
+    id: 48,
   },
   {
     name: "メディスンポケット",
@@ -494,6 +568,7 @@ window.characters = [
     madness: ["回復"],
     img: "images/Medicine.png",
     selectedMindset: null,
+    id: 49,
   },
   {
     name: "ケントゥリオン",
@@ -505,6 +580,7 @@ window.characters = [
     madness: ["MP"],
     img: "images/Centurion.png",
     selectedMindset: null,
+    id: 50,
   },
   {
     name: "ボイジャー",
@@ -516,6 +592,7 @@ window.characters = [
     madness: ["啓示"],
     img: "images/Voyager.png",
     selectedMindset: null,
+    id: 51,
   },
   {
     name: "リーリャ",
@@ -527,6 +604,7 @@ window.characters = [
     madness: ["追撃", "弾丸"],
     img: "images/Lilya.png",
     selectedMindset: null,
+    id: 52,
   },
   {
     name: "レグルス",
@@ -538,6 +616,7 @@ window.characters = [
     madness: ["啓示"],
     img: "images/Regulus.png",
     selectedMindset: null,
+    id: 53,
   },
   {
     name: "リー･アンアン",
@@ -549,6 +628,7 @@ window.characters = [
     madness: ["S強化"],
     img: "images/lee.png",
     selectedMindset: null,
+    id: 54,
   },
   {
     name: "サザビー",
@@ -560,6 +640,7 @@ window.characters = [
     madness: ["回復"],
     img: "images/Sotheby.png",
     selectedMindset: null,
+    id: 55,
   },
   {
     name: "ドルーヴィスIII",
@@ -571,8 +652,8 @@ window.characters = [
     madness: ["石化", "本源"],
     img: "images/Druvis.png",
     selectedMindset: null,
+    id: 56,
   },
-  //☆5
   {
     name: "もぐナッツ",
     level: 1,
@@ -582,6 +663,7 @@ window.characters = [
     owned: false,
     img: "images/fairchild.png",
     selectedMindset: null,
+    id: 57,
   },
   {
     name: "アレクシオス",
@@ -592,6 +674,7 @@ window.characters = [
     owned: false,
     img: "images/alexios.png",
     selectedMindset: null,
+    id: 58,
   },
   {
     name: "ネイムデー",
@@ -602,6 +685,7 @@ window.characters = [
     owned: false,
     img: "images/nameday.png",
     selectedMindset: null,
+    id: 59,
   },
   {
     name: "ロガーヘッド",
@@ -612,6 +696,7 @@ window.characters = [
     owned: false,
     img: "images/loggerhead.png",
     selectedMindset: null,
+    id: 60,
   },
   {
     name: "つば広ハット",
@@ -622,6 +707,7 @@ window.characters = [
     owned: false,
     img: "images/brimley.png",
     selectedMindset: null,
+    id: 61,
   },
   {
     name: "ダンカン",
@@ -632,6 +718,7 @@ window.characters = [
     owned: false,
     img: "images/duncan.png",
     selectedMindset: null,
+    id: 62,
   },
   {
     name: "メェプル",
@@ -642,6 +729,7 @@ window.characters = [
     owned: false,
     img: "images/barbara.png",
     selectedMindset: null,
+    id: 63,
   },
   {
     name: "ローレライ",
@@ -652,6 +740,7 @@ window.characters = [
     owned: false,
     img: "images/lorelei.png",
     selectedMindset: null,
+    id: 64,
   },
   {
     name: "アヴグスト",
@@ -662,6 +751,7 @@ window.characters = [
     owned: false,
     img: "images/авксивий.png",
     selectedMindset: null,
+    id: 65,
   },
   {
     name: "エニセイ",
@@ -672,6 +762,7 @@ window.characters = [
     owned: false,
     img: "images/енисей.png",
     selectedMindset: null,
+    id: 66,
   },
   {
     name: "サンド･フランネル",
@@ -682,6 +773,7 @@ window.characters = [
     owned: false,
     img: "images/flannel.png",
     selectedMindset: null,
+    id: 67,
   },
   {
     name: "ウル",
@@ -692,6 +784,7 @@ window.characters = [
     owned: false,
     img: "images/ulu.png",
     selectedMindset: null,
+    id: 68,
   },
   {
     name: "カンジーラ",
@@ -702,6 +795,7 @@ window.characters = [
     owned: false,
     img: "images/Kanjira.png",
     selectedMindset: null,
+    id: 69,
   },
   {
     name: "ホラーペディア",
@@ -712,6 +806,7 @@ window.characters = [
     owned: false,
     img: "images/horropedia.png",
     selectedMindset: null,
+    id: 70,
   },
   {
     name: "ジェイミー",
@@ -722,6 +817,7 @@ window.characters = [
     owned: false,
     img: "images/blonney.png",
     selectedMindset: null,
+    id: 71,
   },
   {
     name: "ディガー",
@@ -732,6 +828,7 @@ window.characters = [
     owned: false,
     img: "images/Diggers.png",
     selectedMindset: null,
+    id: 72,
   },
   {
     name: "マチルダ",
@@ -743,6 +840,7 @@ window.characters = [
     madness: ["啓示"],
     img: "images/Matilda.png",
     selectedMindset: null,
+    id: 73,
   },
   {
     name: "カシャパシャ",
@@ -753,6 +851,7 @@ window.characters = [
     owned: false,
     img: "images/Click.png",
     selectedMindset: null,
+    id: 74,
   },
   {
     name: "X",
@@ -763,6 +862,7 @@ window.characters = [
     owned: false,
     img: "images/X.png",
     selectedMindset: null,
+    id: 75,
   },
   {
     name: "バルーンパーティー",
@@ -773,6 +873,7 @@ window.characters = [
     owned: false,
     img: "images/BalloonParty.png",
     selectedMindset: null,
+    id: 76,
   },
   {
     name: "ソネット",
@@ -783,6 +884,7 @@ window.characters = [
     owned: false,
     img: "images/Sonetto.png",
     selectedMindset: null,
+    id: 77,
   },
   {
     name: "ネクロ･ロギスト",
@@ -793,6 +895,7 @@ window.characters = [
     owned: false,
     img: "images/Necrologist.png",
     selectedMindset: null,
+    id: 78,
   },
   {
     name: "パミエ",
@@ -803,6 +906,7 @@ window.characters = [
     owned: false,
     img: "images/Dikke.png",
     selectedMindset: null,
+    id: 79,
   },
   {
     name: "スイートハート",
@@ -813,6 +917,7 @@ window.characters = [
     owned: false,
     img: "images/Sweetheart.png",
     selectedMindset: null,
+    id: 80,
   },
   {
     name: "テナント",
@@ -824,6 +929,7 @@ window.characters = [
     madness: ["バレット"],
     img: "images/Tennant.png",
     selectedMindset: null,
+    id: 81,
   },
   {
     name: "チャーリー",
@@ -834,6 +940,7 @@ window.characters = [
     owned: false,
     img: "images/Charlie.png",
     selectedMindset: null,
+    id: 82,
   },
   {
     name: "ベビーブルー",
@@ -844,6 +951,7 @@ window.characters = [
     owned: false,
     img: "images/BabyBlue.png",
     selectedMindset: null,
+    id: 83,
   },
   {
     name: "コーンブルメ",
@@ -855,6 +963,7 @@ window.characters = [
     madness: ["デバフ"],
     img: "images/Bkornblume.png",
     selectedMindset: null,
+    id: 84,
   },
   {
     name: "五色月",
@@ -865,8 +974,8 @@ window.characters = [
     owned: false,
     img: "images/Satsuki.png",
     selectedMindset: null,
+    id: 85,
   },
-  //☆4
   {
     name: "ホワイトラム",
     level: 1,
@@ -876,6 +985,7 @@ window.characters = [
     owned: false,
     img: "images/whiterum.png",
     selectedMindset: null,
+    id: 86,
   },
   {
     name: "ポルターガイスト",
@@ -886,6 +996,7 @@ window.characters = [
     owned: false,
     img: "images/Poltergeist.png",
     selectedMindset: null,
+    id: 87,
   },
   {
     name: "メスメル･Jr",
@@ -896,6 +1007,7 @@ window.characters = [
     owned: false,
     img: "images/Mesmer.png",
     selectedMindset: null,
+    id: 88,
   },
   {
     name: "クリスタッロ",
@@ -906,6 +1018,7 @@ window.characters = [
     owned: false,
     img: "images/Cristallo.png",
     selectedMindset: null,
+    id: 89,
   },
   {
     name: "モントリヒト",
@@ -916,6 +1029,7 @@ window.characters = [
     owned: false,
     img: "images/Mondlicht.png",
     selectedMindset: null,
+    id: 90,
   },
   {
     name: "ミス･モアッサン",
@@ -926,6 +1040,7 @@ window.characters = [
     owned: false,
     img: "images/Moissan.png",
     selectedMindset: null,
+    id: 91,
   },
   {
     name: "パヴィア",
@@ -936,6 +1051,7 @@ window.characters = [
     owned: false,
     img: "images/Pavia.png",
     selectedMindset: null,
+    id: 92,
   },
   {
     name: "ニック･ボトム",
@@ -946,6 +1062,7 @@ window.characters = [
     owned: false,
     img: "images/Nick.png",
     selectedMindset: null,
+    id: 93,
   },
   {
     name: "バニーバニー",
@@ -956,6 +1073,7 @@ window.characters = [
     owned: false,
     img: "images/Bunny.png",
     selectedMindset: null,
+    id: 94,
   },
   {
     name: "APPLe",
@@ -966,6 +1084,7 @@ window.characters = [
     owned: false,
     img: "images/APPLe.png",
     selectedMindset: null,
+    id: 95,
   },
   {
     name: "オリバー･フォッグ",
@@ -976,6 +1095,7 @@ window.characters = [
     owned: false,
     img: "images/Oliver.png",
     selectedMindset: null,
+    id: 96,
   },
   {
     name: "エリック",
@@ -986,6 +1106,7 @@ window.characters = [
     owned: false,
     img: "images/Erick.png",
     selectedMindset: null,
+    id: 97,
   },
   {
     name: "TTT",
@@ -996,6 +1117,7 @@ window.characters = [
     owned: false,
     img: "images/TTT.png",
     selectedMindset: null,
+    id: 98,
   },
   {
     name: "リトルイーグル",
@@ -1006,6 +1128,7 @@ window.characters = [
     owned: false,
     img: "images/Eagle.png",
     selectedMindset: null,
+    id: 99,
   },
   {
     name: "ズィマー",
@@ -1016,6 +1139,7 @@ window.characters = [
     owned: false,
     img: "images/зима.png",
     selectedMindset: null,
+    id: 100,
   },
   {
     name: "レイビーズ",
@@ -1026,8 +1150,8 @@ window.characters = [
     owned: false,
     img: "images/Rabies.png",
     selectedMindset: null,
+    id: 101,
   },
-  //☆3
   {
     name: "パイオニア",
     level: 1,
@@ -1037,6 +1161,7 @@ window.characters = [
     owned: false,
     img: "images/Pioneer.png",
     selectedMindset: null,
+    id: 102,
   },
   {
     name: "リサ&ルイス",
@@ -1047,6 +1172,7 @@ window.characters = [
     owned: false,
     img: "images/Twins.png",
     selectedMindset: null,
+    id: 103,
   },
   {
     name: "ジョン･タイター",
@@ -1057,6 +1183,7 @@ window.characters = [
     owned: false,
     img: "images/John.png",
     selectedMindset: null,
+    id: 104,
   },
   {
     name: "オニオン",
@@ -1067,6 +1194,7 @@ window.characters = [
     owned: false,
     img: "images/Onion.png",
     selectedMindset: null,
+    id: 105,
   },
   {
     name: "ベティ",
@@ -1077,6 +1205,7 @@ window.characters = [
     owned: false,
     img: "images/Bette.png",
     selectedMindset: null,
+    id: 106,
   },
   {
     name: "ダーレータッタ",
@@ -1087,6 +1216,7 @@ window.characters = [
     owned: false,
     img: "images/Darley.png",
     selectedMindset: null,
+    id: 107,
   },
   {
     name: "レイラニ",
@@ -1097,6 +1227,7 @@ window.characters = [
     owned: false,
     img: "images/Leilani.png",
     selectedMindset: null,
+    id: 108,
   },
   {
     name: "スプートニク",
@@ -1107,6 +1238,7 @@ window.characters = [
     owned: false,
     img: "images/Sputnik.png",
     selectedMindset: null,
+    id: 109,
   },
   {
     name: "ギベオンズアイ",
@@ -1117,6 +1249,7 @@ window.characters = [
     owned: false,
     img: "images/aliEn.png",
     selectedMindset: null,
+    id: 110,
   },
   {
     name: "ジェスター",
@@ -1127,6 +1260,7 @@ window.characters = [
     owned: false,
     img: "images/Fool.png",
     selectedMindset: null,
+    id: 111,
   },
   {
     name: "ララ･ファウンテン",
@@ -1137,6 +1271,7 @@ window.characters = [
     owned: false,
     img: "images/Source.png",
     selectedMindset: null,
+    id: 112,
   },
   {
     name: "ミス･ラジオ",
@@ -1147,6 +1282,7 @@ window.characters = [
     owned: false,
     img: "images/Radio.png",
     selectedMindset: null,
+    id: 113,
   },
   {
     name: "ドア",
@@ -1157,5 +1293,6 @@ window.characters = [
     owned: false,
     img: "images/Door.png",
     selectedMindset: null,
+    id: 114,
   },
 ];
