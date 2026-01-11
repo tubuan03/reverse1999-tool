@@ -1,6 +1,6 @@
 // data.js
 window.characters = [
-  {
+/*  {
     name: "グレイッシュブルー",
     level: 1,
     insight: 0,
@@ -21,7 +21,7 @@ window.characters = [
     img: "images/beryl.png",
     selectedMindset: null,
     id: 1,
-  },
+  }, */
   {
     name: "コルヴス",
     level: 1,
