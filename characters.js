@@ -9,9 +9,6 @@ window.characters = [
     owned: false,
     img: "images/brume.png",
     selectedMindset: null,
-    madness: [],
-    highlightedMadness: [],
-    selectedDistortion: [],
     id: 0,
   },
   {
@@ -23,9 +20,6 @@ window.characters = [
     owned: false,
     img: "images/beryl.png",
     selectedMindset: null,
-    madness: [],
-    highlightedMadness: [],
-    selectedDistortion: [],
     id: 1,
   },
   {
