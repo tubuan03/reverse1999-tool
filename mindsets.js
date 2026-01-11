@@ -1,12 +1,12 @@
 window.mindsets = [
-  {
+ /* {
     name: "残された者の旅",
     level: 1,
     amplify: 0,
     owned: false,
     img: "images/nokosareta.png",
     id: 0,
-  },
+  }, */
   {
     name: "さすらいの即興曲",
     level: 1,
@@ -399,14 +399,14 @@ window.mindsets = [
     img: "images/utukusisinsekai.png",
     id: 49,
   },
-  {
+/*  {
     name: "色褪せたエピタフ",
     level: 1,
     amplify: 0,
     owned: false,
     img: "images/epitaf.png",
     id: 50,
-  },
+  }, */
   {
     name: "偽物と模造品",
     level: 1,
@@ -760,3 +760,4 @@ window.mindsets = [
     id: 94,
   },
 ];
+
